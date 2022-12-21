@@ -7,7 +7,7 @@
     <!-- START OF LOADING DIV -->
     <div id="disableDiv" class="disableDiv" style="display:none"></div>
     <div id="div_load_image" class="loadingArea" style="display:none">
-      <img src="/images/loading.gif" style="width:150px; height:150px;">
+      <img src="/images/loading1.gif" style="width:400px; height:400px;">
     </div>
     <!-- END OF LOADING DIV -->
 
@@ -484,6 +484,7 @@
 
       // 비디오 파일 전송 이벤트
       $("#sendButton").on("click", function () {
+        $("#disableDiv").show();
         $("#div_load_image").show();
         var formData = new FormData();
 
@@ -501,8 +502,8 @@
           .then((response) => response.json())
           .then((data) => {
             //console.log(data);
-            $("#div_load_image").hide();
-            alert("업로드를 완료했습니다");
+            $("#disableDiv").hide();
+            $("#div_load_image").hide();            
           });
       });
     </script>

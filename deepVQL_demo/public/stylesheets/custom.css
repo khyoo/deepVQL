@@ -272,3 +272,32 @@ background:#FFFF00;
 .wrap3 {    
   width: 100%;
 }
+
+.disableDiv { 
+	position:absolute; 
+	left:0; 
+	top:0;
+	width:100%; 
+	height:100%; 
+	z-index:995 ; 
+	background-color:#EEEEEE; 
+	filter:Alpha(opacity=80);
+	opacity:0.8; 
+	-moz-opaciry:0.8
+}
+
+.loadingArea {
+  display: none;
+  position: absolute;
+  top: 20%;
+  left: 40%;
+  width: 0px;
+  height: 0px;
+  z-index: 9999;
+  background: rgba(0, 60, 136, .5);
+  filter: alpha(opacity=50);
+  opacity: alpha*0.5;
+  margin: auto;
+  padding: 0;
+  text-align: center
+}
