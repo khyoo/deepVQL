@@ -1,9 +1,10 @@
 {
-  "name": "InfoDemoApp",
+  "name": "deepvql-demo",
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./index"
+    "start": "node ./init",
+    "dev": "nodemon ./init"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",

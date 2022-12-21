@@ -33,6 +33,56 @@ app.use(cors());
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
+const fileFields = upload.fields([
+  { name: 'file1', maxCount: 1 },
+  { name: 'file2', maxCount: 8 },
+]);
+
+app.post('/fields/upload', fileFields, (req, res, next) => {
+
+
+  const { file1, file2 } = req.files;
+  const { name } = req.body;
+
+  console.log("body 데이터 : ", name);
+
+  //배열 형태이기 때문에 반복문을 통해 파일 정보를 알아낸다.
+  file1.map(data => {
+      console.log("file1");
+      console.log("     ");
+      console.log("폼에 정의된 필드명 : ", data.fieldname);
+      console.log("사용자가 업로드한 파일 명 : ", data.originalname);
+      console.log("파일의 엔코딩 타입 : ", data.encoding);
+      console.log("파일의 Mime 타입 : ", data.mimetype);
+      console.log("파일이 저장된 폴더 : ", data.destination);
+      console.log("destinatin에 저장된 파일 명 : ", data.filename);
+      console.log("업로드된 파일의 전체 경로 ", data.path);
+      console.log("파일의 바이트(byte 사이즈)", data.size);
+  })
+  
+  console.log("     ");
+  console.log("-----------------------------------------------");
+  console.log("     ");
+  
+  //배열 형태이기 때문에 반복문을 통해 파일 정보를 알아낸다.
+  file2.map(data => {
+      console.log("file2");
+      console.log("     ");
+      console.log("폼에 정의된 필드명 : ", data.fieldname);
+      console.log("사용자가 업로드한 파일 명 : ", data.originalname);
+      console.log("파일의 엔코딩 타입 : ", data.encoding);
+      console.log("파일의 Mime 타입 : ", data.mimetype);
+      console.log("파일이 저장된 폴더 : ", data.destination);
+      console.log("destinatin에 저장된 파일 명 : ", data.filename);
+      console.log("업로드된 파일의 전체 경로 ", data.path);
+      console.log("파일의 바이트(byte 사이즈)", data.size);
+  })
+
+  res.json({ok: true, data: "Fields Upload Ok"})
+
+})
+
+
 app.post('/single/upload', upload.single('file'), (req, res, next) => {//console.log(req);
 
   const { fieldname, originalname, encoding, mimetype, destination, filename, path, size } = req.file
@@ -49,6 +99,27 @@ app.post('/single/upload', upload.single('file'), (req, res, next) => {//console
   console.log("파일의 바이트(byte 사이즈)", size);
 
   res.json({ok: true, data: "success"})
+
+})
+
+app.post('/multipart/upload', upload.array('file'), (req, res, next) => {
+
+  const { name } = req.body;
+  console.log("body 데이터 : ", name);
+
+  //배열 형태이기 때문에 반복문을 통해 파일 정보를 알아낸다.
+  req.files.map(data => {
+    console.log("폼에 정의된 필드명 : ", data.fieldname);
+    console.log("사용자가 업로드한 파일 명 : ", data.originalname);
+    console.log("파일의 엔코딩 타입 : ", data.encoding);
+    console.log("파일의 Mime 타입 : ", data.mimetype);
+    console.log("파일이 저장된 폴더 : ", data.destination);
+    console.log("destinatin에 저장된 파일 명 : ", data.filename);
+    console.log("업로드된 파일의 전체 경로 ", data.path);
+    console.log("파일의 바이트(byte 사이즈)", data.size);
+  })
+
+  res.json({ok: true, data: "Multipart Upload Ok"})
 
 })
 

@@ -21,7 +21,7 @@
             CIE, KUNSAN NATIONAL UNIVERSITY
           </div>
           <div class="main-title">
-            UrbanAI<br />SQL
+            deepVQL
           </div>
           <div class="sub-title">
             <a href="http://data2.u-gis.net/deepcitymap/" target="_blank">Deep<br />CityMap</a>
@@ -33,88 +33,101 @@
       <div>
         <div class="wrap2 left-top">
           <div id="cont0">
-            <div class="sql-section top">
-              <div class="sql-section top left">UrbanAI SQL</div>
-              <div class="sql-section top right">
-                <button type="button" class="ui green test button" style="height: 50px;">
-                  <i class="icon question circle"></i>
-                  UrbanAI SQL<br />
-                  Help
-                </button>
-              </div>
+            <div class="ui top attached tabular menu">
+              <a class="active item" data-tab="first">First</a>
+              <a class="item" data-tab="second">Second</a>
+              <a class="item" data-tab="third">Third</a>
             </div>
-            <div style="display:flex; justify-content:center;">
-              <div style="width:30%; padding:10px; font-size:2em; font-weight:bold;">SELECT</div>
-              <div style="width:60%; padding:8px;">
-                <select name="selectParam" multiple="" class="ui fluid dropdown">
-                  <option value="">Columns</option>
-                  <option value="Object_id">Object_id</option>
-                  <option value="traj">traj</option>
-                  <option value="class_name">class_name</option>
-                  <option value="type">type</option>
-                  <option value="bbox">bbox</option>
-                  <option value="frame_id">frame_id</option>
-                  <option value="timestamp_ms">timestamp_ms</option>
-                  <option value="video_id">video_id</option>
-                  <option value="model_id">model_id</option>
-                </select>
+            <div class="ui bottom attached active tab segment" data-tab="first">
+              <div class="sql-section top">
+                <div class="sql-section top left">UrbanAI SQL</div>
+                <div class="sql-section top right">
+                  <button type="button" class="ui green test button" style="height: 50px;">
+                    <i class="icon question circle"></i>
+                    UrbanAI SQL<br />
+                    Help
+                  </button>
+                </div>
               </div>
-            </div>
-            <div style="display:flex; justify-content:center;">
-              <div style="width:30%; padding:10px; font-size:2em; font-weight:bold;">FROM</div>
-              <div style="width:60%; padding:8px;">
-                <div style="margin-bottom: 10px;">
-                  <select name="fromParam1" class="ui fluid dropdown">
-                    <option value="">Functions</option>
-                    <option value="01">D_MPROCEES</option>
-                    <option value="02">D_MPROCEES_ALL</option>
-                  </select>
-                </div>
-                <div style="margin-bottom: 10px;">
-                  <select name="fromParam2" class="ui fluid dropdown">
-                    <option value="">Videos</option>
-                    <option value="01">test1.mp4</option>
-                    <option value="02">test2.mp4</option>
-                    <option value="03">test3.mp4</option>
-                    <option value="04">test4.mp4</option>
-                    <option value="05">test5.mp4</option>
-                  </select>
-                </div>
-                <div style="margin-bottom: 10px;">
-                  <select name="fromParam3" class="ui fluid dropdown">
-                    <option value="">Models</option>
-                    <option value="01">YOLO</option>
-                    <option value="02">MaskRCNN</option>
-                    <option value="03">FastRCNN</option>
+              <div style="display:flex; justify-content:center;">
+                <div style="width:30%; padding:10px; font-size:2em; font-weight:bold;">SELECT</div>
+                <div style="width:60%; padding:8px;">
+                  <select name="selectParam" multiple="" class="ui fluid dropdown">
+                    <option value="">Columns</option>
+                    <option value="Object_id">Object_id</option>
+                    <option value="traj">traj</option>
+                    <option value="class_name">class_name</option>
+                    <option value="type">type</option>
+                    <option value="bbox">bbox</option>
+                    <option value="frame_id">frame_id</option>
+                    <option value="timestamp_ms">timestamp_ms</option>
+                    <option value="video_id">video_id</option>
+                    <option value="model_id">model_id</option>
                   </select>
                 </div>
               </div>
-            </div>
-            <div style="display:flex; justify-content:center;">
-              <div style="width:30%; padding:10px; font-size:2em; font-weight:bold;">WHERE</div>
-              <div style="width:60%; padding:8px;">
-                <div style="margin-bottom: 10px;">
-                  <select name="whereParam1" class="ui fluid dropdown">
-                    <option value="">Functions</option>
-                    <option value="01">m_enter</option>
-                    <option value="02">m_travel_cross</option>
-                  </select>
-                </div>
-                <div style="margin-bottom: 10px;">
-                  <div class="ui input" style="width:100%;">
-                    <input type="text" name="whereParam2" placeholder="Params...">
+              <div style="display:flex; justify-content:center;">
+                <div style="width:30%; padding:10px; font-size:2em; font-weight:bold;">FROM</div>
+                <div style="width:60%; padding:8px;">
+                  <div style="margin-bottom: 10px;">
+                    <select name="fromParam1" class="ui fluid dropdown">
+                      <option value="">Functions</option>
+                      <option value="01">D_MPROCEES</option>
+                      <option value="02">D_MPROCEES_ALL</option>
+                    </select>
+                  </div>
+                  <div style="margin-bottom: 10px;">
+                    <select name="fromParam2" class="ui fluid dropdown">
+                      <option value="">Videos</option>
+                      <option value="01">test1.mp4</option>
+                      <option value="02">test2.mp4</option>
+                      <option value="03">test3.mp4</option>
+                      <option value="04">test4.mp4</option>
+                      <option value="05">test5.mp4</option>
+                    </select>
+                  </div>
+                  <div style="margin-bottom: 10px;">
+                    <select name="fromParam3" class="ui fluid dropdown">
+                      <option value="">Models</option>
+                      <option value="01">YOLO</option>
+                      <option value="02">MaskRCNN</option>
+                      <option value="03">FastRCNN</option>
+                    </select>
                   </div>
                 </div>
               </div>
+              <div style="display:flex; justify-content:center;">
+                <div style="width:30%; padding:10px; font-size:2em; font-weight:bold;">WHERE</div>
+                <div style="width:60%; padding:8px;">
+                  <div style="margin-bottom: 10px;">
+                    <select name="whereParam1" class="ui fluid dropdown">
+                      <option value="">Functions</option>
+                      <option value="01">m_enter</option>
+                      <option value="02">m_travel_cross</option>
+                    </select>
+                  </div>
+                  <div style="margin-bottom: 10px;">
+                    <div class="ui input" style="width:100%;">
+                      <input type="text" name="whereParam2" placeholder="Params...">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div style="display:flex; justify-content:center; margin-top: 10px;">
+                <div>
+                  <button type="button" class="ui button" onClick="reset();">reset</button>
+                </div>
+                <div style="width:5%;"></div>
+                <div>
+                  <button type="button" class="ui primary button" onClick="execute();">Excute</button>
+                </div>
+              </div>
             </div>
-            <div style="display:flex; justify-content:center; margin-top: 10px;">
-              <div>
-                <button type="button" class="ui button" onClick="reset();">reset</button>
-              </div>
-              <div style="width:5%;"></div>
-              <div>
-                <button type="button" class="ui primary button" onClick="execute();">Excute</button>
-              </div>
+            <div class="ui bottom attached tab segment" data-tab="second">
+              Second
+            </div>
+            <div class="ui bottom attached tab segment" data-tab="third">
+              Third
             </div>
           </div>
         </div>
@@ -295,6 +308,10 @@
           myLayout.sizePane("south", 65);
         });
       });
+
+      $('.menu .item')
+        .tab()
+      ;
         
       $('[name=selectParam]').dropdown({
         onChange: function (value, text, $selectedItem) {
