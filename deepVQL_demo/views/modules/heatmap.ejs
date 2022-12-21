@@ -1,0 +1,63 @@
+<script type="text/javascript">
+
+  var hmap_blur = document.getElementById('hmap_blur');
+  var hmap_blur_ql = document.getElementById('hmap_blur_ql');
+
+  let qt_score_min = 1.5;
+  let qt_score_max = 4.4286;
+  let ql_score_min = -6.8; 
+  let ql_score_max = 4.419;
+
+  var hmapVector = new ol.layer.Heatmap({
+    visible: false,
+    source: new ol.source.Vector({
+      url: '/data/poi.geojson',      
+      format: new ol.format.GeoJSON()
+    }),    
+    blur: parseInt(15, 10),    
+    radius: parseInt(15, 10)
+  });
+
+  hmapVector.getSource().on('addfeature', function (event) {  
+    event.feature.set('weight', rangeMapping(event.feature.getProperties().qt_score, qt_score_min, qt_score_max, 0.1, 1));    
+  });
+
+  hmap_blur.addEventListener('input', function (event) {
+    // console.log('hmap_blur');
+
+    hmapVector.getSource().getFeatures().forEach(function (feature) {
+      feature.set('weight', rangeMapping(feature.getProperties().qt_score, qt_score_min, qt_score_max, 0.1, 1)*parseFloat(hmap_blur.value, 10));
+    });
+  });
+
+  var hmapVector_ql = new ol.layer.Heatmap({
+    visible: false,
+    source: new ol.source.Vector({
+      url: '/data/poi.geojson',      
+      format: new ol.format.GeoJSON()
+    }),    
+    blur: parseInt(15, 10),    
+    radius: parseInt(15, 10)
+  });
+
+  hmapVector_ql.getSource().on('addfeature', function (event) {  
+    event.feature.set('weight', rangeMapping(event.feature.getProperties().ql_score, ql_score_min, ql_score_max, 0.1, 1));
+  });
+
+  hmap_blur_ql.addEventListener('input', function (event) {
+    // console.log('hmap_blur');
+
+    hmapVector_ql.getSource().getFeatures().forEach(function (feature) {
+      feature.set('weight', rangeMapping(feature.getProperties().ql_score, ql_score_min, ql_score_max, 0.1, 1)*parseFloat(hmap_blur_ql.value, 10));
+    });
+  });
+
+  function weightsFunc(w, p) {
+    return (w * p * 50).toFixed(2).toString();
+  }
+
+  function rangeMapping(input ,input_start, input_end, output_start, output_end) {
+    return ((input-input_start)*(output_end-output_start)/(input_end-input_start)+output_start);
+  }
+
+</script>

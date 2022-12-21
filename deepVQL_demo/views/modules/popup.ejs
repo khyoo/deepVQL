@@ -1,0 +1,70 @@
+<script type="text/javascript">
+
+	// Select control
+	var popup = new ol.Overlay.PopupFeature({
+		popupClass: 'default anim',
+		select: select,
+		canFix: false,
+		template: {
+			title:
+				function (f) {
+					return 'PanoID : ' + f.get('panoid');
+				},
+			attributes:
+			{
+				'obst_level': { title: '보행로 혼잡도' },
+				'sf_level': { title: '보도 펜스' },
+				'sr_level': { title: '보도 비율' },
+				'slop_level': { title: '경사도' },
+				'sky_level': { title: '녹색 지수' },
+				'tree_level': { title: '하늘개방감 지수' },
+				'poi_level': { title: '주요 시설 접근성' },
+				'bus_level': { title: '버스 정류장 거리' },
+				'front': {
+					title: '전방 이미지 점수',
+					format: function (val) {
+						return val.toFixed(8);
+					}
+				},
+				'right': {
+					title: '우측 이미지 점수',
+					format: function (val) {
+						return val.toFixed(8);
+					}
+				},
+				'back': {
+					title: '후방 이미지 점수',
+					format: function (val) {
+						return val.toFixed(8);
+					}
+				},
+				'left': {
+					title: '좌측 이미지 점수',
+					format: function (val) {
+						return val.toFixed(8);
+					}
+				},
+			}
+		}
+	});
+	map.addOverlay(popup);
+
+	// imagePopup overlay
+	var imagePopup = new ol.control.Overlay({ hideOnClick: true, className: 'slide-right' });
+	map.addControl(imagePopup);
+
+	// Set wipe parameters before/after vivibility change
+	imagePopup.on("change:visible", function (e) {
+		// wipe needs to know the size of the element to clip on
+		if (/wipe/.test('slide-right')) {
+			if (e.visible) {
+				$(e.element).css("clip", "rect(0px," + map.getSize()[0] + "px," + map.getSize()[1] + "px,0px)");
+			} else {
+				$(e.element).css("clip", "rect(0px,0px," + map.getSize()[1] + "px,0px)");
+			}
+		}
+		// Reset clip for others
+		else $(e.element).css("clip", "");
+	});
+
+</script>

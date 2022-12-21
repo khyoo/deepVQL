@@ -1,0 +1,688 @@
+<script type="text/javascript">
+
+  var roadPOISource2 = new ol.source.Vector({
+    url: 'http://info.rlog.kr:8880/rest/shp2Geojson/jeonju_road_poi_all',
+    projection: 'EPSG:3857',
+    format: new ol.format.GeoJSON()
+  });
+
+  roadPOISource2.on('featuresloadstart', function (e) {
+    $('#div_load_image').show();
+  });
+
+  roadPOISource2.on('featuresloadend', function (e) {
+    $('#div_load_image').hide();
+    if (roadPOISource2.getState() === 'ready') {
+      // TO-DO         
+    }
+  });
+
+  var roadPOIVector2 = new ol.layer.Vector({
+    visible: false,
+    source: roadPOISource2,
+    style: new ol.style.Style({
+      image: new ol.style.Circle({
+        radius: 5,
+        snapToPixel: false,
+        stroke: new ol.style.Stroke({
+          //color: "#6C757D",
+          color: "#900",
+          width: 2
+        })
+      })
+    }),
+    maxResolution: 25,
+    zIndex: 1000
+  });
+  map.addLayer(roadPOIVector2);
+
+  $('#allRoadPoiChk').on('click', function () {
+    if (roadPOIVector2.getVisible()) {
+      roadPOIVector2.setVisible(false);
+    } else {
+      roadPOIVector2.setVisible(true);
+    }
+  });
+
+  map.addLayer(roadPOIVector);
+  map.addLayer(roadPOIVector_ql);
+  map.addLayer(roadPOIVector_matcher);
+  map.addLayer(hmapVector);
+  map.addLayer(hmapVector_ql);
+
+  // $('#psLayerChk').on('click', function () {
+  //   if ($('#psLayerChk').is(':checked')) {
+  //     $('#psPointChk').prop('checked', true);
+  //     roadPOIVector.setVisible(true);
+  //     roadPOILabelVector.setVisible(true);
+
+  //     $('#psHmapChk').prop('checked', true);
+  //     $('#psHmapScoreChk').prop('checked', true);
+  //     $('.psPointDiv').css('display', 'inline');
+  //     hmapVector.setVisible(true);
+  //     $('.hmapDiv1').show();
+  //   } else {
+  //     $('#psPointChk').prop('checked', false);
+  //     roadPOIVector.setVisible(false);
+  //     roadPOILabelVector.setVisible(false);
+
+  //     $('#psHmapChk').prop('checked', false);
+  //     $('#psHmapScoreChk').prop('checked', false);
+  //     $('.psPointDiv').css('display', 'none');
+  //     hmapVector.setVisible(false);
+  //     $('.hmapDiv1').hide();
+  //   }
+  // });
+
+  
+
+  $('#psPointMatcherChk').on('click', function () {
+    if (roadPOIVector_matcher.getVisible()) {
+      roadPOIVector_matcher.setVisible(false);
+
+      $('.psPointDiv2').css('display', 'none');
+    } else {
+      roadPOIVector_matcher.setVisible(true);
+
+      $('.psPointDiv2').css('display', 'inline');
+    }
+  });
+
+  
+
+  map.addLayer(roadPOILabelVector);
+  map.addLayer(roadPOILabelVector_ql);
+
+
+  map.addLayer(flowlineVector);
+  map.addLayer(flowlineVector_ql);
+
+  // $('#psLayerChk2').on('click', function () {
+  //   if ($('#psLayerChk2').is(':checked')) {
+  //     $('#psHmapChk2').prop('checked', true);
+  //     $('.psLineDiv').css('display', 'inline');
+  //     flowlineVector.setVisible(true);
+  //     $('.hmapDiv2').show();
+  //     $('.psItems').show();
+  //   } else {
+  //     $('#psHmapChk2').prop('checked', false);
+  //     $('.psLineDiv').css('display', 'none');
+  //     flowlineVector.setVisible(false);
+  //     $('.hmapDiv2').hide();
+  //     $('.psItems').hide();
+  //   }
+  // });
+
+  
+
+  $('#psHmapChk3').on('click', function () {
+    if (!$('#psHmapChk3').is(':checked')) {
+      $('.hmapDiv3').hide();
+    } else {
+      $('.hmapDiv3').show();
+    }
+  });
+
+
+
+  $('#qtLayerChk').on('click', function () {
+    if (!$('#qtLayerChk').is(':checked')) {
+      $('#qtPointChk').prop('checked', false);
+      roadPOIVector.setVisible(false);
+      roadPOILabelVector.setVisible(false);      
+
+      $('#qtPointScoreChk').prop('checked', false);
+      $('.qtPointDiv').css('display', 'none');
+      
+      $('#qtPointHmapChk').prop('checked', false);
+      hmapVector.setVisible(false);
+      $('.qtPointhmapDiv').hide();      
+
+      roadPOILabelVector.setVisible(false);
+
+      hmapVector.setVisible(false);
+      $('.qtPointhmapDiv').hide();
+
+      $('#qtRoadScoreChk').prop('checked', false);            
+      flowlineVector.setVisible(false);      
+      $('.qtRoadScoreDiv').css('display', 'none');
+
+      $('#qtCustomChk').prop('checked', false);  
+      $('.psItems').hide();
+    } else {
+      $('#qtPointChk').prop('checked', true);
+      roadPOIVector.setVisible(true);
+      roadPOILabelVector.setVisible(true);
+      
+      $('#qtPointScoreChk').prop('checked', true);
+      $('.qtPointDiv').css('display', 'inline');
+
+      $('#qtPointHmapChk').prop('checked', true);
+      hmapVector.setVisible(true);
+      $('.qtPointhmapDiv').show();
+
+      roadPOILabelVector.setVisible(true);
+
+      hmapVector.setVisible(true);
+      $('.qtPointhmapDiv').show();
+
+      $('#qtRoadScoreChk').prop('checked', true);
+      flowlineVector.setVisible(true);      
+      $('.qtRoadScoreDiv').css('display', 'inline');
+
+      $('#qtCustomChk').prop('checked', true);
+      $('.psItems').show();
+    }
+  });
+
+  $('#qtPointChk').on('click', function () {
+    if (roadPOIVector.getVisible()) {
+      roadPOIVector.setVisible(false);
+      roadPOILabelVector.setVisible(false);      
+
+      $('#qtPointScoreChk').prop('checked', false);
+      $('.qtPointDiv').css('display', 'none');
+      
+      $('#qtPointHmapChk').prop('checked', false);
+      hmapVector.setVisible(false);
+      $('.qtPointhmapDiv').hide();      
+    } else {
+      roadPOIVector.setVisible(true);
+      roadPOILabelVector.setVisible(true);
+      
+      $('#qtPointScoreChk').prop('checked', true);
+      $('.qtPointDiv').css('display', 'inline');
+
+      $('#qtPointHmapChk').prop('checked', true);
+      hmapVector.setVisible(true);
+      $('.qtPointhmapDiv').show();
+    }
+  });
+
+  $('#qtPointScoreChk').on('click', function () {
+    if (roadPOILabelVector.getVisible()) {
+      roadPOILabelVector.setVisible(false);
+    } else {
+      roadPOILabelVector.setVisible(true);
+    }
+  });
+
+  $('#qtPointHmapChk').on('click', function () {
+    if (hmapVector.getVisible()) {
+      hmapVector.setVisible(false);
+      $('.qtPointhmapDiv').hide();
+    } else {
+      hmapVector.setVisible(true);
+      $('.qtPointhmapDiv').show();
+    }
+  });
+
+  $('#qtRoadScoreChk').on('click', function () {
+    if (flowlineVector.getVisible()) {
+      flowlineVector.setVisible(false);      
+      $('.qtRoadScoreDiv').css('display', 'none');
+    } else {
+      flowlineVector.setVisible(true);      
+      $('.qtRoadScoreDiv').css('display', 'inline');
+    }
+  });
+
+  $('#qtCustomChk').on('click', function () {
+    if (!$('#qtCustomChk').is(':checked')) {
+      $('.psItems').hide();
+    } else {
+      $('.psItems').show();
+    }
+  });
+
+
+
+
+
+
+
+
+
+  $('#qlLayerChk').on('click', function () {
+    if (!$('#qlLayerChk').is(':checked')) {
+      $('#qlPointChk').prop('checked', false);
+      roadPOIVector_ql.setVisible(false);
+      roadPOILabelVector_ql.setVisible(false);      
+
+      $('#qlPointScoreChk').prop('checked', false);
+      $('.qlPointDiv').css('display', 'none');
+      
+      $('#qlPointHmapChk').prop('checked', false);
+      hmapVector_ql.setVisible(false);
+      $('.qlPointhmapDiv').hide();      
+
+      roadPOILabelVector_ql.setVisible(false);
+
+      hmapVector_ql.setVisible(false);
+      $('.qlPointhmapDiv').hide();
+
+      $('#qlRoadScoreChk').prop('checked', false);            
+      flowlineVector_ql.setVisible(false);      
+      $('.qlRoadScoreDiv').css('display', 'none');
+    } else {
+      $('#qlPointChk').prop('checked', true);
+      roadPOIVector_ql.setVisible(true);
+      roadPOILabelVector_ql.setVisible(true);
+      
+      $('#qlPointScoreChk').prop('checked', true);
+      $('.qlPointDiv').css('display', 'inline');
+
+      $('#qlPointHmapChk').prop('checked', true);
+      hmapVector_ql.setVisible(true);
+      $('.qlPointhmapDiv').show();
+
+      roadPOILabelVector_ql.setVisible(true);
+
+      hmapVector_ql.setVisible(true);
+      $('.qlPointhmapDiv').show();
+
+      $('#qlRoadScoreChk').prop('checked', true);
+      flowlineVector_ql.setVisible(true);      
+      $('.qlRoadScoreDiv').css('display', 'inline');
+    }
+  });
+
+  $('#qlPointChk').on('click', function () {
+    if (roadPOIVector_ql.getVisible()) {
+      roadPOIVector_ql.setVisible(false);
+      roadPOILabelVector_ql.setVisible(false);      
+
+      $('#qlPointScoreChk').prop('checked', false);
+      $('.qlPointDiv').css('display', 'none');
+      
+      $('#qlPointHmapChk').prop('checked', false);
+      hmapVector_ql.setVisible(false);
+      $('.qlPointhmapDiv').hide();      
+    } else {
+      roadPOIVector_ql.setVisible(true);
+      roadPOILabelVector_ql.setVisible(true);
+      
+      $('#qlPointScoreChk').prop('checked', true);
+      $('.qlPointDiv').css('display', 'inline');
+
+      $('#qlPointHmapChk').prop('checked', true);
+      hmapVector_ql.setVisible(true);
+      $('.qlPointhmapDiv').show();
+    }
+  });
+
+  $('#qlPointScoreChk').on('click', function () {
+    if (roadPOILabelVector_ql.getVisible()) {
+      roadPOILabelVector_ql.setVisible(false);
+    } else {
+      roadPOILabelVector_ql.setVisible(true);
+    }
+  });
+
+  $('#qlPointHmapChk').on('click', function () {
+    if (hmapVector_ql.getVisible()) {
+      hmapVector_ql.setVisible(false);
+      $('.qlPointhmapDiv').hide();
+    } else {
+      hmapVector_ql.setVisible(true);
+      $('.qlPointhmapDiv').show();
+    }
+  });
+
+  $('#qlRoadScoreChk').on('click', function () {
+    if (flowlineVector_ql.getVisible()) {
+      flowlineVector_ql.setVisible(false);      
+      $('.qlRoadScoreDiv').css('display', 'none');
+    } else {
+      flowlineVector_ql.setVisible(true);      
+      $('.qlRoadScoreDiv').css('display', 'inline');
+    }
+  });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  $('#save1').on('click', function (e) {
+    alert('준비 중입니다.');
+  });
+
+  $('#down1').on('click', function (e) {
+    var geojson = new ol.format.GeoJSON().writeFeatures(roadPOISource.getFeatures());
+    // console.log(geojson);
+    var filename = 'poi.geojson';
+
+    var createUrl = '/download/create';
+    var downloadUrl = '/download';
+
+    $.ajax({
+      type: "POST",
+      url: createUrl,
+      data: {
+        filename: filename,
+        source: geojson
+      },
+      dataType: "json",
+      beforeSend: function () {
+        $('#div_load_image').show();
+      },
+      success: function (data) {
+        $('#div_load_image').hide();
+
+        location.href = downloadUrl + '/' + filename;
+      },
+      error: function () {
+        alert('에러가 발생했습니다.');
+      }
+    });
+  });
+
+  $('#save2').on('click', function (e) {
+    alert('준비 중입니다.');
+  });
+
+  $('#down2').on('click', function (e) {
+    var geojson = new ol.format.GeoJSON().writeFeatures(flowlineSource.getFeatures());
+    // console.log(geojson);
+    var filename = 'line.geojson';
+
+    var createUrl = '/download/create';
+    var downloadUrl = '/download';
+
+    $.ajax({
+      type: "POST",
+      url: createUrl,
+      data: {
+        filename: filename,
+        source: geojson
+      },
+      dataType: "json",
+      beforeSend: function () {
+        $('#div_load_image').show();
+      },
+      success: function (data) {
+        $('#div_load_image').hide();
+
+        location.href = downloadUrl + '/' + filename;
+      },
+      error: function () {
+        alert('에러가 발생했습니다.');
+      }
+    });
+  });
+
+  let flowlineVector_result;
+
+  // 공간 분석 결과 이벤트 처리
+  $('#btnCreate').on('click', function(){
+      let len = $('#classCnt').val();
+
+      $('#div_load_image').show();
+      if($('#radio-1').is(':checked')) {   
+        map.removeLayer(flowlineVector_result);
+
+        $.getJSON('data/qt_score.geojson',function(data) {
+          var items = []; // will store values
+          
+          $.each(data.features, function(i,feature){
+            if (feature.properties.walk_index != null) {
+              items.push(feature.properties.walk_index);
+            }
+          });
+        
+          var dataJson = items;
+          
+          // Seventh serie
+          serie7 = new geostats(dataJson);
+          serie7.setPrecision(6);
+          
+          if($('#analysisMode').val() == '1') {
+            // var a = serie7.getClassJenks2(len);
+            var a = serie7.getClassEqInterval(len);
+            serie7.ranges = [
+              '1.50000 ~ 2.57100',
+              '2.57100 ~ 2.87500',
+              '2.87500 ~ 3.16700',
+              '3.16700 ~ 3.50000',
+              '3.50000 ~ 4.42900'
+            ];
+          } else if($('#analysisMode').val() == '2') {
+            var a = serie7.getClassEqInterval(len);
+          }
+          
+          let html = '<br>';
+          html += '<ul style="padding-left:1rem;">';
+          let color_temp2 = ['1f78b4','33a02c','f4c804','f37b03','ff0000'];
+          var ranges = serie7.ranges;
+          for(i = 0; i < ranges.length ; i++) {   				
+            // console.log(ranges[i]);
+            
+            html += '<li style="list-style-type :none;">';
+            html += '<input type="checkbox" name="chkClass">&nbsp;&nbsp;';
+            html += '<div class="geostats-legend-block" style="background-color:#' + color_temp2[i] +'"></div>';
+            html += ranges[i];
+            html += '</li>';
+          }
+
+          html += '</ul>';
+
+          $('.area-result').html(html);
+
+          let color_temp = [[31,120,180],[51,160,44],[244,200,4],[243,123,3],[255,0,0]];
+          
+          // flowline vetor layer
+          var flowlineSource_result_qt = new ol.source.Vector({
+            url: '/data/qt_score.geojson',
+            format: new ol.format.GeoJSON()
+          });
+          flowlineVector_result = new ol.layer.VectorImage({
+            //title: '도로 점수',
+            visible: true,
+            source: flowlineSource_result_qt,
+            style: new ol.style.FlowLine({
+              visible: false,
+              lineCap: 'round',
+              color: function (f) {
+                for(i = 0; i < ranges.length ; i++) {   				
+                  let temp_val = Number(f.getProperties().walk_index);
+                  // console.log(temp_val);
+                  if (temp_val == null || temp_val == 0) {
+                    return [0,0,0,0];
+                  }
+                  if((Number(ranges[i].split('~')[0]) < temp_val) && (Number(ranges[i].split('~')[1]) >= temp_val)) {                  
+                    return color_temp[i];
+                  } 
+                }              
+              },
+              width: 10,
+              geometry: function (f) {
+                if (f.getGeometry().getType() === 'MultiLineString') {
+                  return f.getGeometry().getLineString(0);
+                } else {
+                  return f.getGeometry();
+                }
+              }
+            })
+          });
+          map.addLayer(flowlineVector_result);
+
+          // flowlineSource2.on('featuresloadstart', function (e) {
+          //   $('#div_load_image').show();
+          // });
+
+          flowlineSource_result_qt.on('featuresloadend', function (e) {
+            $('#div_load_image').hide();
+            if (flowlineSource_result_qt.getState() === 'ready') {
+              // TO-DO     
+            }
+          });
+
+          flowlineSource_result_qt.once('change', function (e) {
+            if (flowlineSource_result_qt.getState() === 'ready') {
+              /**
+              * author : khyoo1221
+              * description : 
+              * @param {feature}
+              * @param {paramNm}
+              * @param {px}
+              * 
+              */              
+            }
+          });
+        });
+      } else if($('#radio-2').is(':checked')) {
+        map.removeLayer(flowlineVector_result);
+
+        $.getJSON('data/ql_score.geojson',function(data) {
+          var items = []; // will store values
+          
+          $.each(data.features, function(i,feature){
+            if (feature.properties.score_flt != null) {
+              items.push(feature.properties.score_flt);
+            }
+          });
+        
+          var dataJson = items;
+          
+          // Seventh serie
+          serie7 = new geostats(dataJson);
+          serie7.setPrecision(6);
+          
+          if($('#analysisMode').val() == '1') {
+            // var a = serie7.getClassJenks2(len);
+            var a = serie7.getClassEqInterval(len);
+            serie7.ranges = [
+              '-6.80015 ~ -3.19705',
+              '-3.19705 ~ -0.96973',
+              '-0.96973 ~ -0.04881',
+              '-0.04881 ~ 0.95398',
+              '0.95398 ~ 3.95111'
+            ];
+          } else if($('#analysisMode').val() == '2') {
+            var a = serie7.getClassEqInterval(len);
+          }
+          
+          let html = '<br>';
+          html += '<ul style="padding-left:1rem;">';
+          let color_temp2 = ['1f78b4','33a02c','f4c804','f37b03','ff0000'];
+          var ranges = serie7.ranges;
+          for(i = 0; i < ranges.length ; i++) {   				
+            // console.log(ranges[i]);
+            
+            html += '<li style="list-style-type :none;">';
+            html += '<input type="checkbox" name="chkClass">&nbsp;&nbsp;';
+            html += '<div class="geostats-legend-block" style="background-color:#' + color_temp2[i] +'"></div>';
+            html += ranges[i];
+            html += '</li>';
+          }
+
+          html += '</ul>';
+
+          $('.area-result').html(html);
+
+          let color_temp = [[31,120,180],[51,160,44],[244,200,4],[243,123,3],[255,0,0]];
+
+          // flowline vetor layer
+          var flowlineSource_result_ql = new ol.source.Vector({
+            url: '/data/ql_score.geojson',
+            format: new ol.format.GeoJSON()
+          });
+          flowlineVector_result = new ol.layer.VectorImage({
+            //title: '도로 점수',
+            visible: true,
+            source: flowlineSource_result_ql,
+            style: new ol.style.FlowLine({
+              visible: false,
+              lineCap: 'round',
+              color: function (f) {
+                for(i = 0; i < ranges.length ; i++) {   				
+                  let temp_val = Number(f.getProperties().score_flt);
+                  // console.log(temp_val);
+                  if (temp_val == null || temp_val == 0) {
+                    return [0,0,0,0];
+                  }
+                  if((Number(ranges[i].split('~')[0]) < temp_val) && (Number(ranges[i].split('~')[1]) >= temp_val)) {                  
+                    return color_temp[i];
+                  } 
+                }              
+              },
+              width: 10,
+              geometry: function (f) {
+                if (f.getGeometry().getType() === 'MultiLineString') {
+                  return f.getGeometry().getLineString(0);
+                } else {
+                  return f.getGeometry();
+                }
+              }
+            })
+          });
+          map.addLayer(flowlineVector_result);
+
+          // flowlineSource2.on('featuresloadstart', function (e) {
+          //   $('#div_load_image').show();
+          // });
+
+          flowlineSource_result_ql.on('featuresloadend', function (e) {
+            $('#div_load_image').hide();
+            if (flowlineSource_result_ql.getState() === 'ready') {
+              // TO-DO     
+            }
+          });
+
+          flowlineSource_result_ql.once('change', function (e) {
+            if (flowlineSource_result_ql.getState() === 'ready') {
+              /**
+              * author : khyoo1221
+              * description : 
+              * @param {feature}
+              * @param {paramNm}
+              * @param {px}
+              * 
+              */             
+            }
+          });
+        });
+      }
+    });
+
+
+  function means_qt(a, b, c, d, e, f, g, h) {
+    let x = 0;
+    if (Number(a) > 0) {
+      x = x+1;
+    } 
+    if (Number(b) > 0) {
+      x = x+1;
+    } 
+    if (Number(c) > 0) {
+      x = x+1;
+    } 
+    if (Number(d) > 0) {
+      x = x+1;
+    } 
+    if (Number(e) > 0) {
+      x = x+1;
+    } 
+    if (Number(f) > 0) {
+      x = x+1;
+    } 
+    if (Number(g) > 0) {
+      x = x+1;
+    } 
+    if (Number(h) > 0) {
+      x = x+1;
+    }    
+    return x>0?Number((Number(a)+Number(b)+Number(c)+Number(d)+Number(e)+Number(f)+Number(g)+Number(h))/x):0;
+  }
+
+</script>

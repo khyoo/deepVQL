@@ -1,0 +1,238 @@
+html, body {
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  font-family: sans-serif;
+  font-size: small;
+  overflow: hidden;
+  font: 10pt "Helvetica Neue", Arial, Helvetica, sans-serif;
+}
+
+h1 {
+  background: #a57a03 url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAACE1BMVEX///8A//8AgICA//8AVVVAQID///8rVVVJtttgv98nTmJ2xNgkW1ttyNsmWWZmzNZYxM4gWGgeU2JmzNNr0N1Rwc0eU2VXxdEhV2JqytQeVmMhVmNoydUfVGUgVGQfVGQfVmVqy9hqy9dWw9AfVWRpydVry9YhVmMgVGNUw9BrytchVWRexdGw294gVWQgVmUhVWPd4N6HoaZsy9cfVmQgVGRrytZsy9cgVWQgVWMgVWRsy9YfVWNsy9YgVWVty9YgVWVry9UgVWRsy9Zsy9UfVWRsy9YgVWVty9YgVWRty9Vsy9aM09sgVWRTws/AzM0gVWRtzNYgVWRuy9Zsy9cgVWRGcHxty9bb5ORbxdEgVWRty9bn6OZTws9mydRfxtLX3Nva5eRix9NFcXxOd4JPeINQeIMiVmVUws9Vws9Vw9BXw9BYxNBaxNBbxNBcxdJexdElWWgmWmhjyNRlx9IqXGtoipNpytVqytVryNNrytZsjZUuX210k5t1y9R2zNR3y9V4lp57zth9zdaAnKOGoaeK0NiNpquV09mesrag1tuitbmj1tuj19uktrqr2d2svcCu2d2xwMO63N+7x8nA3uDC3uDFz9DK4eHL4eLN4eIyYnDX5OM5Z3Tb397e4uDf4uHf5uXi5ePi5+Xj5+Xk5+Xm5+Xm6OY6aHXQ19fT4+NfhI1Ww89gx9Nhx9Nsy9ZWw9Dpj2abAAAAWnRSTlMAAQICAwQEBgcIDQ0ODhQZGiAiIyYpKywvNTs+QklPUlNUWWJjaGt0dnd+hIWFh4mNjZCSm6CpsbW2t7nDzNDT1dje5efr7PHy9PT29/j4+Pn5+vr8/f39/f6DPtKwAAABTklEQVR4Xr3QVWPbMBSAUTVFZmZmhhSXMjNvkhwqMzMzMzPDeD+xASvObKePPa+ffHVl8PlsnE0+qPpBuQjVJjno6pZpSKXYl7/bZyFaQxhf98hHDKEppwdWIW1frFnrxSOWHFfWesSEWC6R/P4zOFrix3TzDFLlXRTR8c0fEEJ1/itpo7SVO9Jdr1DVxZ0USyjZsEY5vZfiiAC0UoTGOrm9PZLuRl8X+Dq1HQtoFbJZbv61i+Poblh/97TC7n0neCcK0ETNUrz1/xPHf+DNAW9Ac6t8O8WH3Vp98f5lCaYKAOFZMLyHL4Y0fe319idMNgMMp+zWVSybUed/+/h7I4wRAG1W6XDy4XmjR9HnzvDRZXUAYDFOhC1S/Hh+fIXxen+eO+AKqbs+wAo30zDTDvDxKoJN88sjUzDFAvBzEUGFsnADoIvAJzoh2BZ8sner+Ke/vwECuQAAAABJRU5ErkJggg==) no-repeat scroll .3em center;
+  color: #fff;
+  font-size: 1.5em;
+  padding: .5em 0 .5em 2.1em;
+  margin: 0;
+  background-size: 1.5em;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size:   80%;
+  *font-size:  80%;
+}
+
+/*
+       ：
+paneClass:    "ui-layout-pane"     
+resizerClass: "ui-layout-resizer"      
+togglerClass: "ui-layout-toggler"         
+*/
+
+/*
+          ,      
+ui-layout-pane 
+ui-layout-pane-[PANE-NAME]（     ， ：ui-layout-pane-west。            ，      。 ） 
+ui-layout-pane-[PANE-STATE] （open、closed  ：ui-layout-pane-open。        ）
+ui-layout-pane-[PANE-NAME]-[PANE-STATE] （ ：ui-layout-pane-west-closed。                   。）
+*/
+.ui-layout-pane { 
+  background: #dfe8f6;
+  border:		0px solid #8db2e3;
+  padding:	10px; 
+  overflow:	auto;
+}
+/*     ，        */
+.ui-layout-content {
+  padding:	10px;
+  position:	relative; 
+  overflow:	auto;
+}
+
+/*
+ *	        
+ */
+.ui-layout-resizer	{ 
+  background:		#dfe8f6;
+  border:			1px solid #BBB;
+  border-width:	0;
+}
+/*
+ *       ，          ，         。
+ */
+.ui-layout-resizer-drag {
+}
+
+/*            */
+.ui-layout-resizer-hover{
+}
+/* 
+ *      ，      ，     “    ” “  ”     。
+ */
+/*.ui-layout-resizer-open-hover ,	*/
+.ui-layout-resizer-dragging {	
+  background:#aaaaaa;
+}
+
+/*      ，            */
+.ui-layout-resizer-dragging-limit {
+  background: #E1A4A4; /* red */
+}
+
+/*      ，   。*/
+.ui-layout-resizer-closed-hover	{ 
+  background: #FFCC00;
+}
+
+/*     ，     （      ）,           */
+.ui-layout-resizer-sliding {	
+  opacity: .10; 
+  filter:  alpha(opacity=10);
+  }
+  /*     ，     （      ）,     ，            */
+  .ui-layout-resizer-sliding-hover {
+    opacity: 1.00; 
+    filter:  alpha(opacity=100);
+  }
+
+
+/*
+ *	       
+ */
+.ui-layout-toggler {
+  border: 1px solid #CCCCCC; 
+  background-color: #bcd2ef;
+  opacity: .60;
+  filter:  alpha(opacity=60);
+  }
+
+/*
+              ，  .ui-layout-resizer-open-hover .ui-layout-resizer-closed-hover   。
+  .ui-layout-resizer-hover
+*/
+
+
+/*              */
+.ui-layout-toggler-hover {
+  background-color: #0099FF;
+  opacity: 1.00;
+  filter:  alpha(opacity=100);
+}
+
+/*     ，             */
+.ui-layout-resizer-sliding  ui-layout-toggler {
+  display: none;
+}
+
+
+/*           */
+.ui-layout-toggler .content {
+background:#FFFF00;
+  color: #66FFCC;
+  font-size:		12px;
+  font-weight:	bold;
+  width:			100%;
+  padding-bottom:	0.35ex; /* to 'vertically center' text inside text-span */
+}
+
+.logo {
+  margin-top: 15px;
+  margin-left: 15px;
+  font-size: 3em;
+  font-weight: bold;
+  color:aquamarine;
+}
+
+.logo-bottom {
+  margin-left: 15px;
+  font-size: 1.2em;
+  font-weight: bold;
+  color:aquamarine;
+}
+
+.main-title {
+  margin-top: 150px;
+  font-size: 3em;
+  font-weight: bold;
+  font-family: 'Times New Roman', Times, serif;
+  text-align: center;
+}
+
+.sub-title {
+  margin-top: 300px;
+  font-size: 2.5em;
+  font-weight: bold;
+  font-family: 'Times New Roman', Times, serif;
+  text-align: center;
+  font-style: italic;
+  color: blue;
+}
+
+.wrap {
+  display: flex;
+  justify-items: start;
+  border: 1px solid grey;
+}
+
+.wrap.left{
+  width:20%;  
+  display: block;
+}
+
+.wrap.right{
+  width:80%;  
+}
+
+.wrap2 {
+  display: flex;
+  justify-items: start;
+  width: 100%;
+  border: 1px solid grey;
+}
+
+.wrap2.left{
+  width:50%; 
+  height:50vh;   
+}
+
+.wrap2.right{
+  width:50%; 
+  height:50vh; 
+}
+
+.sql-section {  
+  display: flex;
+}
+
+.sql-section.top {  
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+.sql-section.top.left {  
+  margin: 30px;
+  font-size: 2.5em;
+  font-weight: bold;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+.sql-section.top.right {  
+  margin-right: 30px;
+}
+
+#cont0 {
+  width: 100%;
+  overflow: auto;
+}
+
+.content {
+  padding: 10px;
+  width: 100%;
+  display: none;
+  overflow: auto;
+}
+
+.wrap3 {    
+  width: 100%;
+}

@@ -1,0 +1,55 @@
+<script type="text/javascript">
+
+  function center(obj) {
+    view.animate({
+      duration: 700,
+      easing: function elastic(t) {
+        return (
+          Math.pow(2, -10 * t) * Math.sin(((t - 0.075) * (2 * Math.PI)) / 0.3) + 1
+        );
+      },
+      center: obj.coordinate,
+    });
+    console.log(obj.coordinate);
+  }
+
+  function trajAnim() {
+    path = [];
+
+    for (const key of pathMap.keys()) {
+      for (var i = 0; i < pathMap.get(key).length; i++) {
+        path.push(pathMap.get(key)[i]);
+      }
+    }
+    //console.log(path);
+
+    for (var i = 0; i < path.length; i++) {
+      animateFeature(i);
+    }
+  }
+
+  var contextmenu_items = [
+    {
+      text: 'Center map here',
+      classname: 'bold',
+      icon: '/images/center.png',
+      callback: center,
+    },
+    '-', // this is a separator
+    {
+      text: '궤적 뷰',
+      icon: '/images/pin_drop.png',
+      callback: trajAnim,
+    }
+  ];
+
+  /*
+  var contextmenu = new ContextMenu({
+    width: 180,
+    items: contextmenu_items,
+  });
+
+  map.addControl(contextmenu);
+  */
+
+</script>

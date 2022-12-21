@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html>
+
+<% include ./headers/header %>
+
+  <body>
+    <!-- START OF LOADING DIV -->
+    <div id="disableDiv" class="disableDiv" style="display:none"></div>
+    <div id="div_load_image" class="loadingArea" style="display:none">
+      <img src="/images/loading.gif" style="width:150px; height:150px;">
+    </div>
+    <!-- END OF LOADING DIV -->
+
+    <div class="wrap">
+      <div class="wrap left">
+        <div class="logo">
+          Infolab
+        </div>
+        <div class="logo-bottom">
+          CIE, KUNSAN NATIONAL UNIVERSITY
+        </div>
+        <div class="main-title">
+          UrbanAI<br />SQL
+        </div>
+        <div class="sub-title">
+          <a href="http://data2.u-gis.net/deepcitymap/" target="_blank">Deep<br />CityMap</a>
+        </div>
+      </div>
+      <div class="wrap right">
+        <div class="wrap3">
+          <div class="wrap2">
+            <div class="wrap2 left" style="flex-direction: column;">   
+              <div id="cont0">
+                <div class="sql-section top">
+                  <div class="sql-section top left">UrbanAI SQL</div>
+                  <div class="sql-section top right">
+                    <button type="button" class="ui green test button" style="height: 50px;">         
+                      <i class="icon question circle"></i>         
+                      UrbanAI SQL<br />
+                      Help
+                    </button>
+                  </div>
+                </div>
+                <div style="display:flex; justify-content:center;">
+                  <div style="width:30%; padding:10px; font-size:2em; font-weight:bold;">SELECT</div>
+                  <div style="width:60%; padding:8px;">                 
+                    <select name="selectParam" multiple="" class="ui fluid dropdown">
+                      <option value="">Columns</option>
+                      <option value="Object_id">Object_id</option>
+                      <option value="traj">traj</option>
+                      <option value="class_name">class_name</option>
+                      <option value="type">type</option>
+                      <option value="bbox">bbox</option>
+                      <option value="frame_id">frame_id</option>
+                      <option value="timestamp_ms">timestamp_ms</option>
+                      <option value="video_id">video_id</option>
+                      <option value="model_id">model_id</option>
+                    </select>                  
+                  </div>
+                </div>
+                <div style="display:flex; justify-content:center;">
+                  <div style="width:30%; padding:10px; font-size:2em; font-weight:bold;">FROM</div>
+                  <div style="width:60%; padding:8px;">
+                    <div style="margin-bottom: 10px;">
+                      <select name="fromParam1" class="ui fluid dropdown">
+                        <option value="">Functions</option>
+                        <option value="01">D_MPROCEES</option>
+                        <option value="02">D_MPROCEES_ALL</option>
+                      </select>
+                    </div>
+                    <div style="margin-bottom: 10px;">
+                      <select name="fromParam2" class="ui fluid dropdown">
+                        <option value="">Videos</option>
+                        <option value="01">test1.mp4</option>
+                        <option value="02">test2.mp4</option>
+                        <option value="03">test3.mp4</option>
+                        <option value="04">test4.mp4</option>
+                        <option value="05">test5.mp4</option>
+                      </select>
+                    </div>
+                    <div style="margin-bottom: 10px;">
+                      <select name="fromParam3" class="ui fluid dropdown">
+                        <option value="">Models</option>
+                        <option value="01">YOLO</option>
+                        <option value="02">MaskRCNN</option>
+                        <option value="03">FastRCNN</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div style="display:flex; justify-content:center;">
+                  <div style="width:30%; padding:10px; font-size:2em; font-weight:bold;">WHERE</div>
+                  <div style="width:60%; padding:8px;">
+                    <div style="margin-bottom: 10px;">
+                      <select name="whereParam1" class="ui fluid dropdown">
+                        <option value="">Functions</option>
+                        <option value="01">m_enter</option>
+                        <option value="02">m_travel_cross</option>
+                      </select>
+                    </div>
+                    <div style="margin-bottom: 10px;">
+                      <div class="ui input" style="width:100%;">
+                        <input type="text" name="whereParam2" placeholder="Params...">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div style="display:flex; justify-content:center; margin-top: 10px;">
+                  <div>                 
+                    <button type="button" class="ui button" onClick="reset();">reset</button>
+                  </div>
+                  <div style="width:5%;"></div>
+                  <div>
+                    <button type="button" class="ui primary button" onClick="test();">Excute</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="wrap2 right">
+              <div id="cont1" class="content">
+                <div class="container">
+                  <div class="four column doubling ui grid">
+                    <div class="column">
+                      <img src="/images/a.jpg" width="150px" height="150px" />
+                    </div>
+                    <div class="column">
+                      <img src="/images/a.jpg" width="150px" height="150px" />
+                    </div>
+                    <div class="column">
+                      <img src="/images/a.jpg" width="150px" height="150px" />
+                    </div>
+                    <div class="column">
+                      <img src="/images/a.jpg" width="150px" height="150px" />
+                    </div>
+                    <div class="column">
+                      <img src="/images/a.jpg" width="150px" height="150px" />
+                    </div>
+                    <div class="column">
+                      <img src="/images/a.jpg" width="150px" height="150px" />
+                    </div>
+                    <div class="column">
+                      <img src="/images/a.jpg" width="150px" height="150px" />
+                    </div>
+                    <div class="column">
+                      <img src="/images/a.jpg" width="150px" height="150px" />
+                    </div>
+                    <div class="column">
+                      <img src="/images/a.jpg" width="150px" height="150px" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="wrap2">
+            <div class="wrap2 left">
+              <div id="cont2" class="content">
+                <table class="ui striped table" style="table-layout: fixed;">
+                  <colgroup>
+                    <col style="width: 5%">
+                    <col style="width: 10%">
+                    <col style="width: 10%">
+                    <col style="width: 10%">
+                    <col style="width: 10%">
+                    <col style="width: 10%">
+                    <col style="width: 10%">
+                    <col>
+                    <col style="width: 10%">
+                    <col style="width: 10%">
+                  </colgroup>
+                  <thead>
+                    <tr>
+                      <th scope="col">No.</th>
+                      <th scope="col">Object_id</th>
+                      <th scope="col">traj</th>
+                      <th scope="col">class_name</th>
+                      <th scope="col">type</th>
+                      <th scope="col">bbox</th>
+                      <th scope="col">frame_id</th>
+                      <th scope="col">timestamp_ms</th>
+                      <th scope="col">video_id</th>
+                      <th scope="col">model_id</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="wrap2 right">
+              <div id="cont3" class="content">                
+                <video id="video" width="100%" height="100%" autoplay loop muted>
+                </video>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <% include ./help %>
+
+    <script type="text/javascript">
+
+      $('[name=selectParam]').dropdown({
+        onChange: function (value, text, $selectedItem) {
+          console.log(value);          
+        },
+      });
+
+      $('[name=fromParam1]').dropdown({
+        onChange: function (value, text, $selectedItem) {
+          console.log(value);          
+        },
+      });
+
+      $('[name=fromParam2]').dropdown({
+        onChange: function (value, text, $selectedItem) {
+          console.log(value);          
+        },
+      });
+
+      $('[name=fromParam3]').dropdown({
+        onChange: function (value, text, $selectedItem) {
+          console.log(value);          
+        },
+      });
+
+      $('[name=whereParam1]').dropdown({
+        onChange: function (value, text, $selectedItem) {
+          console.log(value);          
+        },
+      });
+
+
+      $('.ui.modal').modal({ blurring: true }).modal('attach events', '.test.button', 'show')
+
+      $('.table').on('click', 'tr', function (event) {
+        var tr = $(this);
+        var td = tr.children();
+
+        if (tr.index() < 5) {
+          $("#cont3").show();
+          $("#video").attr("src", "/video/aaa.mp4");
+        } else {
+          $("#cont3").show();
+          $("#video").attr("src", "/video/bbb.mp4");
+        }
+
+        //alert(td.eq(8).text());
+      });
+
+      function abbrText(value) {
+        if (value.length > 10) {
+          return value.substr(0, 10) + "...";
+        } else {
+          return value;
+        }
+      }
+
+      function reset() {
+        
+        $('[name=selectParam]').dropdown("clear");
+        $('[name=fromParam1]').dropdown("clear");
+        $('[name=fromParam2]').dropdown("clear");
+        $('[name=fromParam3]').dropdown("clear");
+        $('[name=whereParam1]').dropdown("clear");
+        $('[name=whereParam2]').val('');
+
+        $("#cont1").hide();
+        $("#cont2").hide();
+        $("#cont3").hide();        
+      }
+
+      function test() {
+
+        fetch("http://api.urbanai.net:8000/search/93864752-4809-49be-b7c7-3c94d2b00020",
+          {
+            headers: {
+              "uri": "https://github.com/rdj94/videos/blob/main/1.mp4?raw=true",
+            },
+          })
+          .then((response) => {
+            return response.json();
+          })
+          .then((data) => {
+            /* 데이터 처리 */
+            if (data.task_status === "SUCCESS") {
+              const result = data.task_result[0][0];
+              const len = data.task_result[0][0].class_name.length;
+              let html = '';
+
+              for (let i = 0; i < len; i++) {
+                html += '<tr>';
+                html += ' <td>';
+                html += i + 1;
+                html += ' </td>';
+                html += ' <td>';
+                html += abbrText(JSON.stringify(result.object_id[i]));
+                html += ' </td>';
+                html += ' <td>';
+                html += abbrText(JSON.stringify(result.traj[i]));
+                html += ' </td>';
+                html += ' <td>';
+                html += abbrText(JSON.stringify(result.class_name[i]));
+                html += ' </td>';
+                html += ' <td>';
+                html += abbrText(JSON.stringify(result.type[i]));
+                html += ' </td>';
+                html += ' <td>';
+                html += abbrText(JSON.stringify(result.bbox[i]));
+                html += ' </td>';
+                html += ' <td>';
+                html += abbrText(JSON.stringify(result.frame_id[i]));
+                html += ' </td>';
+                html += ' <td>';
+                html += abbrText(JSON.stringify(result.timestamp_ms[i]));
+                html += ' </td>';
+                html += ' <td>';
+                html += abbrText(JSON.stringify(result.video_id[i]));
+                html += ' </td>';
+                html += ' <td>';
+                html += abbrText(JSON.stringify(result.model_id[i]));
+                html += ' </td>';
+                html += '</tr>';
+              }
+              $('.table tbody').html(html)
+            }
+          })
+          .catch((error) => console.error(error));
+
+        $("#cont1").show();
+        $("#cont2").show();
+        // $("#video").attr("src", "/video/bbb.mp4");
+      }
+
+      function test2() {
+
+        $("#cont").show();
+        // $("#video").attr("src", "/video/aaa.mp4");
+      }
+
+    </script>
+  </body>
+
+</html>

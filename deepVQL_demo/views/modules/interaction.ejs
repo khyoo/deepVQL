@@ -1,0 +1,117 @@
+<script type="text/javascript">
+
+  // 마우스 오버 시 효과,
+  var hover = new ol.interaction.Select({
+    hitTolerance: 10,
+    multi: false,
+    condition: ol.events.condition.pointerMove,
+    layers: [roadPOIVector,roadPOIVector_ql],
+    style: new ol.style.Style({
+      image: new ol.style.Circle({
+        radius: 10,
+        snapToPixel: false,
+        stroke: new ol.style.Stroke({
+          color: "#0000FF",
+          width: 2
+        }),
+        fill: new ol.style.Fill({
+          color: 'rgba(0, 0, 255, 0.3)'
+        })
+      })
+    })
+  });
+  map.addInteraction(hover);
+
+  // 마우스 클릭 시,
+  var select = new ol.interaction.Select({
+    hitTolerance: 5,
+    layers: [roadPOIVector,roadPOIVector_ql],
+    condition: ol.events.condition.singleClick
+  });
+  map.addInteraction(select);
+
+  // On selected => show/hide popup
+  select.getFeatures().on(['add'], function (e) {
+    var feature = e.element;
+
+    let html = '<div style="padding:10px 15px;">';
+    html += '<div style="width:180px;text-align:center;padding:2px;">전방 이미지</div>';
+    html += '<p ><img class="roadImg" src="http://info.rlog.kr:35000/images/' + feature.get('img_3') + '" width="200px" height="200px" /></p>';
+    html += '<div style="width:180px;text-align:center;padding:2px;margin-top:-5px;">좌측 이미지</div>';
+    html += '<p><img class="roadImg" src="http://info.rlog.kr:35000/images/' + feature.get('img_2') + '" width="200px" height="200px" /></p>';
+    html += '<div style="width:180px;text-align:center;padding:2px;margin-top:-5px;">우측 이미지</div>';
+    html += '<p><img class="roadImg" src="http://info.rlog.kr:35000/images/' + feature.get('img_4') + '" width="200px" height="200px" /></p>';
+    html += '<div style="width:180px;text-align:center;padding:2px;margin-top:-5px;">후방 이미지</div>';
+    html += '<p><img class="roadImg" src="http://info.rlog.kr:35000/images/' + feature.get('img_1') + '" width="200px" height="200px" /></p>';
+    html += '</div>';
+
+    $('#images').html(html);
+    $('#imageTab').addClass('active');
+    $('#tablist-right').addClass('active');
+    $('#sidebar-right').removeClass('collapsed');
+
+    $('.roadImg').click(function () {
+      let imgName = '';
+      switch ($('.roadImg').index(this)) {
+        case 0:
+          imgName = feature.get("img_3");
+          break;
+        case 1:
+          imgName = feature.get("img_2");
+          break;
+        case 2:
+          imgName = feature.get("img_4");
+          break;
+        case 3:
+          imgName = feature.get("img_1");
+          break;
+      }
+      imagePopup.showImage('http://info.rlog.kr:35000/images/' + imgName, {        
+        title: feature.get("panoid")// + '<br/>' + feature.get("addr")
+      });
+    });
+  });
+
+  let imgStyle1 = new ol.style.Style({
+    image: new ol.style.Circle({
+      radius: 5,
+      snapToPixel: false,
+      stroke: new ol.style.Stroke({
+        color: "#900",
+        width: 2
+      })
+    })
+  });
+
+  let imgStyle2 = new ol.style.Style({
+    image: new ol.style.Circle({
+      radius: 2,
+      snapToPixel: false,
+      stroke: new ol.style.Stroke({
+        color: "#900",
+        width: 2
+      })
+    })
+  });
+
+  map.on('moveend', function (e) {
+    // console.log(map.getView().getZoom());
+    if (map.getView().getZoom() >= 16.5) {
+      if (roadPOIVector.getVisible()) {
+        roadPOIVector.setStyle(imgStyle1);
+      }
+      if (roadPOIVector2.getVisible()) {
+        roadPOIVector2.setStyle(imgStyle1);
+      }
+    } else if (map.getView().getZoom() > 13 && map.getView().getZoom() < 16.5) {
+      if (roadPOIVector.getVisible()) {
+        roadPOIVector.setStyle(imgStyle2);
+      }
+      if (roadPOIVector2.getVisible()) {
+        roadPOIVector2.setStyle(imgStyle2);
+      }
+    }
+    //Your code here
+  });
+
+</script>

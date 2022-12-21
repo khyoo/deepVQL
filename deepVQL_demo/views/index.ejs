@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html>
+
+<% include ./headers/header %>
+
+  <body>
+    <!-- START OF LOADING DIV -->
+    <div id="disableDiv" class="disableDiv" style="display:none"></div>
+    <div id="div_load_image" class="loadingArea" style="display:none">
+      <img src="/images/loading.gif" style="width:150px; height:150px;">
+    </div>
+    <!-- END OF LOADING DIV -->
+
+    <DIV class="ui-layout-west">
+      <div class="wrap">
+        <div class="wrap left">
+          <div class="logo">
+            Infolab
+          </div>
+          <div class="logo-bottom">
+            CIE, KUNSAN NATIONAL UNIVERSITY
+          </div>
+          <div class="main-title">
+            UrbanAI<br />SQL
+          </div>
+          <div class="sub-title">
+            <a href="http://data2.u-gis.net/deepcitymap/" target="_blank">Deep<br />CityMap</a>
+          </div>
+        </div>
+      </div>
+    </DIV>
+    <DIV class="ui-layout-center" style="width:500px;">
+      <div>
+        <div class="wrap2 left-top">
+          <div id="cont0">
+            <div class="sql-section top">
+              <div class="sql-section top left">UrbanAI SQL</div>
+              <div class="sql-section top right">
+                <button type="button" class="ui green test button" style="height: 50px;">
+                  <i class="icon question circle"></i>
+                  UrbanAI SQL<br />
+                  Help
+                </button>
+              </div>
+            </div>
+            <div style="display:flex; justify-content:center;">
+              <div style="width:30%; padding:10px; font-size:2em; font-weight:bold;">SELECT</div>
+              <div style="width:60%; padding:8px;">
+                <select name="selectParam" multiple="" class="ui fluid dropdown">
+                  <option value="">Columns</option>
+                  <option value="Object_id">Object_id</option>
+                  <option value="traj">traj</option>
+                  <option value="class_name">class_name</option>
+                  <option value="type">type</option>
+                  <option value="bbox">bbox</option>
+                  <option value="frame_id">frame_id</option>
+                  <option value="timestamp_ms">timestamp_ms</option>
+                  <option value="video_id">video_id</option>
+                  <option value="model_id">model_id</option>
+                </select>
+              </div>
+            </div>
+            <div style="display:flex; justify-content:center;">
+              <div style="width:30%; padding:10px; font-size:2em; font-weight:bold;">FROM</div>
+              <div style="width:60%; padding:8px;">
+                <div style="margin-bottom: 10px;">
+                  <select name="fromParam1" class="ui fluid dropdown">
+                    <option value="">Functions</option>
+                    <option value="01">D_MPROCEES</option>
+                    <option value="02">D_MPROCEES_ALL</option>
+                  </select>
+                </div>
+                <div style="margin-bottom: 10px;">
+                  <select name="fromParam2" class="ui fluid dropdown">
+                    <option value="">Videos</option>
+                    <option value="01">test1.mp4</option>
+                    <option value="02">test2.mp4</option>
+                    <option value="03">test3.mp4</option>
+                    <option value="04">test4.mp4</option>
+                    <option value="05">test5.mp4</option>
+                  </select>
+                </div>
+                <div style="margin-bottom: 10px;">
+                  <select name="fromParam3" class="ui fluid dropdown">
+                    <option value="">Models</option>
+                    <option value="01">YOLO</option>
+                    <option value="02">MaskRCNN</option>
+                    <option value="03">FastRCNN</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div style="display:flex; justify-content:center;">
+              <div style="width:30%; padding:10px; font-size:2em; font-weight:bold;">WHERE</div>
+              <div style="width:60%; padding:8px;">
+                <div style="margin-bottom: 10px;">
+                  <select name="whereParam1" class="ui fluid dropdown">
+                    <option value="">Functions</option>
+                    <option value="01">m_enter</option>
+                    <option value="02">m_travel_cross</option>
+                  </select>
+                </div>
+                <div style="margin-bottom: 10px;">
+                  <div class="ui input" style="width:100%;">
+                    <input type="text" name="whereParam2" placeholder="Params...">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div style="display:flex; justify-content:center; margin-top: 10px;">
+              <div>
+                <button type="button" class="ui button" onClick="reset();">reset</button>
+              </div>
+              <div style="width:5%;"></div>
+              <div>
+                <button type="button" class="ui primary button" onClick="execute();">Excute</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="wrap2 left-bottom">
+          <div id="cont2" class="content">
+            <table class="ui striped table" style="table-layout: fixed;">
+              <colgroup>
+                <col style="width: 5%">
+                <col style="width: 10%">
+                <col style="width: 10%">
+                <col style="width: 10%">
+                <col style="width: 10%">
+                <col style="width: 10%">
+                <col style="width: 10%">
+                <col>
+                <col style="width: 10%">
+                <col style="width: 10%">
+              </colgroup>
+              <thead>
+                <tr>
+                  <th scope="col">No.</th>
+                  <th scope="col">Object_id</th>
+                  <th scope="col">traj</th>
+                  <th scope="col">class_name</th>
+                  <th scope="col">type</th>
+                  <th scope="col">bbox</th>
+                  <th scope="col">frame_id</th>
+                  <th scope="col">timestamp_ms</th>
+                  <th scope="col">video_id</th>
+                  <th scope="col">model_id</th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </DIV>
+    <DIV class="ui-layout-east">
+      <div>
+        <div class="wrap2 right-top">
+          <div id="cont1" class="content">
+            <div class="container">
+              <div class="four column doubling ui grid">
+                <div class="column">
+                  <img src="/images/a.jpg" width="150px" height="150px" />
+                </div>
+                <div class="column">
+                  <img src="/images/a.jpg" width="150px" height="150px" />
+                </div>
+                <div class="column">
+                  <img src="/images/a.jpg" width="150px" height="150px" />
+                </div>
+                <div class="column">
+                  <img src="/images/a.jpg" width="150px" height="150px" />
+                </div>
+                <div class="column">
+                  <img src="/images/a.jpg" width="150px" height="150px" />
+                </div>
+                <div class="column">
+                  <img src="/images/a.jpg" width="150px" height="150px" />
+                </div>
+                <div class="column">
+                  <img src="/images/a.jpg" width="150px" height="150px" />
+                </div>
+                <div class="column">
+                  <img src="/images/a.jpg" width="150px" height="150px" />
+                </div>
+                <div class="column">
+                  <img src="/images/a.jpg" width="150px" height="150px" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="wrap2 right-bottom">
+          <div id="cont3" class="v-cont">
+            <div class="v-cont-org">
+              <div style="margin-top:30px;font-size: 1.5em;font-weight: bold;text-align: center;">Original Video</div>
+              <video id="video_origin" width="100%" height="70%" autoplay loop muted>
+              </video>
+            </div>
+            <div class="v-cont-ai">
+              <div style="margin-top:30px;font-size: 1.5em;font-weight: bold;text-align: center;">Result Video</div>
+              <video id="video_ai" width="100%" height="70%" autoplay loop muted>
+              </video>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </DIV>
+    <DIV class="ui-layout-south">
+      <div class="footer-section">
+        <div>
+          Email : khyoo1221@gmail.com
+        </div>
+        <div>
+          Copyright © InfoLab 2022
+        </div>
+      </div>
+    </DIV>
+
+    <% include ./help %>
+
+    <script type="text/javascript">
+      $(document).ready(function () {
+        $('body').layout({ applyDefaultStyles: true });
+            
+        $(function(){
+          var myLayout =$("body").layout({ 	
+              applyDefaultStyles: true,//      
+              scrollToBookmarkOnLoad:false,//         
+              showOverflowOnHover:false,//          ，         。
+              north__closable:false,//     
+              north__resizable:false,//      
+              north__size:50,//pane   
+              spacing_open:8,//     
+              spacing_closed:60,//        
+              resizerTip:"     ",//       ，   
+              //resizerCursor:"resize-p"          
+              resizerDragOpacity:0.9,//             
+              maskIframesOnResize:"#ifa",//        ，  iframe（     ）
+              sliderTip:"  /     ",//   Pane   ，              。
+              sliderCursor:"pointer",//   Pane   ，              。
+              slideTrigger_open:"dblclick",//   Pane   ，          。(click", "dblclick", "mouseover)
+              slideTrigger_close:"click",//   Pane   ，          。("click", "mouseout")
+              togglerTip_open:"  ",//pane   ，            ，      
+              togglerTip_closed:"  ",//pane   ，            ，      
+              togglerLength_open:100,//pane   ，       
+              togglerLength_closed:200,//pane   ，       
+              hideTogglerOnSlide:true,//        /    (     )
+              togglerAlign_open:"left",//pane   ，         
+              togglerAlign_closed:"right",//pane   ，         
+              togglerContent_open:"<div style='background:red'>AAA</div>",//pane   ，                 "<" 。      css  .ui-layout-toggler .content 
+              togglerContent_closed:"<img/>",//pane   ，  。
+              enableCursorHotkey:true,//     CTRL shift +     。
+              customHotkeyModifier:"shift",//         ("CTRL", "SHIFT", "CTRL+SHIFT"),    alt
+              south__customHotkey:"shift+0",//      （     ）
+              fxName:"drop",//         
+              fxSpeed:"slow",//    
+              //fxSettings: { duration: 500, easing: "bounceInOut" }//       (     )
+              //initClosed:true,//   ，  pane  
+              //initHidden:true //   ，  pane  
+                  
+              // onresize :ons,//          
+              // onshow_start:start,
+              // onshow_end:end
+              
+                    /*
+                          
+                    
+                         
+                    onshow = ""
+                    onshow_start = "" 
+                    onshow_end = "" 
+                         
+                    onhide = "" 
+                    onhide_start = "" 
+                    onhide_end = "" 
+                         
+                    onopen = "" 
+                    onopen_start = "" 
+                    onopen_end = "" 
+                         
+                    onclose = "" 
+                    onclose_start = "" 
+                    onclose_end = "" 
+                           
+                    onresize = "" 
+                    onresize_start = "" 
+                    onresize_end = "" 
+                    */
+          });
+
+          myLayout.sizePane("east", 800);
+          myLayout.sizePane("south", 65);
+        });
+      });
+        
+      $('[name=selectParam]').dropdown({
+        onChange: function (value, text, $selectedItem) {
+          console.log(value);
+        },
+      });
+
+      $('[name=fromParam1]').dropdown({
+        onChange: function (value, text, $selectedItem) {
+          console.log(value);
+        },
+      });
+
+      $('[name=fromParam2]').dropdown({
+        onChange: function (value, text, $selectedItem) {
+          console.log(value);
+        },
+      });
+
+      $('[name=fromParam3]').dropdown({
+        onChange: function (value, text, $selectedItem) {
+          console.log(value);
+        },
+      });
+
+      $('[name=whereParam1]').dropdown({
+        onChange: function (value, text, $selectedItem) {
+          console.log(value);
+        },
+      });
+
+
+      $('.ui.modal').modal({ blurring: true }).modal('attach events', '.test.button', 'show')
+
+      $('.table').on('click', 'tr', function (event) {
+        var tr = $(this);
+        var td = tr.children();
+
+        if (tr.index() < 5) {
+          $("#cont3").show();
+          $("#video_origin").attr("src", "/video/original1.mp4");
+          $("#video_ai").attr("src", "/video/aaa.mp4");
+        } else {
+          $("#cont3").show();
+          $("#video_origin").attr("src", "/video/original2.mp4");
+          $("#video_ai").attr("src", "/video/bbb.mp4");
+        }
+
+        //alert(td.eq(8).text());
+      });
+
+      function abbrText(value) {
+        if (value.length > 10) {
+          return value.substr(0, 10) + "...";
+        } else {
+          return value;
+        }
+      }
+
+      function reset() {
+
+        $('[name=selectParam]').dropdown("clear");
+        $('[name=fromParam1]').dropdown("clear");
+        $('[name=fromParam2]').dropdown("clear");
+        $('[name=fromParam3]').dropdown("clear");
+        $('[name=whereParam1]').dropdown("clear");
+        $('[name=whereParam2]').val('');
+
+        $("#cont1").hide();
+        $("#cont2").hide();
+        $("#cont3").hide();
+      }
+
+      function execute() {
+
+        fetch("http://api.urbanai.net:8000/search/622627bf-85d5-490f-af4a-e51cd6b3dbc7",
+          {
+            headers: {
+              "uri": "https://github.com/rdj94/videos/blob/main/1.mp4?raw=true",
+            },
+          })
+          .then((response) => {
+            return response.json();
+          })
+          .then((data) => {
+            /* 데이터 처리 */
+            if (data.task_status === "SUCCESS") {
+              const result = data.task_result[0][0];
+              const len = data.task_result[0][0].class_name.length;
+              let html = '';
+
+              for (let i = 0; i < len; i++) {
+                html += '<tr>';
+                html += ' <td>';
+                html += i + 1;
+                html += ' </td>';
+                html += ' <td>';
+                html += abbrText(JSON.stringify(result.object_id[i]));
+                html += ' </td>';
+                html += ' <td>';
+                html += abbrText(JSON.stringify(result.traj[i]));
+                html += ' </td>';
+                html += ' <td>';
+                html += abbrText(JSON.stringify(result.class_name[i]));
+                html += ' </td>';
+                html += ' <td>';
+                html += abbrText(JSON.stringify(result.type[i]));
+                html += ' </td>';
+                html += ' <td>';
+                html += abbrText(JSON.stringify(result.bbox[i]));
+                html += ' </td>';
+                html += ' <td>';
+                html += abbrText(JSON.stringify(result.frame_id[i]));
+                html += ' </td>';
+                html += ' <td>';
+                html += abbrText(JSON.stringify(result.timestamp_ms[i]));
+                html += ' </td>';
+                html += ' <td>';
+                html += abbrText(JSON.stringify(result.video_id[i]));
+                html += ' </td>';
+                html += ' <td>';
+                html += abbrText(JSON.stringify(result.model_id[i]));
+                html += ' </td>';
+                html += '</tr>';
+              }
+              $('.table tbody').html(html)
+            }
+          })
+          .catch((error) => console.error(error));
+
+        $("#cont1").show();
+        $("#cont2").show();          
+      }
+
+    </script>
+    
+  </body>
+
+</html>

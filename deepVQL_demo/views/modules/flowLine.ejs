@@ -1,0 +1,248 @@
+<script type="text/javascript">
+
+  // Calculate the min/max elevation on the line
+  var min, max;
+  function getMinMax(features) {
+    features.forEach(function (feature) {
+      feature.getGeometry().getCoordinates()[0].forEach(function (p) {
+        max = Math.max(max || -Infinity, p[2]);
+        min = Math.min(min || Infinity, p[2]);
+      });
+      max = Math.round(max / 10 + .4) * 10;
+      min = Math.round(min / 10 - .4) * 10;
+      
+      // console.log(feature.getGeometry().getCoordinates()[0]);    
+    });    
+  }
+
+  // Z 코드 설정
+  function setCoords_Z(features, paramNm, px) {
+    features.forEach(function (feature) {
+      var c1 = feature.getGeometry().getCoordinates()[0];
+      var c2 = eval('feature.getProperties().' + paramNm);      
+      if (c2 == null || c2 == 'undefined') {
+        c2 = 0;
+      }
+
+      for (var i = 0; i < feature.getGeometry().getCoordinates()[0].length; i++) {
+        c1[i].push(c2 * px);
+      }
+      feature.getGeometry().setCoordinates([c1]);      
+    });
+  }
+
+  // Z 코드 설정-랜덤 데이터
+  function setCoords_Z2(features, px) {
+    features.forEach(function (feature) {
+      let rand1;
+      var c1 = feature.getGeometry().getCoordinates()[0];
+      
+      for (var i = 0; i < feature.getGeometry().getCoordinates()[0].length; i++) {
+        rand1 = Math.random();
+        c1[i].push(rand1 * px);
+      }
+      feature.getGeometry().setCoordinates([c1]);
+
+      // console.log(feature.getGeometry().getCoordinates()[0]); 
+    });
+  }
+
+  // Get the line color at dh
+  function getColor(dh, fa) {
+    if (dh < 128) return [fa * dh, 160 - dh, 0];
+    else return [255, (dh - 128) * fa, (dh - 128) * fa/2];
+  }
+
+  // The style function
+  function styleFn(f) {
+    return new ol.style.FlowLine({
+      visible: false,
+      lineCap: 'round',
+      color: function (f, step) {
+        var seg = [];
+        var line = f.getGeometry().getLineString(0);
+        line.getCoordinateAtSeg(step * line.getLength(), seg);
+        var h = (seg[0][2] + seg[0][2]) / 2;
+        var dh = 255 * (h - min) / (max - min);
+        return getColor(dh, 3);        
+      },
+      width: 10,
+      geometry: function (f) {
+        if (f.getGeometry().getType() === 'MultiLineString') {
+          return f.getGeometry().getLineString(0);
+        } else {
+          return f.getGeometry();
+        }
+      }
+    })
+  }
+
+  /** Get the coordinate at a distance from the start
+   * @param {number} r distance from the start
+   * @param {Array<Array<coordinate>>} seg if provided fill the segment concerned
+   * @return {ol.coordinate}
+   */
+  ol.geom.LineString.prototype.getCoordinateAtSeg = function (r, seg) {
+    var c, d;
+    if (r < 1e-10) {
+      if (seg) {
+        c = this.getCoordinates();
+        seg[0] = c[0];
+        seg[1] = c[1];
+      }
+      return this.getFirstCoordinate();
+    }
+    if (this.getLength() - r < 1e-10) {
+      if (seg) {
+        c = this.getCoordinates();
+        seg[0] = c[c.length - 2];
+        seg[1] = c[c.length - 1];
+      }
+      return this.getLastCoordinate();
+    }
+    if (!seg) seg = [];
+    var s = 0;
+    var coord = this.getCoordinates();
+    for (var i = 1; i < coord.length; i++) {
+      d = ol.coordinate.dist2d(coord[i - 1], coord[i]);
+      if (s + d >= r) {
+        var p0 = seg[0] = coord[i - 1];
+        var p1 = seg[1] = coord[i];
+        d = ol.coordinate.dist2d(p0, p1)
+        return [
+          p0[0] + (r - s) * (p1[0] - p0[0]) / d,
+          p0[1] + (r - s) * (p1[1] - p0[1]) / d
+        ];
+      }
+      s += d;
+    }
+  };
+
+
+  var psObst_level_radius = document.getElementById('psObst_level_radius');
+  var psSf_level_radius = document.getElementById('psSf_level_radius');
+  var psSr_level_radius = document.getElementById('psSr_level_radius');
+  var psSlop_level_radius = document.getElementById('psSlop_level_radius');
+  var psTree_level_radius = document.getElementById('psTree_level_radius');
+  var psSky_level_radius = document.getElementById('psSky_level_radius');
+  var psPoi_level_radius = document.getElementById('psPoi_level_radius');
+  var psBus_level_radius = document.getElementById('psBus_level_radius');
+
+  psObst_level_radius.addEventListener('input', function (event) {
+    // console.log(psObst_level_radius.value);
+    setStyle_flowLine('obst');
+  });
+
+  psSf_level_radius.addEventListener('input', function (event) {
+    // console.log(psObst_level_radius.value);
+    setStyle_flowLine('sf');
+  });
+
+  psSr_level_radius.addEventListener('input', function (event) {
+    // console.log(psObst_level_radius.value);
+    setStyle_flowLine('sr');
+  });
+
+  psSlop_level_radius.addEventListener('input', function (event) {
+    // console.log(psObst_level_radius.value);
+    setStyle_flowLine('slop');
+  });
+
+  psTree_level_radius.addEventListener('input', function (event) {
+    // console.log(psObst_level_radius.value);
+    setStyle_flowLine('tree');
+  });
+
+  psSky_level_radius.addEventListener('input', function (event) {
+    // console.log(psObst_level_radius.value);
+    setStyle_flowLine('sky');
+  });
+
+  psPoi_level_radius.addEventListener('input', function (event) {
+    // console.log(psObst_level_radius.value);
+    setStyle_flowLine('poi');
+  });
+
+  psBus_level_radius.addEventListener('input', function (event) {
+    // console.log(psObst_level_radius.value);
+    setStyle_flowLine('bus');
+  });
+
+  function setStyle_flowLine(type) {
+    flowlineVector.setStyle(
+      new ol.style.FlowLine({      
+        lineCap: 'round',
+        color: function (f) {
+          // console.log(f.getProperties().tree_level);
+          let color_temp = [[31,120,180],[51,160,44],[244,200,4],[243,123,3],[255,0,0]];
+          let ranges = [
+            '0.000000~2.571000',
+            '2.571000~2.875000',
+            '2.875000~3.143000',
+            '3.143000~3.500000',
+            '3.500000~5.000000'
+          ];
+
+          let temp_obst = f.getProperties().obst_level*parseFloat(psObst_level_radius.value, 10);
+          let temp_sf = f.getProperties().sf_level*parseFloat(psSf_level_radius.value, 10);
+          let temp_sr = f.getProperties().sr_level*parseFloat(psSr_level_radius.value, 10);
+          let temp_slop = f.getProperties().slop_level*parseFloat(psSlop_level_radius.value, 10);
+          let temp_tree = f.getProperties().sky_level*parseFloat(psTree_level_radius.value, 10);
+          let temp_sky = f.getProperties().tree_level*parseFloat(psSky_level_radius.value, 10);
+          let temp_poi = f.getProperties().poi_level*parseFloat(psPoi_level_radius.value, 10);
+          let temp_bus = f.getProperties().bus_level*parseFloat(psBus_level_radius.value, 10);
+
+          let temp_val;           
+          temp_val = means_qt(temp_obst, temp_sf, temp_sr, temp_slop, temp_tree, temp_sky, temp_poi, temp_bus);
+          // switch(type) {
+          //   case 'obst':
+          //     temp_val = means_qt(f.getProperties().sky_level, f.getProperties().tree_level, f.getProperties().sr_level, f.getProperties().obst_level*parseFloat(psObst_level_radius.value, 10), f.getProperties().poi_level, f.getProperties().bus_level, f.getProperties().slop_level, f.getProperties().sf_level);
+          //     break;
+          //   case 'sf':
+          //     temp_val = means_qt(f.getProperties().sky_level, f.getProperties().tree_level, f.getProperties().sr_level, f.getProperties().obst_level, f.getProperties().poi_level, f.getProperties().bus_level, f.getProperties().slop_level, f.getProperties().sf_level*parseFloat(psSf_level_radius.value, 10));
+          //     break;
+          //   case 'sr':
+          //     temp_val = means_qt(f.getProperties().sky_level, f.getProperties().tree_level, f.getProperties().sr_level*parseFloat(psSr_level_radius.value, 10), f.getProperties().obst_level, f.getProperties().poi_level, f.getProperties().bus_level, f.getProperties().slop_level, f.getProperties().sf_level);
+          //     break;
+          //   case 'slop':
+          //     temp_val = means_qt(f.getProperties().sky_level, f.getProperties().tree_level, f.getProperties().sr_level, f.getProperties().obst_level, f.getProperties().poi_level, f.getProperties().bus_level, f.getProperties().slop_level*parseFloat(psSlop_level_radius.value, 10), f.getProperties().sf_level);
+          //     break;
+          //   case 'tree':
+          //     temp_val = means_qt(f.getProperties().sky_level, f.getProperties().tree_level*parseFloat(psTree_level_radius.value, 10), f.getProperties().sr_level, f.getProperties().obst_level, f.getProperties().poi_level, f.getProperties().bus_level, f.getProperties().slop_level, f.getProperties().sf_level);
+          //     break;
+          //   case 'sky':
+          //     temp_val = means_qt(f.getProperties().sky_level*parseFloat(psSky_level_radius.value, 10), f.getProperties().tree_level, f.getProperties().sr_level, f.getProperties().obst_level, f.getProperties().poi_level, f.getProperties().bus_level, f.getProperties().slop_level, f.getProperties().sf_level);
+          //     break;
+          //   case 'poi':
+          //     temp_val = means_qt(f.getProperties().sky_level, f.getProperties().tree_level, f.getProperties().sr_level, f.getProperties().obst_level, f.getProperties().poi_level*parseFloat(psPoi_level_radius.value, 10), f.getProperties().bus_level, f.getProperties().slop_level, f.getProperties().sf_level);
+          //     break;
+          //   case 'bus':
+          //     temp_val = means_qt(f.getProperties().sky_level, f.getProperties().tree_level, f.getProperties().sr_level, f.getProperties().obst_level, f.getProperties().poi_level, f.getProperties().bus_level*parseFloat(psBus_level_radius.value, 10), f.getProperties().slop_level, f.getProperties().sf_level);
+          //     break;
+          // }
+          // console.log(temp_val);
+          for (i = 0; i < ranges.length; i++) {            
+            // console.log(f.getProperties().panoid);
+            // console.log(temp_val);
+            if (temp_val == null || temp_val == 0) {
+              return [0, 0, 0, 0];
+            }
+            if ((Number(ranges[i].split('~')[0]) < temp_val) && (Number(ranges[i].split('~')[1]) >= temp_val)) {            
+              return color_temp[i];
+            }
+          }
+        },
+        width: 10,
+        geometry: function (f) {
+          if (f.getGeometry().getType() === 'MultiLineString') {
+            return f.getGeometry().getLineString(0);
+          } else {
+            return f.getGeometry();
+          }
+        }
+      })
+    );
+  }
+  
+
+</script>
