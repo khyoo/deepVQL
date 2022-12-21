@@ -1,47 +1,63 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
 
-    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-  </head>
-  <body>
-    <div id="div_load_image" class="loadingArea">
-      <img src="/images/loading1.gif" style="width:400px; height:400px;">
-    </div>
-    
-    <input type="file" id="fileInput" multiple>
-    <button type="submit" id="sendButton">전송</button>
- 
-    <script>
-        const fileInput = document.querySelector("#fileInput");
-        const sendButton = document.querySelector("#sendButton");
- 
-        sendButton.addEventListener("click",function(){
- 
-          $("#div_load_image").show();
-            var formData = new FormData();
-            
-            // form Data 객체 생성
-            var len = fileInput.files.length;
-            for(var i=0; i<len; i++) {
-              formData.append("file", fileInput.files[i]);
-            }
-            
-            fetch('/multipart/upload', {
-                method: 'POST',
-                cache: 'no-cache',
-                body: formData 
-            })
-            .then((response) => response.json())
-            .then((data) => {
-                //console.log(data);
-                $("#div_load_image").hide();                
-                alert("업로드를 완료했습니다");
-            });
+<head>
+  <title>
+    <%= title %>
+  </title>
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+
+  <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+</head>
+
+<body>
+  <div id="div_load_image" class="loadingArea">
+    <img src="/images/loading1.gif" style="width:400px; height:400px;">
+  </div>
+
+  <input type="file" id="fileInput" multiple>
+  <button type="submit" id="sendButton">전송</button>
+
+  <div style="margin-top:30px;">업로드 파일 목록</div>
+  <div style="margin-top:15px;">파일명 / 파일크기</div>
+  <div id="upload_files">
+
+  </div>
+
+  <script>
+    $("#fileInput").on("change", function () {
+      let html = '';
+      let len = $("#fileInput")[0].files.length;
+      for (var i = 0; i < len; i++) {
+        html += '<div>' + $("#fileInput")[0].files[i].name + '&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;' + $("#fileInput")[0].files[i].size + '</div>';
+      }
+      $("#upload_files").html(html);
+    });
+
+    $("#sendButton").on("click", function () {
+      $("#div_load_image").show();
+      var formData = new FormData();
+
+      // form Data 객체 생성
+      var len = $("#fileInput")[0].files.length;
+      for (var i = 0; i < len; i++) {
+        formData.append("file", $("#fileInput")[0].files[i]);
+      }
+
+      fetch('/multipart/upload', {
+        method: 'POST',
+        cache: 'no-cache',
+        body: formData
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          //console.log(data);
+          $("#div_load_image").hide();
+          alert("업로드를 완료했습니다");
         });
- 
-    </script>
-  </body>
+    });
+
+  </script>
+</body>
+
 </html>

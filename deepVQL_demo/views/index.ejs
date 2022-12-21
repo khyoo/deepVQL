@@ -34,17 +34,17 @@
         <div class="wrap2 left-top">
           <div id="cont0">
             <div class="ui top attached tabular menu">
-              <a class="active item" data-tab="first">First</a>
-              <a class="item" data-tab="second">Second</a>
-              <a class="item" data-tab="third">Third</a>
+              <a class="active item" data-tab="first">VQL Test</a>
+              <a class="item" data-tab="second">VQL Temp</a>
+              <a class="item" data-tab="third">Upload</a>
             </div>
             <div class="ui bottom attached active tab segment" data-tab="first">
               <div class="sql-section top">
-                <div class="sql-section top left">UrbanAI SQL</div>
+                <div class="sql-section top left">deepVQL Test</div>
                 <div class="sql-section top right">
                   <button type="button" class="ui green test button" style="height: 50px;">
                     <i class="icon question circle"></i>
-                    UrbanAI SQL<br />
+                    deepVQL<br />
                     Help
                   </button>
                 </div>
@@ -124,16 +124,37 @@
               </div>
             </div>
             <div class="ui bottom attached tab segment" data-tab="second">
-              Second
+              VQL Temp
             </div>
             <div class="ui bottom attached tab segment" data-tab="third">
-              Third
+              <input type="file" id="fileInput" multiple>
+              <button type="submit" id="sendButton">전송</button>
+            
+              <div style="margin-top:30px;">업로드 파일 목록</div>              
+              <table id="uploadFiles" class="ui striped table" style="table-layout: fixed;">
+                <colgroup>
+                  <col style="width: 10%">
+                  <col style="width: 50%">
+                  <col style="width: 25%">
+                  <col style="width: 15%">
+                </colgroup>
+                <thead>
+                  <tr>
+                    <th scope="col">No.</th>
+                    <th scope="col">파일명</th>
+                    <th scope="col">파일크기</th>
+                    <th scope="col">비고</th>
+                  </tr>
+                </thead>
+                <tbody>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
         <div class="wrap2 left-bottom">
           <div id="cont2" class="content">
-            <table class="ui striped table" style="table-layout: fixed;">
+            <table id="videoList" class="ui striped table" style="table-layout: fixed;">
               <colgroup>
                 <col style="width: 5%">
                 <col style="width: 10%">
@@ -346,7 +367,7 @@
 
       $('.ui.modal').modal({ blurring: true }).modal('attach events', '.test.button', 'show')
 
-      $('.table').on('click', 'tr', function (event) {
+      $('#videoList').on('click', 'tr', function (event) {
         var tr = $(this);
         var td = tr.children();
 
@@ -446,6 +467,44 @@
         $("#cont2").show();          
       }
 
+      // 비디오 파일 업로드 이벤트
+      $("#fileInput").on("change", function () {
+        let html = '';
+        let len = $("#fileInput")[0].files.length;
+        for (var i = 0; i < len; i++) {
+          html += '<tr>';
+          html += '<td>' + (i+1) + '</td>';
+          html += '<td>' + $("#fileInput")[0].files[i].name + '</td>';
+          html += '<td>' + $("#fileInput")[0].files[i].size + '</td>';
+          html += '<td>' + i + '</td>';
+          html += '</tr>';
+        }
+        $("#uploadFiles").append(html);
+      });
+
+      // 비디오 파일 전송 이벤트
+      $("#sendButton").on("click", function () {
+        $("#div_load_image").show();
+        var formData = new FormData();
+
+        // form Data 객체 생성
+        var len = $("#fileInput")[0].files.length;
+        for (var i = 0; i < len; i++) {
+          formData.append("file", $("#fileInput")[0].files[i]);
+        }
+
+        fetch('http://info.rlog.kr:33002/multipart/upload', {
+          method: 'POST',
+          cache: 'no-cache',
+          body: formData
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            //console.log(data);
+            $("#div_load_image").hide();
+            alert("업로드를 완료했습니다");
+          });
+      });
     </script>
     
   </body>
