@@ -32,12 +32,13 @@
 
     <DIV class="outer-center" style="width:500px;">
       <div class="middle-north1">
-        <div class="wrap2 left-top">
+        <div class="wrap2 left-top" style="overflow: auto;">
           <div id="cont0">
             <div class="ui top attached tabular menu">
               <a class="active item" data-tab="first">VQL Test</a>
               <a class="item" data-tab="second">VQL Temp</a>
-              <a class="item" data-tab="third">Upload</a>
+              <a class="item" data-tab="third">Upload List</a>
+              <a class="item" data-tab="forth">Upload</a>
             </div>
             <div class="ui bottom attached active tab segment" data-tab="first">
               <div class="sql-section top">
@@ -127,12 +128,33 @@
             <div class="ui bottom attached tab segment" data-tab="second">
               VQL Temp
             </div>
-            <div class="ui bottom attached tab segment" data-tab="third">
+            <div class="ui bottom attached tab segment" data-tab="third">              
+              <div style="margin-top:30px;">업로드 파일 목록</div>
+              <table id="uploadFiles" class="ui striped table" style="table-layout: fixed;">
+                <colgroup>
+                  <col style="width: 10%">
+                  <col style="width: 15%">
+                  <col>
+                  <col style="width: 35%">
+                </colgroup>
+                <thead>
+                  <tr>
+                    <th scope="col">No.</th>
+                    <th scope="col">카테고리</th>
+                    <th scope="col">파일명</th>
+                    <th scope="col">Thumbnail</th>
+                  </tr>
+                </thead>
+                <tbody>
+                </tbody>
+              </table>
+            </div>
+            <div class="ui bottom attached tab segment" data-tab="forth">
               <input type="file" id="fileInput" multiple>
               <button type="submit" id="sendButton">전송</button>
 
               <div style="margin-top:30px;">업로드 파일 목록</div>
-              <table id="uploadFiles" class="ui striped table" style="table-layout: fixed;">
+              <table id="tempFiles" class="ui striped table" style="table-layout: fixed;">
                 <colgroup>
                   <col style="width: 10%">
                   <col style="width: 50%">
@@ -157,45 +179,6 @@
       <div class="middle-center1">
         <div class="wrap2 left-bottom">
           <div id="cont2" class="content">
-            <table id="videoList" class="ui striped table" style="table-layout: fixed;">
-              <colgroup>
-                <col style="width: 5%">
-                <col style="width: 10%">
-                <col style="width: 10%">
-                <col style="width: 10%">
-                <col style="width: 10%">
-                <col style="width: 10%">
-                <col style="width: 10%">
-                <col>
-                <col style="width: 10%">
-                <col style="width: 10%">
-              </colgroup>
-              <thead>
-                <tr>
-                  <th scope="col">No.</th>
-                  <th scope="col">Object_id</th>
-                  <th scope="col">traj</th>
-                  <th scope="col">class_name</th>
-                  <th scope="col">type</th>
-                  <th scope="col">bbox</th>
-                  <th scope="col">frame_id</th>
-                  <th scope="col">timestamp_ms</th>
-                  <th scope="col">video_id</th>
-                  <th scope="col">model_id</th>
-                </tr>
-              </thead>
-              <tbody>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </DIV>
-
-    <DIV class="outer-east">
-      <div class="middle-north2">
-        <div class="wrap2 right-top">
-          <div id="cont1" class="content">
             <div class="container">
               <div class="four column doubling ui grid">
                 <div class="column">
@@ -227,6 +210,45 @@
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+    </DIV>
+
+    <DIV class="outer-east">
+      <div class="middle-north2">
+        <div class="wrap2 right-top">
+          <div id="cont1" class="content">
+            <table id="videoList" class="ui striped table" style="table-layout: fixed;">
+              <colgroup>
+                <col style="width: 5%">
+                <col style="width: 10%">
+                <col style="width: 10%">
+                <col style="width: 10%">
+                <col style="width: 10%">
+                <col style="width: 10%">
+                <col style="width: 10%">
+                <col>
+                <col style="width: 10%">
+                <col style="width: 10%">
+              </colgroup>
+              <thead>
+                <tr>
+                  <th scope="col">No.</th>
+                  <th scope="col">Object_id</th>
+                  <th scope="col">traj</th>
+                  <th scope="col">class_name</th>
+                  <th scope="col">type</th>
+                  <th scope="col">bbox</th>
+                  <th scope="col">frame_id</th>
+                  <th scope="col">timestamp_ms</th>
+                  <th scope="col">video_id</th>
+                  <th scope="col">model_id</th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
@@ -271,7 +293,7 @@
             , west__paneSelector: ".outer-west"
             , east__paneSelector: ".outer-east"
             , west__size: 125
-            , east__size: 700
+            , east__size: "40%"
             , spacing_open: 8 // ALL panes
             , spacing_closed: 12 // ALL panes
             , north__spacing_open: 0
@@ -283,7 +305,7 @@
             center__paneSelector: ".middle-center1"
             , north__paneSelector: ".middle-north1"
 
-            , north__size: 550
+            , north__size: "60%"
 
             , spacing_open: 8  // ALL panes
             , spacing_closed: 12 // ALL panes		
@@ -293,7 +315,7 @@
             center__paneSelector: ".middle-center2"
             , north__paneSelector: ".middle-north2"
 
-            , north__size: 450
+            , north__size: "50%"
 
             , spacing_open: 8  // ALL panes
             , spacing_closed: 12 // ALL panes		
@@ -335,6 +357,24 @@
           },
         });
 
+        fetch('http://api.urbanai.net:8000/get_videos')
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data.videos[0][0]);
+
+          let html = '';
+          let len = data.videos[0][0].video_name.length;
+          for (var i = 0; i < len; i++) {
+            html += '<tr>';
+            html += '<td>' + (i + 1) + '</td>';
+            html += '<td>' + data.videos[0][0].category[i] + '</td>';
+            html += '<td>' + data.videos[0][0].video_name[i] + '</td>';
+            html += '<td>' + data.videos[0][0].thumbnail[i] + '</td>';
+            html += '</tr>';
+          }
+          $("#uploadFiles").append(html);
+        });
+
 
         $('.ui.modal').modal({ blurring: true }).modal('attach events', '.test.button', 'show')
 
@@ -344,12 +384,12 @@
 
           if (tr.index() < 5) {
             $("#cont3").show();
-            $("#video_origin").attr("src", "/video/original1.mp4");
-            $("#video_ai").attr("src", "/video/aaa.mp4");
+            $("#video_origin").attr("src", "http://info.rlog.kr:33002/b5d8ebe049ebe0d985492920c20a0cc3");
+            $("#video_ai").attr("src", "http://info.rlog.kr:33002/036ce9a5afda24707e8d82ca16470725");
           } else {
             $("#cont3").show();
-            $("#video_origin").attr("src", "/video/original2.mp4");
-            $("#video_ai").attr("src", "/video/bbb.mp4");
+            $("#video_origin").attr("src", "http://info.rlog.kr:33002/b5d8ebe049ebe0d985492920c20a0cc3");
+            $("#video_ai").attr("src", "http://info.rlog.kr:33002/036ce9a5afda24707e8d82ca16470725");
           }
 
           //alert(td.eq(8).text());
@@ -450,7 +490,7 @@
             html += '<td>' + i + '</td>';
             html += '</tr>';
           }
-          $("#uploadFiles").append(html);
+          $("#tempFiles").append(html);
         });
 
         // 비디오 파일 전송 이벤트
