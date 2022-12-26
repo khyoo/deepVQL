@@ -180,34 +180,7 @@
         <div class="wrap2 left-bottom">
           <div id="cont2" class="content">
             <div class="container">
-              <div class="four column doubling ui grid">
-                <div class="column">
-                  <img src="/images/a.jpg" width="150px" height="150px" />
-                </div>
-                <div class="column">
-                  <img src="/images/a.jpg" width="150px" height="150px" />
-                </div>
-                <div class="column">
-                  <img src="/images/a.jpg" width="150px" height="150px" />
-                </div>
-                <div class="column">
-                  <img src="/images/a.jpg" width="150px" height="150px" />
-                </div>
-                <div class="column">
-                  <img src="/images/a.jpg" width="150px" height="150px" />
-                </div>
-                <div class="column">
-                  <img src="/images/a.jpg" width="150px" height="150px" />
-                </div>
-                <div class="column">
-                  <img src="/images/a.jpg" width="150px" height="150px" />
-                </div>
-                <div class="column">
-                  <img src="/images/a.jpg" width="150px" height="150px" />
-                </div>
-                <div class="column">
-                  <img src="/images/a.jpg" width="150px" height="150px" />
-                </div>
+              <div id="thumbnail-sector" class="four column doubling ui grid">                
               </div>
             </div>
           </div>
@@ -362,7 +335,7 @@
           .then((data) => {
             console.log(data.videos[0][0]);
 
-            let html = '';
+            let html = '', thumbHtml = '';
             let len = data.videos[0][0].video_name.length;
             for (var i = 0; i < len; i++) {
               html += '<tr>';
@@ -371,8 +344,15 @@
               html += '<td>' + data.videos[0][0].video_name[i] + '</td>';
               html += '<td>' + data.videos[0][0].thumbnail[i] + '</td>';
               html += '</tr>';
+
+              thumbHtml += '<div class="column">';
+              thumbHtml += '<img src="http://api.urbanai.net:8000' + data.videos[0][0].thumbnail[i] + '" width="150px" height="150px" />';
+              thumbHtml += '</div>';              
             }
             $("#uploadFiles").append(html);
+
+            $(".content").show();
+            $('#thumbnail-sector').html(thumbHtml);
           });
 
 
