@@ -178,7 +178,7 @@ body {
 .v-cont {
   padding: 10px;
   width: 100%;
-  display: flex;
+  display: none;
   overflow-x: hidden;
   overflow-y: hidden;
 }
