@@ -150,7 +150,7 @@
               </table>
             </div>
             <div class="ui bottom attached tab segment" data-tab="forth">
-              <input type="file" id="fileInput" multiple>
+              <input type="file" id="fileInput" accept=".mp4">
               <button type="submit" id="sendButton">전송</button>
 
               <div style="margin-top:30px;">업로드 파일 목록</div>
@@ -522,20 +522,41 @@
           // form Data 객체 생성
           var len = $("#fileInput")[0].files.length;
           for (var i = 0; i < len; i++) {
-            formData.append("file", $("#fileInput")[0].files[i]);
+            formData.append("file", $("#fileInput")[0].files[0]);
           }
 
-          fetch('http://info.rlog.kr:33002/multipart/upload', {
+          fetch('http://info.rlog.kr:33002/single/upload', {
             method: 'POST',
             cache: 'no-cache',
             body: formData
           })
-            .then((response) => response.json())
-            .then((data) => {
+          .then((response) => response.json())
+          .then((data) => {
               //console.log(data);
               $("#disableDiv").hide();
               $("#div_load_image").hide();
-            });
+
+              fetch("http://api.urbanai.net:8000/insert_video", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  type: "stream",
+                  category: "traffic",
+                  desc: "test",
+                  video_name: $("#fileInput")[0].files[0].name,
+                  video_uri: "http://info.rlog.kr:33002/"+ data.filename +"?raw=true"
+                }),
+              })
+              .then((response) => {
+                return response.json();
+              })
+              .then((data) => {
+                console.log(data);
+              })
+              .catch((error) => console.error(error));
+          });
         });
       </script>
 

@@ -98,7 +98,7 @@ app.post('/single/upload', upload.single('file'), (req, res, next) => {//console
   console.log("업로드된 파일의 전체 경로 ", path);
   console.log("파일의 바이트(byte 사이즈)", size);
 
-  res.json({ok: true, data: "success"})
+  res.json({ok: true, data: "success", filename: filename})
 
 })
 
