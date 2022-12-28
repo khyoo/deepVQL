@@ -154,7 +154,7 @@ body {
 }
 
 .sql-section.top.left {
-  margin: 30px;
+  margin: 15px;
   font-size: 2.5em;
   font-weight: bold;
   font-family: 'Times New Roman', Times, serif;
@@ -172,13 +172,12 @@ body {
   width: 100%;
   display: none;
   overflow-x: hidden;
-  overflow-y: auto;
+  overflow-y: hidden;
 }
 
-.v-cont {
-  padding: 10px;
+.v-cont {  
   width: 100%;
-  display: none;
+  display: flex;
   overflow-x: hidden;
   overflow-y: hidden;
 }

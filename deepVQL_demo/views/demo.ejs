@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html>
+
+<% include ./headers/header %>
+
+  <body>
+    <!-- START OF LOADING DIV -->
+    <div id="disableDiv" class="disableDiv" style="display:none"></div>
+    <div id="div_load_image" class="loadingArea" style="display:none">
+      <img src="/images/loading1.gif" style="width:400px; height:400px;">
+    </div>
+    <!-- END OF LOADING DIV -->
+
+    <!-- <DIV class="outer-west">
+      <div class="wrap">
+        <div class="wrap left">
+          <div class="logo">
+            Infolab
+          </div>
+          <div class="logo-bottom">
+            CIE, KUNSAN NATIONAL UNIVERSITY
+          </div>
+          <div class="main-title">
+            deepVQL
+          </div>
+          <div class="sub-title">
+            <a href="http://data2.u-gis.net/deepcitymap/" target="_blank">Deep<br />CityMap</a>
+          </div>
+        </div>
+      </div>
+    </DIV> -->
+
+    <DIV class="outer-center" style="width:500px;">
+      <div class="middle-north1" style="overflow-y: auto;">
+        <div class="wrap2 left-top">
+          <div id="cont0">
+            <div class="ui top attached tabular menu">
+              <a class="active item" data-tab="first">VQL Simple</a>
+              <a class="item" data-tab="second">VQL Complex</a>
+            </div>
+            <div class="ui bottom attached active tab segment" data-tab="first">              
+              <div class="ui styled accordion" style="width:100%;">
+                <div class="title active">
+                  <i class="dropdown icon"></i>
+                  Step 1.
+                </div>
+                <div class="content active">
+                  <div class="transition visible">
+                    <div class="container">
+                      <div id="thumbnail-sector" class="four column doubling ui grid">                                        
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="title">
+                  <i class="dropdown icon"></i>
+                  Step 2.
+                </div>
+                <div class="content">
+                  <p class="transition hidden">select</p>
+                </div>
+                <div class="title">
+                  <i class="dropdown icon"></i>
+                  Step 3.
+                </div>
+                <div class="transition hidden">
+                  <p>select</p>                  
+                </div>
+              </div>
+            </div>
+            <div class="ui bottom attached tab segment" data-tab="second">
+              VQL Temp
+            </div>            
+          </div>
+        </div>
+      </div>
+      <div class="middle-center1" style="overflow: auto;">
+        <div class="wrap2 left-bottom">
+          <div id="cont2" class="content">
+            <div class="container">
+              <div class="ui top attached tabular menu">                
+                <a class="active item" data-tab="third">Upload List</a>
+                <a class="item" data-tab="forth">Upload</a>
+              </div>
+              <div class="ui bottom attached active tab segment" data-tab="third">
+                <div style="margin-top:30px;">업로드 파일 목록</div>
+                <table id="uploadFiles" class="ui striped table" style="table-layout: fixed;">
+                  <colgroup>
+                    <col style="width: 10%">
+                    <col style="width: 15%">
+                    <col>
+                    <col style="width: 35%">
+                  </colgroup>
+                  <thead>
+                    <tr>
+                      <th scope="col">No.</th>
+                      <th scope="col">카테고리</th>
+                      <th scope="col">파일명</th>
+                      <th scope="col">Thumbnail</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                </table>
+              </div>
+              <div class="ui bottom attached tab segment" data-tab="forth">
+                <input type="file" id="fileInput" accept=".mp4">
+                <button type="submit" id="sendButton">전송</button>
+  
+                <div style="margin-top:30px;">업로드 파일 목록</div>
+                <table id="tempFiles" class="ui striped table" style="table-layout: fixed;">
+                  <colgroup>
+                    <col style="width: 10%">
+                    <col style="width: 50%">
+                    <col style="width: 25%">
+                    <col style="width: 15%">
+                  </colgroup>
+                  <thead>
+                    <tr>
+                      <th scope="col">No.</th>
+                      <th scope="col">파일명</th>
+                      <th scope="col">파일크기</th>
+                      <th scope="col">비고</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </DIV>
+
+    <DIV class="outer-east">
+      <div class="middle-north2">
+        <div class="wrap2 right-top">
+          <div id="cont1" class="content">
+             <div class="sql-section top">
+                <div class="sql-section top left">deepVQL Simple</div>
+                <div class="sql-section top right">
+                  <button type="button" class="ui green test button" style="height: 50px;">
+                    <i class="icon question circle"></i>                    
+                    Help
+                  </button>
+                </div>
+              </div>
+            <div style="display:flex; justify-content:center;">
+                <div style="width:30%; padding:10px; font-size:2em; font-weight:bold;">SELECT</div>
+                <div style="width:60%; padding:8px;">
+                  <select name="selectParam" multiple="" class="ui fluid dropdown">
+                    <option value="">Columns</option>
+                    <option value="Object_id">Object_id</option>
+                    <option value="traj">traj</option>
+                    <option value="class_name">class_name</option>
+                    <option value="type">type</option>
+                    <option value="bbox">bbox</option>
+                    <option value="frame_id">frame_id</option>
+                    <option value="timestamp_ms">timestamp_ms</option>
+                    <option value="video_id">video_id</option>
+                    <option value="model_id">model_id</option>
+                  </select>
+                </div>
+              </div>
+              <div style="display:flex; justify-content:center;">
+                <div style="width:30%; padding:10px; font-size:2em; font-weight:bold;">FROM</div>
+                <div style="width:60%; padding:8px;">
+                  <div style="margin-bottom: 10px;">
+                    <select name="fromParam1" class="ui fluid dropdown">
+                      <option value="">Functions</option>
+                      <option value="01">D_MPROCEES</option>
+                      <option value="02">D_MPROCEES_ALL</option>
+                    </select>
+                  </div>
+                  <div style="margin-bottom: 10px;">
+                    <select name="fromParam2" class="ui fluid dropdown">
+                      <option value="">Videos</option>
+                      <option value="01">test1.mp4</option>
+                      <option value="02">test2.mp4</option>
+                      <option value="03">test3.mp4</option>
+                      <option value="04">test4.mp4</option>
+                      <option value="05">test5.mp4</option>
+                    </select>
+                  </div>
+                  <div style="margin-bottom: 10px;">
+                    <select name="fromParam3" class="ui fluid dropdown">
+                      <option value="">Models</option>
+                      <option value="01">YOLO</option>
+                      <option value="02">MaskRCNN</option>
+                      <option value="03">FastRCNN</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div style="display:flex; justify-content:center;">
+                <div style="width:30%; padding:10px; font-size:2em; font-weight:bold;">WHERE</div>
+                <div style="width:60%; padding:8px;">
+                  <div style="margin-bottom: 10px;">
+                    <select name="whereParam1" class="ui fluid dropdown">
+                      <option value="">Functions</option>
+                      <option value="01">m_enter</option>
+                      <option value="02">m_travel_cross</option>
+                    </select>
+                  </div>
+                  <div style="margin-bottom: 10px;">
+                    <div class="ui input" style="width:100%;">
+                      <input type="text" name="whereParam2" placeholder="Params...">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div style="display:flex; justify-content:center; margin-top: 10px;">
+                <div>
+                  <button type="button" class="ui button" onClick="reset();">reset</button>
+                </div>
+                <div style="width:5%;"></div>
+                <div>
+                  <button type="button" class="ui primary button" onClick="execute();">Excute</button>
+                </div>
+              </div>
+          </div>
+        </div>
+      </div>
+      <div class="middle-center2">
+        <div class="wrap2 right-bottom">
+          <div id="cont3" class="v-cont">
+            <table id="videoList" class="ui striped table" style="table-layout: fixed;">
+              <colgroup>
+                <col style="width: 5%">
+                <col style="width: 10%">
+                <col style="width: 10%">
+                <col style="width: 10%">
+                <col style="width: 10%">
+                <col style="width: 10%">
+                <col style="width: 10%">
+                <col>
+                <col style="width: 10%">
+                <col style="width: 10%">
+              </colgroup>
+              <thead>
+                <tr>
+                  <th scope="col">No.</th>
+                  <th scope="col">Object_id</th>
+                  <th scope="col">traj</th>
+                  <th scope="col">class_name</th>
+                  <th scope="col">type</th>
+                  <th scope="col">bbox</th>
+                  <th scope="col">frame_id</th>
+                  <th scope="col">timestamp_ms</th>
+                  <th scope="col">video_id</th>
+                  <th scope="col">model_id</th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+            <!-- <div class="v-cont-org">
+              <div style="margin-top:30px;font-size: 1.5em;font-weight: bold;text-align: center;">Original Video</div>
+              <video id="video_origin" width="100%" height="70%" autoplay loop muted>
+              </video>
+            </div>
+            <div class="v-cont-ai">
+              <div style="margin-top:30px;font-size: 1.5em;font-weight: bold;text-align: center;">Result Video</div>
+              <video id="video_ai" width="100%" height="70%" autoplay loop muted>
+              </video>
+            </div> -->
+          </div>
+        </div>
+      </div>
+    </DIV>
+
+    <DIV class="ui-layout-south">
+      <div class="footer-section">
+        <div>
+          Email : khyoo1221@gmail.com
+        </div>
+        <div>
+          Copyright © InfoLab 2022
+        </div>
+      </div>
+    </DIV>
+
+    <% include ./help %>
+
+      <script type="text/javascript">
+
+        var outerLayout, middleLayout1, middleLayout2;
+
+        $(document).ready(function () {
+          outerLayout = $('body').layout({
+            center__paneSelector: ".outer-center"
+            , west__paneSelector: ".outer-west"
+            , east__paneSelector: ".outer-east"
+            // , center__size: "50%"
+            , east__size: "50%"
+            , spacing_open: 8 // ALL panes
+            , spacing_closed: 12 // ALL panes
+            , north__spacing_open: 0
+            , south__spacing_open: 0
+            , center__onresize: "middleLayout.resizeAll"
+          });
+
+          middleLayout1 = $('div.outer-center').layout({
+            center__paneSelector: ".middle-center1"
+            , north__paneSelector: ".middle-north1"
+
+            , north__size: "65%"
+
+            , spacing_open: 8  // ALL panes
+            , spacing_closed: 12 // ALL panes		
+          });
+
+          middleLayout2 = $('div.outer-east').layout({
+            center__paneSelector: ".middle-center2"
+            , north__paneSelector: ".middle-north2"
+
+            , north__size: "50%"
+
+            , spacing_open: 8  // ALL panes
+            , spacing_closed: 12 // ALL panes		
+          });
+
+        });
+
+        $('.menu .item')
+          .tab()
+          ;
+
+        $('.ui.accordion')
+          .accordion()
+        ;
+
+        $('[name=selectParam]').dropdown({
+          onChange: function (value, text, $selectedItem) {
+            console.log(value);
+          },
+        });
+
+        $('[name=fromParam1]').dropdown({
+          onChange: function (value, text, $selectedItem) {
+            console.log(value);
+          },
+        });
+
+        $('[name=fromParam2]').dropdown({
+          onChange: function (value, text, $selectedItem) {
+            console.log(value);
+          },
+        });
+
+        $('[name=fromParam3]').dropdown({
+          onChange: function (value, text, $selectedItem) {
+            console.log(value);
+          },
+        });
+
+        $('[name=whereParam1]').dropdown({
+          onChange: function (value, text, $selectedItem) {
+            console.log(value);
+          },
+        });
+
+        fetch('http://api.urbanai.net:8000/get_videos')
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data.videos[0][0]);
+
+            let html = '', thumbHtml = '';
+            let len = data.videos[0][0].video_name.length;
+            for (var i = 0; i < len; i++) {
+              html += '<tr>';
+              html += '<td>' + (i + 1) + '</td>';
+              html += '<td>' + data.videos[0][0].category[i] + '</td>';
+              html += '<td>' + data.videos[0][0].video_name[i] + '</td>';
+              html += '<td>' + data.videos[0][0].thumbnail[i] + '</td>';
+              html += '</tr>';
+
+              thumbHtml += '<div class="column">';
+              thumbHtml += '<img src="http://api.urbanai.net:8000' + data.videos[0][0].thumbnail[i] + '" width="150px" height="150px" />';
+              thumbHtml += '</div>';              
+            }
+            $("#uploadFiles").append(html);
+
+            $(".content").show();
+            $('#thumbnail-sector').html(thumbHtml);
+          });
+
+
+        $('.ui.modal').modal({ blurring: true }).modal('attach events', '.test.button', 'show')
+
+        $('#videoList').on('click', 'tr', function (event) {
+          var tr = $(this);
+          var td = tr.children();
+
+          $("#disableDiv").show();
+          if (tr.index() < 5) {
+            $(".v-cont").css("display", "flex");
+            $("#video_origin").attr("src", "http://info.rlog.kr:33002/824a641fda8a75c9c9913c8f76fa4df3");
+            $("#video_ai").attr("src", "http://info.rlog.kr:33002/8f32a1f18baad0507ffaff2b18a25d4f");
+          } else {
+            $(".v-cont").css("display", "flex");
+            $("#video_origin").attr("src", "http://info.rlog.kr:33002/824a641fda8a75c9c9913c8f76fa4df3");
+            $("#video_ai").attr("src", "http://info.rlog.kr:33002/8f32a1f18baad0507ffaff2b18a25d4f");
+          }
+
+          //alert(td.eq(8).text());
+        });
+
+        function abbrText(value) {
+          if (value.length > 10) {
+            return value.substr(0, 10) + "...";
+          } else {
+            return value;
+          }
+        }
+
+        function reset() {
+
+          $('[name=selectParam]').dropdown("clear");
+          $('[name=fromParam1]').dropdown("clear");
+          $('[name=fromParam2]').dropdown("clear");
+          $('[name=fromParam3]').dropdown("clear");
+          $('[name=whereParam1]').dropdown("clear");
+          $('[name=whereParam2]').val('');
+
+          $("#cont1").hide();
+          $("#cont2").hide();
+          $("#cont3").hide();
+        }
+
+        function execute() {
+
+          // fetch("http://api.urbanai.net:8000/insert_video", {
+          //   method: "POST",
+          //   headers: {
+          //     "Content-Type": "application/json",
+          //   },
+          //   body: JSON.stringify({
+          //     type: "stream",
+          //     category: "traffic",
+          //     desc: "khyoo_test",
+          //     video_name: "khyoo7.mp4",
+          //     video_uri: "https://github.com/rdj94/videos/blob/main/1.mp4?raw=true"
+          //   }),
+          // })
+          // .then((response) => {
+          //   return response.json();
+          // })
+          // .then((data) => {
+          //   console.log(data);
+          // })
+          // .catch((error) => console.error(error));
+
+          fetch("http://api.urbanai.net:8000/search/622627bf-85d5-490f-af4a-e51cd6b3dbc7", {
+            headers: {
+              "uri": "https://github.com/rdj94/videos/blob/main/1.mp4?raw=true",
+            },
+          })
+          .then((response) => {
+            return response.json();
+          })
+          .then((data) => {
+              /* 데이터 처리 */
+              if (data.task_status === "SUCCESS") {
+                const result = data.task_result[0][0];
+                const len = data.task_result[0][0].class_name.length;
+                let html = '';
+
+                for (let i = 0; i < len; i++) {
+                  html += '<tr>';
+                  html += ' <td>';
+                  html += i + 1;
+                  html += ' </td>';
+                  html += ' <td>';
+                  html += abbrText(JSON.stringify(result.object_id[i]));
+                  html += ' </td>';
+                  html += ' <td>';
+                  html += abbrText(JSON.stringify(result.traj[i]));
+                  html += ' </td>';
+                  html += ' <td>';
+                  html += abbrText(JSON.stringify(result.class_name[i]));
+                  html += ' </td>';
+                  html += ' <td>';
+                  html += abbrText(JSON.stringify(result.type[i]));
+                  html += ' </td>';
+                  html += ' <td>';
+                  html += abbrText(JSON.stringify(result.bbox[i]));
+                  html += ' </td>';
+                  html += ' <td>';
+                  html += abbrText(JSON.stringify(result.frame_id[i]));
+                  html += ' </td>';
+                  html += ' <td>';
+                  html += abbrText(JSON.stringify(result.timestamp_ms[i]));
+                  html += ' </td>';
+                  html += ' <td>';
+                  html += abbrText(JSON.stringify(result.video_id[i]));
+                  html += ' </td>';
+                  html += ' <td>';
+                  html += abbrText(JSON.stringify(result.model_id[i]));
+                  html += ' </td>';
+                  html += '</tr>';
+                }
+                $('.table tbody').html(html)
+              }
+          })
+          .catch((error) => console.error(error));
+
+          $("#cont1").show();
+          $("#cont2").show();
+        }
+
+        // 비디오 파일 업로드 이벤트
+        $("#fileInput").on("change", function () {
+          let html = '';
+          let len = $("#fileInput")[0].files.length;
+          for (var i = 0; i < len; i++) {
+            html += '<tr>';
+            html += '<td>' + (i + 1) + '</td>';
+            html += '<td>' + $("#fileInput")[0].files[i].name + '</td>';
+            html += '<td>' + $("#fileInput")[0].files[i].size + '</td>';
+            html += '<td>' + i + '</td>';
+            html += '</tr>';
+          }
+          $("#tempFiles").append(html);
+        });
+
+        // 비디오 파일 전송 이벤트
+        $("#sendButton").on("click", function () {
+          $("#disableDiv").show();
+          $("#div_load_image").show();
+          var formData = new FormData();
+
+          // form Data 객체 생성
+          var len = $("#fileInput")[0].files.length;
+          for (var i = 0; i < len; i++) {
+            formData.append("file", $("#fileInput")[0].files[0]);
+          }
+
+          fetch('http://info.rlog.kr:33002/single/upload', {
+            method: 'POST',
+            cache: 'no-cache',
+            body: formData
+          })
+          .then((response) => response.json())
+          .then((data) => {
+              //console.log(data);
+              $("#disableDiv").hide();
+              $("#div_load_image").hide();
+
+              fetch("http://api.urbanai.net:8000/insert_video", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  type: "stream",
+                  category: "traffic",
+                  desc: "test",
+                  video_name: $("#fileInput")[0].files[0].name,
+                  video_uri: "http://info.rlog.kr:33002/"+ data.filename +"?raw=true"
+                }),
+              })
+              .then((response) => {
+                return response.json();
+              })
+              .then((data) => {
+                console.log(data);
+              })
+              .catch((error) => console.error(error));
+          });
+        });
+      </script>
+
+  </body>
+
+</html>

@@ -1,0 +1,54 @@
+<!--Help Modal-->
+<div class="ui modal">
+    <div class="header">UrbanAI SQL Help</div>
+    <div class="scrolling content">
+      <p>
+        # object detection and tracking using maskrcnn_coco model<br />
+        <br />
+        SELECT id, count(class_name),<br />
+        FROM D_MPROCEES('file://dev/videos/test3.mp4', 'maskrcnn_coco' ) <br />
+        GROUPY BY class_name<br />
+        ORDER BY count(class_name)<br />
+        <br />
+        <br />
+        # spatial queries for moving objects <br />
+        <br />
+        SELECT id, class_id, d_class_name(class_id)<br />
+        FROM D_MPROCEES('file://dev/videos/test3.mp4') <br />
+        WHERE m_enter(traj,'Polygon([[0, 0], [1, 0], [1, 1], [0, 1], [0, 0]]') ;<br />
+        <br />
+        <br />          
+        # spatial queries for moving objects (pixel)<br />
+        <br />
+        SELECT id, class_id, d_class_name(class_id)<br />
+        FROM D_MPROCEES('file://dev/videos/test3.mp4') <br />
+        WHERE m_enter(itraj,'Polygon([[0, 0], [1, 0], [1, 1], [0, 1], [0, 0]]') ;<br />
+        <br />
+        <br />
+        # object detection and tracking only person and car<br />
+        <br />
+        SELECT * <br />
+        FROM d_mprocess('test.mp4',filter=>'(person|car)');<br />
+        <br />
+        <br />
+        # find person entered given coordinates polygon<br />
+        <br />
+        SELECT id<br />
+        FROM D_MPROCEES('file://dev/videos/test3.mp4', 'person|car') <br />
+        WHERE m_enter(traj,'Polygon([[0, 0], [1, 0], [1, 1], [0, 1], [0, 0]]' ) AND class_name = person;<br />
+        <br />
+        <br />
+        # find moving objects ordered crossed given area moving objects<br />
+        <br />
+        SELECT id<br />
+        FROM D_MPROCEES_ALL('file://dev/videos/test3.mp4') <br />
+        WHERE m_travel_cross(traj,ARRAY['Polygon([[0, 0], [1, 0], [1, 1], [0, 1], [0, 0]]', 'Polygon([[0, 0], [1, 0], [1, 1], [0, 1], [0, 0]]'] )<br />
+        (traj,'Polygon([[0, 0], [1, 0], [1, 1], [0, 1], [0, 0]]' );<br />
+        <br />
+        <br />
+        SELECT * <br />
+        FROM d_mprocess(video_path=>'/home/project/etri_videos/SC0004601_카메라(1번)_20200619_160000(대덕터널입구방면).mp4',<br />
+        start_time=>30,end_time=>50);<br />
+      </p>
+    </div>
+  </div>

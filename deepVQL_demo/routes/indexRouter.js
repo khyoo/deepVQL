@@ -6,8 +6,7 @@ const controller = require('../controllers/indexController');
 /* GET home page. */
 router.get('/', controller.index);
 
-// router.get('/down1', controller.down1);
-// router.get('/down2', controller.down2);
-// router.get('/down3', controller.down3);
+router.get('/demo', controller.demo);
+
 
 module.exports = router;
