@@ -11,25 +11,6 @@
     </div>
     <!-- END OF LOADING DIV -->
 
-    <!-- <DIV class="outer-west">
-      <div class="wrap">
-        <div class="wrap left">
-          <div class="logo">
-            Infolab
-          </div>
-          <div class="logo-bottom">
-            CIE, KUNSAN NATIONAL UNIVERSITY
-          </div>
-          <div class="main-title">
-            deepVQL
-          </div>
-          <div class="sub-title">
-            <a href="http://data2.u-gis.net/deepcitymap/" target="_blank">Deep<br />CityMap</a>
-          </div>
-        </div>
-      </div>
-    </DIV> -->
-
     <DIV class="outer-center" style="width:500px;">
       <div class="middle-north1" style="overflow-y: auto;">
         <div class="wrap2 left-top">
@@ -38,47 +19,62 @@
               <a class="active item" data-tab="first">VQL Simple</a>
               <a class="item" data-tab="second">VQL Complex</a>
             </div>
-            <div class="ui bottom attached active tab segment" data-tab="first">              
+            <div class="ui bottom attached active tab segment" data-tab="first">
               <div class="ui styled accordion" style="width:100%;">
                 <div class="title active">
                   <i class="dropdown icon"></i>
-                  Step 1.
+                  Step 1. Select Video
                 </div>
                 <div class="content active">
                   <div class="transition visible">
                     <div class="container">
-                      <div id="thumbnail-sector" class="four column doubling ui grid">                                        
+                      <div id="thumbnail-sector" class="four column doubling ui grid">
                       </div>
                     </div>
                   </div>
                 </div>
                 <div class="title">
                   <i class="dropdown icon"></i>
-                  Step 2.
+                  Step 2. Select Model
                 </div>
                 <div class="content">
-                  <p class="transition hidden">select</p>
+                  <div class="transition hidden">
+                    <div id="step2_cont"></div>
+                  </div>
                 </div>
                 <div class="title">
                   <i class="dropdown icon"></i>
-                  Step 3.
+                  Step 3. Select Function
                 </div>
-                <div class="transition hidden">
-                  <p>select</p>                  
+                <div class="content">
+                  <div class="transition hidden">
+                    <div id="step3_cont"></div>
+                  </div>
+                </div>
+                <div class="title">
+                  <i class="dropdown icon"></i>
+                  Step 4. Select Columns
+                </div>
+                <div class="content">
+                  <div class="transition hidden">
+                    <div id="step4_cont">
+
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
             <div class="ui bottom attached tab segment" data-tab="second">
               VQL Temp
-            </div>            
+            </div>
           </div>
         </div>
       </div>
       <div class="middle-center1" style="overflow: auto;">
         <div class="wrap2 left-bottom">
-          <div id="cont2" class="content">
+          <div id="cont2" class="cus-cont">
             <div class="container">
-              <div class="ui top attached tabular menu">                
+              <div class="ui top attached tabular menu">
                 <a class="active item" data-tab="third">Upload List</a>
                 <a class="item" data-tab="forth">Upload</a>
               </div>
@@ -106,7 +102,7 @@
               <div class="ui bottom attached tab segment" data-tab="forth">
                 <input type="file" id="fileInput" accept=".mp4">
                 <button type="submit" id="sendButton">전송</button>
-  
+
                 <div style="margin-top:30px;">업로드 파일 목록</div>
                 <table id="tempFiles" class="ui striped table" style="table-layout: fixed;">
                   <colgroup>
@@ -136,89 +132,46 @@
     <DIV class="outer-east">
       <div class="middle-north2">
         <div class="wrap2 right-top">
-          <div id="cont1" class="content">
-             <div class="sql-section top">
-                <div class="sql-section top left">deepVQL Simple</div>
-                <div class="sql-section top right">
-                  <button type="button" class="ui green test button" style="height: 50px;">
-                    <i class="icon question circle"></i>                    
-                    Help
-                  </button>
-                </div>
+          <div id="cont1" class="cus-cont">
+            <div class="sql-section top">
+              <div class="sql-section top left">deepVQL Simple</div>
+              <div class="sql-section top right">                
+                <i class="big icon question circle test button" style="cursor:pointer;"></i>
               </div>
+            </div>
             <div style="display:flex; justify-content:center;">
-                <div style="width:30%; padding:10px; font-size:2em; font-weight:bold;">SELECT</div>
-                <div style="width:60%; padding:8px;">
-                  <select name="selectParam" multiple="" class="ui fluid dropdown">
-                    <option value="">Columns</option>
-                    <option value="Object_id">Object_id</option>
-                    <option value="traj">traj</option>
-                    <option value="class_name">class_name</option>
-                    <option value="type">type</option>
-                    <option value="bbox">bbox</option>
-                    <option value="frame_id">frame_id</option>
-                    <option value="timestamp_ms">timestamp_ms</option>
-                    <option value="video_id">video_id</option>
-                    <option value="model_id">model_id</option>
-                  </select>
-                </div>
+              <div style="width:20%; padding:10px; font-size:2em; font-weight:bold; text-align:center;">SELECT</div>
+              <div style="width:80%; padding:8px;">
+                <div class="ui input" style="width:100%;">
+                  <input type="text" name="queryColumns" placeholder="Select Columns...">
+                </div>                
               </div>
-              <div style="display:flex; justify-content:center;">
-                <div style="width:30%; padding:10px; font-size:2em; font-weight:bold;">FROM</div>
-                <div style="width:60%; padding:8px;">
-                  <div style="margin-bottom: 10px;">
-                    <select name="fromParam1" class="ui fluid dropdown">
-                      <option value="">Functions</option>
-                      <option value="01">D_MPROCEES</option>
-                      <option value="02">D_MPROCEES_ALL</option>
-                    </select>
-                  </div>
-                  <div style="margin-bottom: 10px;">
-                    <select name="fromParam2" class="ui fluid dropdown">
-                      <option value="">Videos</option>
-                      <option value="01">test1.mp4</option>
-                      <option value="02">test2.mp4</option>
-                      <option value="03">test3.mp4</option>
-                      <option value="04">test4.mp4</option>
-                      <option value="05">test5.mp4</option>
-                    </select>
-                  </div>
-                  <div style="margin-bottom: 10px;">
-                    <select name="fromParam3" class="ui fluid dropdown">
-                      <option value="">Models</option>
-                      <option value="01">YOLO</option>
-                      <option value="02">MaskRCNN</option>
-                      <option value="03">FastRCNN</option>
-                    </select>
-                  </div>
-                </div>
+            </div>
+            <div style="display:flex; justify-content:center;">
+              <div style="width:20%; padding:10px; font-size:2em; font-weight:bold; text-align:center;">FROM</div>
+              <div style="width:80%; padding:8px;">
+                <div class="ui input" style="width:100%;">
+                  <input type="text" name="queryFrom" placeholder="Select Video...">
+                </div>                
               </div>
-              <div style="display:flex; justify-content:center;">
-                <div style="width:30%; padding:10px; font-size:2em; font-weight:bold;">WHERE</div>
-                <div style="width:60%; padding:8px;">
-                  <div style="margin-bottom: 10px;">
-                    <select name="whereParam1" class="ui fluid dropdown">
-                      <option value="">Functions</option>
-                      <option value="01">m_enter</option>
-                      <option value="02">m_travel_cross</option>
-                    </select>
-                  </div>
-                  <div style="margin-bottom: 10px;">
-                    <div class="ui input" style="width:100%;">
-                      <input type="text" name="whereParam2" placeholder="Params...">
-                    </div>
-                  </div>
-                </div>
+            </div>
+            <div style="display:flex; justify-content:center;">
+              <div style="width:20%; padding:10px; font-size:2em; font-weight:bold; text-align:center;">WHERE</div>
+              <div style="width:80%; padding:8px;">
+                <div class="ui input" style="width:100%;">
+                  <input type="text" name="queryWhere" placeholder="Select Function...">
+                </div> 
               </div>
-              <div style="display:flex; justify-content:center; margin-top: 10px;">
-                <div>
-                  <button type="button" class="ui button" onClick="reset();">reset</button>
-                </div>
-                <div style="width:5%;"></div>
-                <div>
-                  <button type="button" class="ui primary button" onClick="execute();">Excute</button>
-                </div>
+            </div>
+            <div style="display:flex; justify-content:center; margin-top: 10px;">
+              <div>
+                <button type="button" class="ui button" onClick="reset();">reset</button>
               </div>
+              <div style="width:5%;"></div>
+              <div>
+                <button type="button" class="ui primary button" onClick="execute();">Excute</button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -329,62 +282,121 @@
 
         $('.ui.accordion')
           .accordion()
-        ;
+          ;
 
-        $('[name=selectParam]').dropdown({
-          onChange: function (value, text, $selectedItem) {
-            console.log(value);
-          },
-        });
+        function selectVideo(val1, val2, idx) {
+          console.log(val1);console.log(val2);
+          $('.sel-Video').eq(idx).css('border', '4px solid #00A2FF');
+          $('.ui.accordion').accordion('open', 1);
 
-        $('[name=fromParam1]').dropdown({
-          onChange: function (value, text, $selectedItem) {
-            console.log(value);
-          },
-        });
+          let tempFrom = 'D_MPROCEES("'+ val2 + '")';
+          $('[name=queryFrom').val(tempFrom);
+        }
+        
+        const step1_init = () => {
+          fetch('http://api.urbanai.net:8000/get_videos')
+            .then((response) => response.json())
+            .then((data) => {
+              console.log(data.videos[0][0]);
 
-        $('[name=fromParam2]').dropdown({
-          onChange: function (value, text, $selectedItem) {
-            console.log(value);
-          },
-        });
+              let html = '', thumbHtml = '';
+              let len = data.videos[0][0].video_name.length;
+              for (var i = 0; i < len; i++) {
+                html += '<tr>';
+                html += '<td>' + (i + 1) + '</td>';
+                html += '<td>' + data.videos[0][0].category[i] + '</td>';
+                html += '<td>' + data.videos[0][0].video_name[i] + '</td>';
+                html += '<td>' + data.videos[0][0].thumbnail[i] + '</td>';
+                html += '</tr>';
 
-        $('[name=fromParam3]').dropdown({
-          onChange: function (value, text, $selectedItem) {
-            console.log(value);
-          },
-        });
+                thumbHtml += '<div class="column" style="text-align:center;">';
+                thumbHtml += '<button type="button" class="sel-Video" onClick="selectVideo(\'' + data.videos[0][0].video_name[i] + '\', \'' + data.videos[0][0].video_uri[i] + '\', ' + i + ')" >';
+                thumbHtml += '<img src="http://api.urbanai.net:8000' + data.videos[0][0].thumbnail[i] + '" width="150px" height="150px" />';
+                thumbHtml += '</button>';
+                thumbHtml += '<div>[' + data.videos[0][0].video_name[i] + ']</div>';
+                thumbHtml += '</div>';
+              }
+              $("#uploadFiles").append(html);
 
-        $('[name=whereParam1]').dropdown({
-          onChange: function (value, text, $selectedItem) {
-            console.log(value);
-          },
-        });
+              $(".cus-cont").show();
+              $('#thumbnail-sector').html(thumbHtml);
+            });
+        };
 
-        fetch('http://api.urbanai.net:8000/get_videos')
-          .then((response) => response.json())
-          .then((data) => {
-            console.log(data.videos[0][0]);
+        step1_init();
 
-            let html = '', thumbHtml = '';
-            let len = data.videos[0][0].video_name.length;
-            for (var i = 0; i < len; i++) {
-              html += '<tr>';
-              html += '<td>' + (i + 1) + '</td>';
-              html += '<td>' + data.videos[0][0].category[i] + '</td>';
-              html += '<td>' + data.videos[0][0].video_name[i] + '</td>';
-              html += '<td>' + data.videos[0][0].thumbnail[i] + '</td>';
-              html += '</tr>';
+        const step2_init = () => {
+          fetch('http://api.urbanai.net:8000/models')
+            .then((response) => response.json())
+            .then((data) => {
 
-              thumbHtml += '<div class="column">';
-              thumbHtml += '<img src="http://api.urbanai.net:8000' + data.videos[0][0].thumbnail[i] + '" width="150px" height="150px" />';
-              thumbHtml += '</div>';              
-            }
-            $("#uploadFiles").append(html);
+              let html = '<select name="sel_model" class="ui fluid dropdown">';
+              html += '<option value="">Select</option>';
+              data.models.forEach(item => {
+                html += '<option value="' + item.model_id + '">' + item.model_id + '</option>';
+              });
+              html += '</select>';
 
-            $(".content").show();
-            $('#thumbnail-sector').html(thumbHtml);
+              $('#step2_cont').html(html);
+
+              $('[name=sel_model]').dropdown({
+                onChange: function (value, text, $selectedItem) {
+                  console.log(value);
+                  $('.ui.accordion').accordion('open', 2);
+                },
+              });
+            });
+        };
+
+        step2_init();
+        //WHERE m_enter(traj,'Polygon([[0, 0], [1, 0], [1, 1], [0, 1], [0, 0]]') ;<br />
+        const step3_init = () => {
+          let html = '<select name="sel_func" class="ui fluid dropdown">';
+          html += '<option value="">Select</option>';
+          html += '<option value="01">m_enter</option>';
+          html += '<option value="02">m_travel_cross</option>';
+          html += '</select>';
+
+          $('#step3_cont').html(html);
+
+          $('[name=sel_func]').dropdown({
+            onChange: function (value, text, $selectedItem) {
+              console.log(text);
+              $('.ui.accordion').accordion('open', 3);
+
+              let tempWhere = text + "(traj,'Polygon([[0, 0], [1, 0], [1, 1], [0, 1], [0, 0]]')";
+              $('[name=queryWhere').val(tempWhere);
+            },
           });
+        };
+
+        step3_init();
+
+        const step4_init = () => {
+          let html = '<select name="sel_columns" multiple="" class="ui fluid dropdown">';
+          html += '<option value="">Select</option>';
+          html += '<option value="object_id">Object_id</option>';
+          html += '<option value="traj">traj</option>';
+          html += '<option value="class_name">class_name</option>';
+          html += '<option value="type">type</option>';
+          html += '<option value="bbox">bbox</option>';
+          html += '<option value="frame_id">frame_id</option>';
+          html += '<option value="timestamp_ms">timestamp_ms</option>';
+          html += '<option value="video_id">video_id</option>';
+          html += '<option value="model_id">model_id</option>';
+          html += '</select>';
+
+          $('#step4_cont').html(html);
+
+          $('[name=sel_columns]').dropdown({
+            onChange: function (value, text, $selectedItem) {
+              console.log(value);
+              $('[name=queryColumns').val(value);
+            },
+          });
+        };
+
+        step4_init();
 
 
         $('.ui.modal').modal({ blurring: true }).modal('attach events', '.test.button', 'show')
@@ -393,7 +405,10 @@
           var tr = $(this);
           var td = tr.children();
 
-          $("#disableDiv").show();
+          // $("#disableDiv").show();
+          $('.ui.modal')
+            .modal('show')
+          ;
           if (tr.index() < 5) {
             $(".v-cont").css("display", "flex");
             $("#video_origin").attr("src", "http://info.rlog.kr:33002/824a641fda8a75c9c9913c8f76fa4df3");
@@ -417,50 +432,29 @@
 
         function reset() {
 
-          $('[name=selectParam]').dropdown("clear");
-          $('[name=fromParam1]').dropdown("clear");
-          $('[name=fromParam2]').dropdown("clear");
-          $('[name=fromParam3]').dropdown("clear");
-          $('[name=whereParam1]').dropdown("clear");
-          $('[name=whereParam2]').val('');
+          // $('[name=selectParam]').dropdown("clear");
+          // $('[name=fromParam1]').dropdown("clear");
+          // $('[name=fromParam2]').dropdown("clear");
+          // $('[name=fromParam3]').dropdown("clear");
+          // $('[name=whereParam1]').dropdown("clear");
+          // $('[name=whereParam2]').val('');
 
-          $("#cont1").hide();
-          $("#cont2").hide();
-          $("#cont3").hide();
+          // $("#cont1").hide();
+          // $("#cont2").hide();
+          // $("#cont3").hide();
         }
 
         function execute() {
 
-          // fetch("http://api.urbanai.net:8000/insert_video", {
-          //   method: "POST",
-          //   headers: {
-          //     "Content-Type": "application/json",
-          //   },
-          //   body: JSON.stringify({
-          //     type: "stream",
-          //     category: "traffic",
-          //     desc: "khyoo_test",
-          //     video_name: "khyoo7.mp4",
-          //     video_uri: "https://github.com/rdj94/videos/blob/main/1.mp4?raw=true"
-          //   }),
-          // })
-          // .then((response) => {
-          //   return response.json();
-          // })
-          // .then((data) => {
-          //   console.log(data);
-          // })
-          // .catch((error) => console.error(error));
-
-          fetch("http://api.urbanai.net:8000/search/622627bf-85d5-490f-af4a-e51cd6b3dbc7", {
+          fetch("http://api.urbanai.net:8000/search/04f1a33f-58f5-4751-a1ff-252a62898dab", {
             headers: {
-              "uri": "https://github.com/rdj94/videos/blob/main/1.mp4?raw=true",
+              "uri": "http://info.rlog.kr:33002/567d30740dd6ac055880ddd69a468ea5?raw=true",
             },
           })
-          .then((response) => {
-            return response.json();
-          })
-          .then((data) => {
+            .then((response) => {
+              return response.json();
+            })
+            .then((data) => {
               /* 데이터 처리 */
               if (data.task_status === "SUCCESS") {
                 const result = data.task_result[0][0];
@@ -501,13 +495,13 @@
                   html += ' </td>';
                   html += '</tr>';
                 }
-                $('.table tbody').html(html)
+                $('#videoList tbody').html(html)
               }
-          })
-          .catch((error) => console.error(error));
+            })
+            .catch((error) => console.error(error));
 
-          $("#cont1").show();
-          $("#cont2").show();
+          // $("#cont1").show();
+          // $("#cont2").show();
         }
 
         // 비디오 파일 업로드 이벤트
@@ -542,8 +536,8 @@
             cache: 'no-cache',
             body: formData
           })
-          .then((response) => response.json())
-          .then((data) => {
+            .then((response) => response.json())
+            .then((data) => {
               //console.log(data);
               $("#disableDiv").hide();
               $("#div_load_image").hide();
@@ -558,17 +552,17 @@
                   category: "traffic",
                   desc: "test",
                   video_name: $("#fileInput")[0].files[0].name,
-                  video_uri: "http://info.rlog.kr:33002/"+ data.filename +"?raw=true"
+                  video_uri: "http://info.rlog.kr:33002/" + data.filename + "?raw=true"
                 }),
               })
-              .then((response) => {
-                return response.json();
-              })
-              .then((data) => {
-                console.log(data);
-              })
-              .catch((error) => console.error(error));
-          });
+                .then((response) => {
+                  return response.json();
+                })
+                .then((data) => {
+                  console.log(data);
+                })
+                .catch((error) => console.error(error));
+            });
         });
       </script>
 

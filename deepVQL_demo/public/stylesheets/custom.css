@@ -134,7 +134,7 @@ body {
 
 .wrap2.right-bottom {
   width: 100%;
-  height: 40vh;
+  height: 100%;
 }
 
 .footer-section {
@@ -168,7 +168,7 @@ body {
   width: 100%;
 }
 
-.content {
+.cus-cont {
   width: 100%;
   display: none;
   overflow-x: hidden;
@@ -179,7 +179,7 @@ body {
   width: 100%;
   display: flex;
   overflow-x: hidden;
-  overflow-y: hidden;
+  overflow-y: auto;
 }
 
 .v-cont-org {
@@ -223,4 +223,9 @@ body {
   margin: auto;
   padding: 0;
   text-align: center
+}
+
+.ui.styled.accordion .active.title {
+  background: #E7E7E7;
+  color: rgba(0,0,0,.95);
 }
