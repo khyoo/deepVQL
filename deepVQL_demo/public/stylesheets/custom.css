@@ -64,12 +64,8 @@ body {
 }
 
 
-.logo {
-  margin-top: 15px;
-  margin-left: 15px;
-  font-size: 3em;
-  font-weight: bold;
-  color: aquamarine;
+.logo {  
+  position: absolute;
 }
 
 .logo-bottom {
@@ -77,6 +73,16 @@ body {
   font-size: 1.2em;
   font-weight: bold;
   color: aquamarine;
+}
+
+.top-title {
+  display: inline-block; 
+  line-height: 60px;
+  font-size: 3em;
+  font-weight: bold;
+  vertical-align: top;
+  width: 100%;
+  text-align: center;
 }
 
 .main-title {
