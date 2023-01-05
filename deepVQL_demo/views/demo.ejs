@@ -234,8 +234,9 @@
       </div>
     </DIV>
 
-    <% include ./help %>
+    
       <% include ./resultVideo %>
+      <% include ./help %>
 
         <script type="text/javascript">
 
@@ -411,6 +412,7 @@
             var td = tr.children();
 
             $('.ui.modal.resultVideo')
+              .modal({ blurring: true })
               .modal('show')
               ;
             if (tr.index() < 5) {
