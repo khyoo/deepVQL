@@ -293,6 +293,23 @@
 
             let tempFrom = "D_MPROCEES(video_uri=>'" + val2 + "',model_id=>'',gpu_id=>0)";
             $('[name=queryFrom').val(tempFrom);
+
+            fetch('http://api.urbanai.net:8000/sql_form')
+              .then((response) => response.json())
+              .then((data) => {
+
+                let models = data && data.FROM.filter(item => item.video_id === val1);
+                console.log(models);
+
+                let html = '<select name="sel_model" class="ui fluid dropdown">';
+                html += '<option value="">Select</option>';
+                models[0].model_id.forEach(item => {
+                  html += '<option value="' + item + '">' + item + '</option>';
+                });
+                html += '</select>';
+
+                $('#step2_cont').html(html);
+            });
           }
 
           const step1_init = () => {
