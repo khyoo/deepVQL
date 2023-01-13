@@ -37,7 +37,7 @@
                 <div class="content active">
                   <div class="transition visible">
                     <div class="container">
-                      <div id="thumbnail-sector" class="four column doubling ui grid">
+                      <div id="thumbnail-sector" class="four column doubling ui grid" style="overflow: auto;">
                       </div>
                     </div>
                   </div>
@@ -143,7 +143,7 @@
         <div class="wrap2 right-top">
           <div id="cont1" class="cus-cont">
             <div class="sql-section top">
-              <div class="sql-section top left">deepVQL Simple</div>
+              <div class="sql-section top left">DeepVQL Simple</div>
               <div class="sql-section top right">
                 <i class="big icon question circle test button" style="cursor:pointer;"></i>
               </div>
@@ -187,37 +187,9 @@
       <div class="middle-center2">
         <div class="wrap2 right-bottom">
           <div id="cont3" class="v-cont">
-            <table id="videoList" class="ui striped selectable celled table"
-              style="table-layout: fixed; cursor:pointer;">
-              <colgroup>
-                <col style="width: 5%">
-                <col style="width: 10%">
-                <col style="width: 10%">
-                <col style="width: 10%">
-                <col style="width: 10%">
-                <col style="width: 10%">
-                <col style="width: 10%">
-                <col>
-                <col style="width: 10%">
-                <col style="width: 10%">
-              </colgroup>
-              <thead>
-                <tr>
-                  <th scope="col">No.</th>
-                  <th scope="col">Object_id</th>
-                  <th scope="col">traj</th>
-                  <th scope="col">class_name</th>
-                  <th scope="col">type</th>
-                  <th scope="col">bbox</th>
-                  <th scope="col">frame_id</th>
-                  <th scope="col">timestamp_ms</th>
-                  <th scope="col">video_id</th>
-                  <th scope="col">model_id</th>
-                </tr>
-              </thead>
-              <tbody>
-              </tbody>
-            </table>
+            <div style="width: 100%;text-align: center;font-size: 2em;line-height: 200px;">
+              DeepVQL Query Result 
+            </div>            
           </div>
         </div>
       </div>
@@ -229,16 +201,18 @@
           Email : khyoo1221@gmail.com
         </div>
         <div>
-          Copyright © InfoLab 2022
+          Copyright © InfoLab / Kunsan National University. 
         </div>
       </div>
     </DIV>
 
-    
-      <% include ./resultVideo %>
-      <% include ./help %>
+    <% include ./help %>
+    <% include ./resultVideo %>
+    <% include ./dataDetail %>
+      
 
         <script type="text/javascript">
+          let videoUrl = '';
 
           var outerLayout, middleLayout1, middleLayout2;
 
@@ -287,8 +261,12 @@
             ;
 
           function selectVideo(val1, val2, idx) {
-            console.log(val1); console.log(val2);
-            $('.sel-Video').eq(idx).css('border', '4px solid #00A2FF');
+            //console.log(val1); console.log(val2);
+            // 선택 영상에 대한 URL
+            videoUrl = val2;
+
+            $('.sel-Video').not(idx).css('border', '1px solid #000');
+            $('.sel-Video').eq(idx).css('border', '4px solid #00A2FF');            
             $('.ui.accordion').accordion('open', 1);
 
             let tempFrom = "D_MPROCEES(video_uri=>'" + val2 + "',model_id=>'',gpu_id=>0)";
@@ -299,7 +277,7 @@
               .then((data) => {
 
                 let models = data && data.FROM.filter(item => item.video_id === val1);
-                console.log(models);
+                //console.log(models);
 
                 let html = '<select name="sel_model" class="ui fluid dropdown">';
                 html += '<option value="">Select</option>';
@@ -309,6 +287,17 @@
                 html += '</select>';
 
                 $('#step2_cont').html(html);
+
+                $('[name=sel_model]').dropdown({
+                  onChange: function (value, text, $selectedItem) {
+                    console.log(value);
+                    let tempModel = $('[name=queryFrom').val();
+                    //tempModel = tempModel.replace(")", ", model_id=>'" + value + "', gpu_id=>0)");
+                    tempModel = tempModel.split("model_id=>'")[0] + "model_id=>'" + value + "', gpu_id=>0)";
+                    $('[name=queryFrom').val(tempModel)
+                    $('.ui.accordion').accordion('open', 2);
+                  },
+                });
             });
           }
 
@@ -343,7 +332,7 @@
           };
 
           step1_init();
-          //SELECT * FROM d_mprocess(video_uri=>'/home/project/videos/traffic/tokyo/naive/0.mp4',model_id=>'yolo_sibuya',gpu_id=>0);
+          
           const step2_init = () => {
             fetch('http://api.urbanai.net:8000/models')
               .then((response) => response.json())
@@ -372,7 +361,7 @@
           };
 
           step2_init();
-          //WHERE m_enter(traj,'Polygon([[0, 0], [1, 0], [1, 1], [0, 1], [0, 0]]') ;<br />
+          
           const step3_init = () => {
             let html = '<select name="sel_func" class="ui fluid dropdown">';
             html += '<option value="">Select</option>';
@@ -384,7 +373,7 @@
 
             $('[name=sel_func]').dropdown({
               onChange: function (value, text, $selectedItem) {
-                console.log(text);
+                //console.log(text);
                 $('.ui.accordion').accordion('open', 3);
 
                 let tempWhere = text + "(traj,'Polygon([[0, 0], [1, 0], [1, 1], [0, 1], [0, 0]]')";
@@ -398,7 +387,7 @@
           const step4_init = () => {
             let html = '<select name="sel_columns" multiple="" class="ui fluid dropdown">';
             html += '<option value="">Select</option>';
-            html += '<option value="object_id">Object_id</option>';
+            html += '<option value="object_id">object_id</option>';
             html += '<option value="traj">traj</option>';
             html += '<option value="class_name">class_name</option>';
             html += '<option value="type">type</option>';
@@ -413,7 +402,7 @@
 
             $('[name=sel_columns]').dropdown({
               onChange: function (value, text, $selectedItem) {
-                console.log(value);
+                //console.log(value);
                 $('[name=queryColumns').val(value);
               },
             });
@@ -421,29 +410,7 @@
 
           step4_init();
 
-
           $('.ui.modal.help').modal({ blurring: true }).modal('attach events', '.test.button', 'show')
-
-          $('#videoList').on('click', 'tr', function (event) {
-            var tr = $(this);
-            var td = tr.children();
-
-            $('.ui.modal.resultVideo')
-              .modal({ blurring: true })
-              .modal('show')
-              ;
-            if (tr.index() < 5) {
-              $(".v-cont").css("display", "flex");
-              $("#video_origin").attr("src", "http://info.rlog.kr:33002/824a641fda8a75c9c9913c8f76fa4df3");
-              $("#video_ai").attr("src", "http://info.rlog.kr:33002/8f32a1f18baad0507ffaff2b18a25d4f");
-            } else {
-              $(".v-cont").css("display", "flex");
-              $("#video_origin").attr("src", "http://info.rlog.kr:33002/824a641fda8a75c9c9913c8f76fa4df3");
-              $("#video_ai").attr("src", "http://info.rlog.kr:33002/8f32a1f18baad0507ffaff2b18a25d4f");
-            }
-
-            //alert(td.eq(8).text());
-          });
 
           function abbrText(value) {
             if (value.length > 10) {
@@ -467,12 +434,35 @@
             // $("#cont3").hide();
           }
 
-          function execute() {
+          function execute() {  //console.log($('[name=queryColumns').val().split(','));
+            let queryColumns = $('[name=queryColumns').val().split(',');
+            let htmlHeader = '';
+            htmlHeader += '<table id="videoList" class="ui striped selectable celled table" style="table-layout: fixed; text-align: center; cursor:pointer;">';
+            htmlHeader += '<colgroup>';
+            // htmlHeader += '  <col>';
+            queryColumns.forEach(item => {
+              htmlHeader += '  <col>';
+            });
+            htmlHeader += '</colgroup>';
+            htmlHeader += '<thead>';
+            htmlHeader += '  <tr>';
+            // htmlHeader += '    <th scope="col">No.</th>';
+            queryColumns.forEach(item => {
+              htmlHeader += '  <th scope="col">' + item + '</th>';
+            });
+            htmlHeader += '    <th scope="col">Play</th>';
+            htmlHeader += '  </tr>';
+            htmlHeader += '</thead>';
+            htmlHeader += '<tbody>';
+            htmlHeader += '</tbody>';
+            htmlHeader += '</table>';         
+            
+            $("#cont3").html(htmlHeader);
 
-            fetch("http://api.urbanai.net:8000/search/04f1a33f-58f5-4751-a1ff-252a62898dab", {
-              headers: {
-                "uri": "http://info.rlog.kr:33002/567d30740dd6ac055880ddd69a468ea5?raw=true",
-              },
+            fetch("http://api.urbanai.net:8000/search/09198abc-df27-430a-8001-5abc3ff7961c", {
+              // headers: {
+              //   "uri": "http://info.rlog.kr:33002/567d30740dd6ac055880ddd69a468ea5?raw=true",
+              // },
             })
               .then((response) => {
                 return response.json();
@@ -486,35 +476,64 @@
 
                   for (let i = 0; i < len; i++) {
                     html += '<tr>';
-                    html += ' <td>';
-                    html += i + 1;
-                    html += ' </td>';
+                    // html += ' <td>';
+                    // html += i + 1;
+                    // html += ' </td>';
+                    if(queryColumns.includes("object_id")) {
                     html += ' <td>';
                     html += abbrText(JSON.stringify(result.object_id[i]));
                     html += ' </td>';
-                    html += ' <td>';
+                    }
+                    if(queryColumns.includes("traj")) {
+                    html += ' <td class="selectable">';
+                    html += '  <a href="#" onClick="detailClick(' +JSON.stringify(result.traj[i])+ ');">';
                     html += abbrText(JSON.stringify(result.traj[i]));
+                    html += '  </a>';
                     html += ' </td>';
+                    }
+                    if(queryColumns.includes("class_name")) {
                     html += ' <td>';
                     html += abbrText(JSON.stringify(result.class_name[i]));
                     html += ' </td>';
+                    }
+                    if(queryColumns.includes("type")) {
                     html += ' <td>';
                     html += abbrText(JSON.stringify(result.type[i]));
                     html += ' </td>';
-                    html += ' <td>';
+                    }
+                    if(queryColumns.includes("bbox")) {
+                    html += ' <td class="selectable">';
+                    html += '  <a href="#" onClick="detailClick(' +JSON.stringify(result.bbox[i])+ ');">';
                     html += abbrText(JSON.stringify(result.bbox[i]));
+                    html += '  </a>';
                     html += ' </td>';
-                    html += ' <td>';
+                    }
+                    if(queryColumns.includes("frame_id")) {
+                    html += ' <td class="selectable">';
+                    html += '  <a href="#" onClick="detailClick(' +JSON.stringify(result.frame_id[i])+ ');">';
                     html += abbrText(JSON.stringify(result.frame_id[i]));
+                    html += '  </a>';
                     html += ' </td>';
-                    html += ' <td>';
+                    }
+                    if(queryColumns.includes("timestamp_ms")) {
+                    html += ' <td class="selectable">';
+                    html += '  <a href="#" onClick="detailClick(' +JSON.stringify(result.timestamp_ms[i])+ ');">';
                     html += abbrText(JSON.stringify(result.timestamp_ms[i]));
+                    html += '  </a>';
                     html += ' </td>';
+                    }
+                    if(queryColumns.includes("video_id")) {
                     html += ' <td>';
                     html += abbrText(JSON.stringify(result.video_id[i]));
                     html += ' </td>';
+                    }
+                    if(queryColumns.includes("model_id")) {
                     html += ' <td>';
                     html += abbrText(JSON.stringify(result.model_id[i]));
+                    html += ' </td>';
+                    }
+                    html += ' <td>';
+                    html += '  <button type="button" onClick="playbackClick()"><i class="play circle icon"></i></button>';
                     html += ' </td>';
                     html += '</tr>';
                   }
@@ -525,6 +544,40 @@
 
             // $("#cont1").show();
             // $("#cont2").show();
+
+            $('#videoList').on('click', 'tr', function (event) {
+              var tr = $(this);
+              var td = tr.children();
+
+              // $('.ui.modal.resultVideo')
+              //   .modal({ blurring: true })
+              //   .modal('show')
+              //   ;
+              
+              //   $(".v-cont").css("display", "flex");
+              //   $("#video_origin").attr("src", videoUrl);
+              //   $("#video_ai").attr("src", videoUrl);
+
+              //alert(td.eq(8).text());
+            });
+          }
+
+          function detailClick(val) { //console.log(val.toString());
+            $('#detail').text("["+val.toString()+"]");
+
+            $('.ui.modal.dataDetail')
+              .modal({ blurring: true })
+              .modal('show');
+          }
+
+          function playbackClick() {
+            $(".v-cont").css("display", "flex");
+            $("#video_origin").attr("src", videoUrl);
+            $("#video_ai").attr("src", videoUrl);
+
+            $('.ui.modal.resultVideo')
+              .modal({ blurring: true })
+              .modal('show');
           }
 
           // 비디오 파일 업로드 이벤트
