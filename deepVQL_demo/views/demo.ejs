@@ -451,8 +451,7 @@
               .then((response) => response.json())
               .then((data) => {
                 console.log(data.task_id);
-                test1122("http://api.urbanai.net:8000/search/"+data.task_id);
-               
+                setTimeout(() => test1122("http://api.urbanai.net:8000/search/"+data.task_id), 5000);
             });
 
             let queryColumns = $('[name=queryColumns').val().split(',');
