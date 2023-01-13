@@ -88,7 +88,7 @@
                 <a class="item" data-tab="forth">Upload</a>
               </div>
               <div class="ui bottom attached active tab segment" data-tab="third">
-                <div style="margin-top:30px;">업로드 파일 목록</div>
+                <div style="margin-top:30px;">Upload File List</div>
                 <table id="uploadFiles" class="ui striped table" style="table-layout: fixed;">
                   <colgroup>
                     <col style="width: 10%">
@@ -99,8 +99,8 @@
                   <thead>
                     <tr>
                       <th scope="col">No.</th>
-                      <th scope="col">카테고리</th>
-                      <th scope="col">파일명</th>
+                      <th scope="col">Category</th>
+                      <th scope="col">Name</th>
                       <th scope="col">Thumbnail</th>
                     </tr>
                   </thead>
@@ -110,9 +110,9 @@
               </div>
               <div class="ui bottom attached tab segment" data-tab="forth">
                 <input type="file" id="fileInput" accept=".mp4">
-                <button type="submit" id="sendButton">전송</button>
+                <button type="submit" id="sendButton">Submit</button>
 
-                <div style="margin-top:30px;">업로드 파일 목록</div>
+                <div style="margin-top:30px;">Upload File List</div>
                 <table id="tempFiles" class="ui striped table" style="table-layout: fixed;">
                   <colgroup>
                     <col style="width: 10%">
@@ -123,9 +123,9 @@
                   <thead>
                     <tr>
                       <th scope="col">No.</th>
-                      <th scope="col">파일명</th>
-                      <th scope="col">파일크기</th>
-                      <th scope="col">비고</th>
+                      <th scope="col">Name</th>
+                      <th scope="col">Size</th>
+                      <th scope="col">Comment</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -201,7 +201,7 @@
           Email : khyoo1221@gmail.com
         </div>
         <div>
-          Copyright © InfoLab / Kunsan National University. 
+          Copyright © 2022 InfoLab / Kunsan National University. 
         </div>
       </div>
     </DIV>
@@ -436,6 +436,25 @@
           }
 
           function execute() {  //console.log($('[name=queryColumns').val().split(','));
+
+            fetch('http://api.urbanai.net:8000/squery', {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                SELECT: "*",
+                FROM: "d_mprocess('id://sibuya_1hour','yolo_sibuya')",
+                WHERE: "d_travel(itraj, ARRAY['POLYGON ((620 196, 631 208, 516 242, 507 229, 620 196))'])"
+              }),
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                console.log(data.task_id);
+                test1122("http://api.urbanai.net:8000/search/"+data.task_id);
+               
+            });
+
             let queryColumns = $('[name=queryColumns').val().split(',');
             let htmlHeader = '';
             htmlHeader += '<table id="videoList" class="ui striped selectable celled table" style="table-layout: fixed; text-align: center; cursor:pointer;">';
@@ -460,15 +479,12 @@
             
             $("#cont3").html(htmlHeader);
 
-            fetch("http://api.urbanai.net:8000/search/09198abc-df27-430a-8001-5abc3ff7961c", {
-              // headers: {
-              //   "uri": "http://info.rlog.kr:33002/567d30740dd6ac055880ddd69a468ea5?raw=true",
-              // },
-            })
+            function test1122(val) {console.log(val);
+            fetch(val)
               .then((response) => {
                 return response.json();
               })
-              .then((data) => {
+              .then((data) => {console.log(data);
                 /* 데이터 처리 */
                 if (data.task_status === "SUCCESS") {
                   const result = data.task_result[0][0];
@@ -542,6 +558,7 @@
                 }
               })
               .catch((error) => console.error(error));
+            }
 
             // $("#cont1").show();
             // $("#cont2").show();
