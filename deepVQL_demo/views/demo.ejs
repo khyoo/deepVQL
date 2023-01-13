@@ -212,7 +212,9 @@
       
 
         <script type="text/javascript">
-          let videoUrl = '';
+          let videoName = ''; 
+          let videoUrl = '';         
+          let modelName = '';
 
           var outerLayout, middleLayout1, middleLayout2;
 
@@ -261,10 +263,11 @@
             ;
 
           function selectVideo(val1, val2, idx) {
-            //console.log(val1); console.log(val2);
+            console.log(val1); console.log(val2);
             // 선택 영상에 대한 URL
+            videoName = val1;
             videoUrl = val2;
-
+            
             $('.sel-Video').not(idx).css('border', '1px solid #000');
             $('.sel-Video').eq(idx).css('border', '4px solid #00A2FF');            
             $('.ui.accordion').accordion('open', 1);
@@ -291,6 +294,8 @@
                 $('[name=sel_model]').dropdown({
                   onChange: function (value, text, $selectedItem) {
                     //console.log(value);
+                    modelName = value;
+
                     let tempModel = $('[name=queryFrom').val();
                     tempModel = tempModel.split(",")[0] + ", '" + value + "')";
                     $('[name=queryFrom').val(tempModel)
@@ -349,6 +354,8 @@
                 $('[name=sel_model]').dropdown({
                   onChange: function (value, text, $selectedItem) {
                     //console.log(value);
+                    modelName = value;
+                    
                     let tempModel = $('[name=queryFrom').val();                    
                     tempModel = tempModel.split(",")[0] + ", '" + value + "')";
                     $('[name=queryFrom').val(tempModel)
@@ -389,7 +396,7 @@
             let html = '<select name="sel_columns" multiple="" class="ui fluid dropdown">';
             html += '<option value="">Select</option>';
             html += '<option value="object_id">object_id</option>';
-            html += '<option value="traj">traj</option>';
+            html += '<option value="itraj">itraj</option>';
             html += '<option value="class_name">class_name</option>';
             html += '<option value="type">type</option>';
             html += '<option value="bbox">bbox</option>';
@@ -510,10 +517,10 @@
                       html += abbrText(JSON.stringify(result.object_id[i]));
                       html += ' </td>';
                       }
-                      if(queryColumns.includes("traj")) {
+                      if(queryColumns.includes("itraj")) {
                       html += ' <td class="selectable">';
-                      html += '  <a href="#" onClick="detailClick(' +JSON.stringify(result.traj[i])+ ');">';
-                      html += abbrText(JSON.stringify(result.traj[i]));
+                      html += '  <a href="#" onClick="detailClick(' +JSON.stringify(result.itraj[i])+ ');">';
+                      html += abbrText(JSON.stringify(result.itraj[i]));
                       html += '  </a>';
                       html += ' </td>';
                       }
@@ -600,7 +607,10 @@
           function playbackClick() {
             $(".v-cont").css("display", "flex");
             $("#video_origin").attr("src", videoUrl);
-            $("#video_ai").attr("src", videoUrl);
+            
+            const videoConvertUrl = "http://info.rlog.kr:33002/convert/"+ videoName.split(".")[0] + "_" + modelName + ".mp4";console.log(videoConvertUrl);
+            $("#video_ai").attr("src", videoConvertUrl);
+            $("#modelSpan").text(modelName);
 
             $('.ui.modal.resultVideo')
               .modal({ blurring: true })
