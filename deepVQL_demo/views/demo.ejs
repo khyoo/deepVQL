@@ -269,7 +269,7 @@
             $('.sel-Video').eq(idx).css('border', '4px solid #00A2FF');            
             $('.ui.accordion').accordion('open', 1);
 
-            let tempFrom = "D_MPROCEES(video_uri=>'" + val2 + "',model_id=>'',gpu_id=>0)";
+            let tempFrom = "DMPROCEES('" + val1 + "',)";
             $('[name=queryFrom').val(tempFrom);
 
             fetch('http://api.urbanai.net:8000/sql_form')
@@ -290,10 +290,9 @@
 
                 $('[name=sel_model]').dropdown({
                   onChange: function (value, text, $selectedItem) {
-                    console.log(value);
+                    //console.log(value);
                     let tempModel = $('[name=queryFrom').val();
-                    //tempModel = tempModel.replace(")", ", model_id=>'" + value + "', gpu_id=>0)");
-                    tempModel = tempModel.split("model_id=>'")[0] + "model_id=>'" + value + "', gpu_id=>0)";
+                    tempModel = tempModel.split(",")[0] + ", '" + value + "')";
                     $('[name=queryFrom').val(tempModel)
                     $('.ui.accordion').accordion('open', 2);
                   },
@@ -305,7 +304,7 @@
             fetch('http://api.urbanai.net:8000/get_videos')
               .then((response) => response.json())
               .then((data) => {
-                console.log(data.videos[0][0]);
+                //console.log(data.videos[0][0]);
 
                 let html = '', thumbHtml = '';
                 let len = data.videos[0][0].video_name.length;
@@ -349,10 +348,9 @@
 
                 $('[name=sel_model]').dropdown({
                   onChange: function (value, text, $selectedItem) {
-                    console.log(value);
-                    let tempModel = $('[name=queryFrom').val();
-                    //tempModel = tempModel.replace(")", ", model_id=>'" + value + "', gpu_id=>0)");
-                    tempModel = tempModel.split("model_id=>'")[0] + "model_id=>'" + value + "', gpu_id=>0)";
+                    //console.log(value);
+                    let tempModel = $('[name=queryFrom').val();                    
+                    tempModel = tempModel.split(",")[0] + ", '" + value + "')";
                     $('[name=queryFrom').val(tempModel)
                     $('.ui.accordion').accordion('open', 2);
                   },
@@ -365,8 +363,11 @@
           const step3_init = () => {
             let html = '<select name="sel_func" class="ui fluid dropdown">';
             html += '<option value="">Select</option>';
-            html += '<option value="01">m_enter</option>';
-            html += '<option value="02">m_travel_cross</option>';
+            html += '<option value="01">DCross</option>';
+            html += '<option value="02">DTravel</option>';
+            html += '<option value="03">DMWithin</option>';
+            html += '<option value="04">DSameFrameWithin</option>';
+            html += '<option value="05">DTimeoverlap</option>';
             html += '</select>';
 
             $('#step3_cont').html(html);
