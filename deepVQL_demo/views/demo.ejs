@@ -519,7 +519,7 @@
                       }
                       if(queryColumns.includes("itraj")) {
                       html += ' <td class="selectable">';
-                      html += '  <a href="#" onClick="detailClick(' +JSON.stringify(result.itraj[i])+ ');">';
+                      html += '  <a href="#" onClick="detailClick(' +JSON.stringify(result.itraj[i])+ ', \'itraj\');">';
                       html += abbrText(JSON.stringify(result.itraj[i]));
                       html += '  </a>';
                       html += ' </td>';
@@ -536,21 +536,21 @@
                       }
                       if(queryColumns.includes("bbox")) {
                       html += ' <td class="selectable">';
-                      html += '  <a href="#" onClick="detailClick(' +JSON.stringify(result.bbox[i])+ ');">';
+                      html += '  <a href="#" onClick="detailClick(' +JSON.stringify(result.bbox[i])+ ', \'bbox\');">';
                       html += abbrText(JSON.stringify(result.bbox[i]));
                       html += '  </a>';
                       html += ' </td>';
                       }
                       if(queryColumns.includes("frame_id")) {
                       html += ' <td class="selectable">';
-                      html += '  <a href="#" onClick="detailClick(' +JSON.stringify(result.frame_id[i])+ ');">';
+                      html += '  <a href="#" onClick="detailClick(' +JSON.stringify(result.frame_id[i])+ ', \'frame_id\');">';
                       html += abbrText(JSON.stringify(result.frame_id[i]));
                       html += '  </a>';
                       html += ' </td>';
                       }
                       if(queryColumns.includes("timestamp_ms")) {
                       html += ' <td class="selectable">';
-                      html += '  <a href="#" onClick="detailClick(' +JSON.stringify(result.timestamp_ms[i])+ ');">';
+                      html += '  <a href="#" onClick="detailClick(' +JSON.stringify(result.timestamp_ms[i])+ ', \'timestamp_ms\');">';
                       html += abbrText(JSON.stringify(result.timestamp_ms[i]));
                       html += '  </a>';
                       html += ' </td>';
@@ -575,28 +575,10 @@
                 })
                 .catch((error) => console.error(error));
             }
-
-            // $("#cont1").show();
-            // $("#cont2").show();
-
-            $('#videoList').on('click', 'tr', function (event) {
-              var tr = $(this);
-              var td = tr.children();
-
-              // $('.ui.modal.resultVideo')
-              //   .modal({ blurring: true })
-              //   .modal('show')
-              //   ;
-              
-              //   $(".v-cont").css("display", "flex");
-              //   $("#video_origin").attr("src", videoUrl);
-              //   $("#video_ai").attr("src", videoUrl);
-
-              //alert(td.eq(8).text());
-            });
           }
 
-          function detailClick(val) { //console.log(val.toString());
+          function detailClick(val, val2) { console.log(val2);
+            $('#detailSpan').text(val2);
             $('#detail').text("["+val.toString()+"]");
 
             $('.ui.modal.dataDetail')
