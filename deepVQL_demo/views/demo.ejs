@@ -435,7 +435,11 @@
             // $("#cont3").hide();
           }
 
+          let intervalId;
+
           function execute() {  //console.log($('[name=queryColumns').val().split(','));
+            $("#disableDiv").show();
+            $("#div_load_image").show();
 
             fetch('http://api.urbanai.net:8000/squery', {
               method: "POST",
@@ -450,113 +454,119 @@
             })
               .then((response) => response.json())
               .then((data) => {
-                console.log(data.task_id);
-                setTimeout(() => test1122("http://api.urbanai.net:8000/search/"+data.task_id), 5000);
+                //console.log(data.task_id);                
+                intervalId = setInterval(() => executeAPI(data.task_id), 1000);
             });
 
-            let queryColumns = $('[name=queryColumns').val().split(',');
-            let htmlHeader = '';
-            htmlHeader += '<table id="videoList" class="ui striped selectable celled table" style="table-layout: fixed; text-align: center; cursor:pointer;">';
-            htmlHeader += '<colgroup>';
-            // htmlHeader += '  <col>';
-            queryColumns.forEach(item => {
-              htmlHeader += '  <col>';
-            });
-            htmlHeader += '</colgroup>';
-            htmlHeader += '<thead>';
-            htmlHeader += '  <tr>';
-            // htmlHeader += '    <th scope="col">No.</th>';
-            queryColumns.forEach(item => {
-              htmlHeader += '  <th scope="col">' + item + '</th>';
-            });
-            htmlHeader += '    <th scope="col">Play</th>';
-            htmlHeader += '  </tr>';
-            htmlHeader += '</thead>';
-            htmlHeader += '<tbody>';
-            htmlHeader += '</tbody>';
-            htmlHeader += '</table>';         
-            
-            $("#cont3").html(htmlHeader);
+            function executeAPI(val) {
+              fetch("http://api.urbanai.net:8000/search/"+val)
+                .then((response) => {
+                  return response.json();
+                })
+                .then((data) => { console.log(data);
+                  /* 데이터 처리 */
+                  if (data.task_status === "SUCCESS") {
+                    //setInterval 함수 종료
+                    clearInterval(intervalId);
 
-            function test1122(val) {console.log(val);
-            fetch(val)
-              .then((response) => {
-                return response.json();
-              })
-              .then((data) => {console.log(data);
-                /* 데이터 처리 */
-                if (data.task_status === "SUCCESS") {
-                  const result = data.task_result[0][0];
-                  const len = data.task_result[0][0].class_name.length;
-                  let html = '';
+                    $("#disableDiv").hide();
+                    $("#div_load_image").hide();
 
-                  for (let i = 0; i < len; i++) {
-                    html += '<tr>';
-                    // html += ' <td>';
-                    // html += i + 1;
-                    // html += ' </td>';
-                    if(queryColumns.includes("object_id")) {
-                    html += ' <td>';
-                    html += abbrText(JSON.stringify(result.object_id[i]));
-                    html += ' </td>';
+                    let queryColumns = $('[name=queryColumns').val().split(',');
+                    let htmlHeader = '';
+                    htmlHeader += '<table id="videoList" class="ui striped selectable celled table" style="table-layout: fixed; text-align: center; cursor:pointer;">';
+                    htmlHeader += '<colgroup>';
+                    // htmlHeader += '  <col>';
+                    queryColumns.forEach(item => {
+                      htmlHeader += '  <col>';
+                    });
+                    htmlHeader += '</colgroup>';
+                    htmlHeader += '<thead>';
+                    htmlHeader += '  <tr>';
+                    // htmlHeader += '    <th scope="col">No.</th>';
+                    queryColumns.forEach(item => {
+                      htmlHeader += '  <th scope="col">' + item + '</th>';
+                    });
+                    htmlHeader += '    <th scope="col">Play</th>';
+                    htmlHeader += '  </tr>';
+                    htmlHeader += '</thead>';
+                    htmlHeader += '<tbody>';
+                    htmlHeader += '</tbody>';
+                    htmlHeader += '</table>';         
+                    
+                    $("#cont3").html(htmlHeader);
+                    
+                    const result = data.task_result[0][0];
+                    const len = data.task_result[0][0].class_name.length;
+                    let html = '';
+
+                    for (let i = 0; i < len; i++) {
+                      html += '<tr>';
+                      // html += ' <td>';
+                      // html += i + 1;
+                      // html += ' </td>';
+                      if(queryColumns.includes("object_id")) {
+                      html += ' <td>';
+                      html += abbrText(JSON.stringify(result.object_id[i]));
+                      html += ' </td>';
+                      }
+                      if(queryColumns.includes("traj")) {
+                      html += ' <td class="selectable">';
+                      html += '  <a href="#" onClick="detailClick(' +JSON.stringify(result.traj[i])+ ');">';
+                      html += abbrText(JSON.stringify(result.traj[i]));
+                      html += '  </a>';
+                      html += ' </td>';
+                      }
+                      if(queryColumns.includes("class_name")) {
+                      html += ' <td>';
+                      html += abbrText(JSON.stringify(result.class_name[i]));
+                      html += ' </td>';
+                      }
+                      if(queryColumns.includes("type")) {
+                      html += ' <td>';
+                      html += abbrText(JSON.stringify(result.type[i]));
+                      html += ' </td>';
+                      }
+                      if(queryColumns.includes("bbox")) {
+                      html += ' <td class="selectable">';
+                      html += '  <a href="#" onClick="detailClick(' +JSON.stringify(result.bbox[i])+ ');">';
+                      html += abbrText(JSON.stringify(result.bbox[i]));
+                      html += '  </a>';
+                      html += ' </td>';
+                      }
+                      if(queryColumns.includes("frame_id")) {
+                      html += ' <td class="selectable">';
+                      html += '  <a href="#" onClick="detailClick(' +JSON.stringify(result.frame_id[i])+ ');">';
+                      html += abbrText(JSON.stringify(result.frame_id[i]));
+                      html += '  </a>';
+                      html += ' </td>';
+                      }
+                      if(queryColumns.includes("timestamp_ms")) {
+                      html += ' <td class="selectable">';
+                      html += '  <a href="#" onClick="detailClick(' +JSON.stringify(result.timestamp_ms[i])+ ');">';
+                      html += abbrText(JSON.stringify(result.timestamp_ms[i]));
+                      html += '  </a>';
+                      html += ' </td>';
+                      }
+                      if(queryColumns.includes("video_id")) {
+                      html += ' <td>';
+                      html += abbrText(JSON.stringify(result.video_id[i]));
+                      html += ' </td>';
+                      }
+                      if(queryColumns.includes("model_id")) {
+                      html += ' <td>';
+                      html += abbrText(JSON.stringify(result.model_id[i]));
+                      html += ' </td>';
+                      }
+                      html += ' <td>';
+                      html += '  <button type="button" onClick="playbackClick()"><i class="play circle icon"></i></button>';
+                      html += ' </td>';
+                      html += '</tr>';
                     }
-                    if(queryColumns.includes("traj")) {
-                    html += ' <td class="selectable">';
-                    html += '  <a href="#" onClick="detailClick(' +JSON.stringify(result.traj[i])+ ');">';
-                    html += abbrText(JSON.stringify(result.traj[i]));
-                    html += '  </a>';
-                    html += ' </td>';
-                    }
-                    if(queryColumns.includes("class_name")) {
-                    html += ' <td>';
-                    html += abbrText(JSON.stringify(result.class_name[i]));
-                    html += ' </td>';
-                    }
-                    if(queryColumns.includes("type")) {
-                    html += ' <td>';
-                    html += abbrText(JSON.stringify(result.type[i]));
-                    html += ' </td>';
-                    }
-                    if(queryColumns.includes("bbox")) {
-                    html += ' <td class="selectable">';
-                    html += '  <a href="#" onClick="detailClick(' +JSON.stringify(result.bbox[i])+ ');">';
-                    html += abbrText(JSON.stringify(result.bbox[i]));
-                    html += '  </a>';
-                    html += ' </td>';
-                    }
-                    if(queryColumns.includes("frame_id")) {
-                    html += ' <td class="selectable">';
-                    html += '  <a href="#" onClick="detailClick(' +JSON.stringify(result.frame_id[i])+ ');">';
-                    html += abbrText(JSON.stringify(result.frame_id[i]));
-                    html += '  </a>';
-                    html += ' </td>';
-                    }
-                    if(queryColumns.includes("timestamp_ms")) {
-                    html += ' <td class="selectable">';
-                    html += '  <a href="#" onClick="detailClick(' +JSON.stringify(result.timestamp_ms[i])+ ');">';
-                    html += abbrText(JSON.stringify(result.timestamp_ms[i]));
-                    html += '  </a>';
-                    html += ' </td>';
-                    }
-                    if(queryColumns.includes("video_id")) {
-                    html += ' <td>';
-                    html += abbrText(JSON.stringify(result.video_id[i]));
-                    html += ' </td>';
-                    }
-                    if(queryColumns.includes("model_id")) {
-                    html += ' <td>';
-                    html += abbrText(JSON.stringify(result.model_id[i]));
-                    html += ' </td>';
-                    }
-                    html += ' <td>';
-                    html += '  <button type="button" onClick="playbackClick()"><i class="play circle icon"></i></button>';
-                    html += ' </td>';
-                    html += '</tr>';
+                    $('#videoList tbody').html(html)
                   }
-                  $('#videoList tbody').html(html)
-                }
-              })
-              .catch((error) => console.error(error));
+                })
+                .catch((error) => console.error(error));
             }
 
             // $("#cont1").show();
