@@ -29,7 +29,7 @@
               <a class="item" data-tab="second">VQL Complex</a>
             </div>
             <div class="ui bottom attached active tab segment" data-tab="first">
-              <div class="ui styled accordion" style="width:100%;">
+              <div class="ui styled accordion simple" style="width:100%;">
                 <div class="title active">
                   <i class="dropdown icon"></i>
                   Step 1. Select Video
@@ -74,7 +74,70 @@
               </div>
             </div>
             <div class="ui bottom attached tab segment" data-tab="second">
-              VQL Temp
+              <div class="ui styled accordion complex" style="width:100%;">
+                <div class="title active">
+                  <i class="dropdown icon"></i>
+                  Step 1. Select Video 1
+                </div>
+                <div class="content active">
+                  <div class="transition visible">
+                    <div class="container">
+                      <div id="thumbnail-sector2" class="four column doubling ui grid" style="overflow: auto;">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="title">
+                  <i class="dropdown icon"></i>
+                  Step 2. Select Model 1
+                </div>
+                <div class="content">
+                  <div class="transition hidden">
+                    <div id="step2_cont2"></div>
+                  </div>
+                </div>
+                <div class="title active">
+                  <i class="dropdown icon"></i>
+                  Step 3. Select Video 2
+                </div>
+                <div class="content active">
+                  <div class="transition visible">
+                    <div class="container">
+                      <div id="thumbnail-sector3" class="four column doubling ui grid" style="overflow: auto;">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="title">
+                  <i class="dropdown icon"></i>
+                  Step 4. Select Model 2
+                </div>
+                <div class="content">
+                  <div class="transition hidden">
+                    <div id="step4_cont2"></div>
+                  </div>
+                </div>
+                <div class="title">
+                  <i class="dropdown icon"></i>
+                  Step 5. Select Function
+                </div>
+                <div class="content">
+                  <div class="transition hidden">
+                    <div id="step5_cont2"></div>
+                  </div>
+                </div>
+                <div class="title">
+                  <i class="dropdown icon"></i>
+                  Step 6. Select Columns
+                </div>
+                <div class="content">
+                  <div class="transition hidden">
+                    <div id="step6_cont2">
+
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -160,7 +223,7 @@
               <div style="width:20%; padding:10px; font-size:2em; font-weight:bold; text-align:center;">FROM</div>
               <div style="width:80%; padding:8px;">
                 <div class="ui input" style="width:100%;">
-                  <input type="text" name="queryFrom" placeholder="Select Video...">
+                  <input type="text" name="queryFrom" placeholder="Select Video...">                  
                 </div>
               </div>
             </div>
@@ -258,7 +321,11 @@
             .tab()
             ;
 
-          $('.ui.accordion')
+          $('.ui.accordion.simple')
+            .accordion()
+            ;
+
+          $('.ui.accordion.complex')
             .accordion()
             ;
 
@@ -270,9 +337,9 @@
             
             $('.sel-Video').not(idx).css('border', '1px solid #000');
             $('.sel-Video').eq(idx).css('border', '4px solid #00A2FF');            
-            $('.ui.accordion').accordion('open', 1);
+            $('.ui.accordion.simple').accordion('open', 1);
 
-            let tempFrom = "D_MPROCEES('id://" + val1.split(".")[0] + "',)";
+            let tempFrom = "D_MPROCESS('id://" + val1.split(".")[0] + "',)";
             $('[name=queryFrom').val(tempFrom);
 
             fetch('http://api.urbanai.net:8000/sql_form')
@@ -299,7 +366,91 @@
                     let tempModel = $('[name=queryFrom').val();
                     tempModel = tempModel.split(",")[0] + ", '" + value + "')";
                     $('[name=queryFrom').val(tempModel)
-                    $('.ui.accordion').accordion('open', 2);
+                    $('.ui.accordion.simple').accordion('open', 2);
+                  },
+                });
+            });
+          }
+          function selectVideo2(val1, val2, idx) {
+            console.log(val1); console.log(val2);
+            // 선택 영상에 대한 URL
+            videoName = val1;
+            videoUrl = val2;
+            
+            $('.sel-Video2').not(idx).css('border', '1px solid #000');
+            $('.sel-Video2').eq(idx).css('border', '4px solid #00A2FF');            
+            $('.ui.accordion.complex').accordion('open', 1);
+
+            let tempFrom = "D_MPROCESS('id://" + val1.split(".")[0] + "',)";
+            $('[name=queryFrom').val(tempFrom);
+
+            fetch('http://api.urbanai.net:8000/sql_form')
+              .then((response) => response.json())
+              .then((data) => {
+
+                let models = data && data.FROM.filter(item => item.video_id === val1);
+                //console.log(models);
+
+                let html = '<select name="sel_model2" class="ui fluid dropdown">';
+                html += '<option value="">Select</option>';
+                models[0].model_id.forEach(item => {
+                  html += '<option value="' + item + '">' + item + '</option>';
+                });
+                html += '</select>';
+
+                $('#step2_cont2').html(html);
+
+                $('[name=sel_model2]').dropdown({
+                  onChange: function (value, text, $selectedItem) {
+                    //console.log(value);
+                    modelName = value;
+
+                    let tempModel = $('[name=queryFrom').val();
+                    tempModel = tempModel.split(",")[0] + ", '" + value + "')";
+                    $('[name=queryFrom').val(tempModel)
+                    $('.ui.accordion.complex').accordion('open', 2);
+                  },
+                });
+            });
+          }
+          function selectVideo3(val1, val2, idx) {
+            console.log(val1); console.log(val2);
+            // 선택 영상에 대한 URL
+            videoName = val1;
+            videoUrl = val2;
+            
+            $('.sel-Video3').not(idx).css('border', '1px solid #000');
+            $('.sel-Video3').eq(idx).css('border', '4px solid #00A2FF');            
+            $('.ui.accordion.complex').accordion('open', 3);
+
+            let tempFrom = "D_MPROCESS('id://" + val1.split(".")[0] + "',)";
+            $('[name=queryFrom').val(tempFrom);
+
+            fetch('http://api.urbanai.net:8000/sql_form')
+              .then((response) => response.json())
+              .then((data) => {
+
+                let models = data && data.FROM.filter(item => item.video_id === val1);
+                //console.log(models);
+
+                let html = '<select name="sel_model3" class="ui fluid dropdown">';
+                html += '<option value="">Select</option>';
+                models[0].model_id.forEach(item => {
+                  html += '<option value="' + item + '">' + item + '</option>';
+                });
+                html += '</select>';
+
+                $('#step4_cont2').html(html);
+
+                $('[name=sel_model3]').dropdown({
+                  onChange: function (value, text, $selectedItem) {
+                    //console.log(value);
+                    modelName = value;
+
+                    let tempModel = $('[name=queryFrom').val();
+                    tempModel = tempModel.split(",")[0] + ", '" + value + "')";
+                    $('[name=queryFrom').val(tempModel)
+                    $('.ui.accordion.complex').accordion('open', 4);
                   },
                 });
             });
@@ -311,7 +462,7 @@
               .then((data) => {
                 //console.log(data.videos[0][0]);
 
-                let html = '', thumbHtml = '';
+                let html = '', thumbHtml = '', thumbHtml2 = '', thumbHtml3 = '' ;
                 let len = data.videos[0][0].video_name.length;
                 for (var i = 0; i < len; i++) {
                   html += '<tr>';
@@ -327,11 +478,27 @@
                   thumbHtml += '</button>';
                   thumbHtml += '<div>[' + data.videos[0][0].video_name[i] + ']</div>';
                   thumbHtml += '</div>';
+
+                  thumbHtml2 += '<div class="column" style="text-align:center;">';
+                  thumbHtml2 += '<button type="button" class="sel-Video2" onClick="selectVideo2(\'' + data.videos[0][0].video_name[i] + '\', \'' + data.videos[0][0].video_uri[i] + '\', ' + i + ')" >';
+                  thumbHtml2 += '<img src="http://api.urbanai.net:8000' + data.videos[0][0].thumbnail[i] + '" width="150px" height="150px" />';
+                  thumbHtml2 += '</button>';
+                  thumbHtml2 += '<div>[' + data.videos[0][0].video_name[i] + ']</div>';
+                  thumbHtml2 += '</div>';
+
+                  thumbHtml3 += '<div class="column" style="text-align:center;">';
+                  thumbHtml3 += '<button type="button" class="sel-Video3" onClick="selectVideo3(\'' + data.videos[0][0].video_name[i] + '\', \'' + data.videos[0][0].video_uri[i] + '\', ' + i + ')" >';
+                  thumbHtml3 += '<img src="http://api.urbanai.net:8000' + data.videos[0][0].thumbnail[i] + '" width="150px" height="150px" />';
+                  thumbHtml3 += '</button>';
+                  thumbHtml3 += '<div>[' + data.videos[0][0].video_name[i] + ']</div>';
+                  thumbHtml3 += '</div>';
                 }
                 $("#uploadFiles").append(html);
 
                 $(".cus-cont").show();
                 $('#thumbnail-sector').html(thumbHtml);
+                $('#thumbnail-sector2').html(thumbHtml);
+                $('#thumbnail-sector3').html(thumbHtml);
               });
           };
 
@@ -359,7 +526,7 @@
                     let tempModel = $('[name=queryFrom').val();                    
                     tempModel = tempModel.split(",")[0] + ", '" + value + "')";
                     $('[name=queryFrom').val(tempModel)
-                    $('.ui.accordion').accordion('open', 2);
+                    $('.ui.accordion.simple').accordion('open', 2);
                   },
                 });
               });
@@ -382,7 +549,7 @@
             $('[name=sel_func]').dropdown({
               onChange: function (value, text, $selectedItem) {
                 //console.log(text);
-                $('.ui.accordion').accordion('open', 3);
+                $('.ui.accordion.simple').accordion('open', 3);
 
                 let tempWhere = text + "(itraj,ARRAY['POLYGON ((620 196, 631 208, 516 242, 507 229, 620 196))'])";
                 $('[name=queryWhere').val(tempWhere);
@@ -435,7 +602,8 @@
             $('[name=sel_columns]').dropdown("clear");
 
             $('.sel-Video').css('border', '1px solid #000'); 
-            $('.ui.accordion').accordion('open', 0);
+            $('.ui.accordion.simple').accordion('open', 0);
+            $('.ui.accordion.complex').accordion('open', 0);
             
             $('[name=queryColumns]').val('');
             $('[name=queryFrom]').val('');
@@ -451,6 +619,10 @@
           function execute() {  //console.log($('[name=queryColumns').val().split(','));
             $("#disableDiv").show();
             $("#div_load_image").show();
+console.log($('[name=queryFrom]').val());
+console.log($('[name=queryWhere]').val());
+            let queryFrom = $('[name=queryFrom]').val();
+            let queryWhere = $('[name=queryWhere]').val();
 
             fetch('http://api.urbanai.net:8000/squery', {
               method: "POST",
@@ -459,8 +631,8 @@
               },
               body: JSON.stringify({
                 SELECT: "*",
-                FROM: "d_mprocess('id://sibuya_1hour','yolo_sibuya')",
-                WHERE: "d_travel(itraj, ARRAY['POLYGON ((620 196, 631 208, 516 242, 507 229, 620 196))'])"
+                FROM: queryFrom,
+                WHERE: queryWhere
               }),
             })
               .then((response) => response.json())
