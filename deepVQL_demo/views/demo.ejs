@@ -16,7 +16,7 @@
         <img src="/images/logo_info3.png" style="width:240px; height:70px;">
       </div>
       <div class="top-title">
-        DeepVQL Demo
+        DeepVQL Demonstration
       </div>
     </DIV>
 
@@ -109,7 +109,7 @@
                 </table>
               </div>
               <div class="ui bottom attached tab segment" data-tab="forth">
-                <input type="file" id="fileInput" accept=".mp4">
+                <input type="file" value="File" id="fileInput" accept=".mp4">
                 <button type="submit" id="sendButton">Submit</button>
 
                 <div style="margin-top:30px;">Upload File List</div>
@@ -196,12 +196,12 @@
     </DIV>
     
     <DIV class="ui-layout-south">
-      <div class="footer-section">
-        <div>
-          Email : khyoo1221@gmail.com
+      <div class="footer-section">        
+        <div style="font-size: 20px;margin: 5px 0px;">
+          Copyright © 2022 InfoLab / Kunsan National University. 
         </div>
         <div>
-          Copyright © 2022 InfoLab / Kunsan National University. 
+          Email : khyoo1221@gmail.com
         </div>
       </div>
     </DIV>
@@ -272,7 +272,7 @@
             $('.sel-Video').eq(idx).css('border', '4px solid #00A2FF');            
             $('.ui.accordion').accordion('open', 1);
 
-            let tempFrom = "DMPROCEES('" + val1 + "',)";
+            let tempFrom = "D_MPROCEES('id://" + val1.split(".")[0] + "',)";
             $('[name=queryFrom').val(tempFrom);
 
             fetch('http://api.urbanai.net:8000/sql_form')
@@ -370,11 +370,11 @@
           const step3_init = () => {
             let html = '<select name="sel_func" class="ui fluid dropdown">';
             html += '<option value="">Select</option>';
-            html += '<option value="01">DCross</option>';
-            html += '<option value="02">DTravel</option>';
-            html += '<option value="03">DMWithin</option>';
-            html += '<option value="04">DSameFrameWithin</option>';
-            html += '<option value="05">DTimeoverlap</option>';
+            html += '<option value="01">D_cross</option>';
+            html += '<option value="02">D_travel</option>';
+            html += '<option value="03">D_mwithin</option>';
+            html += '<option value="04">D_sameframewithin</option>';
+            html += '<option value="05">D_timeoverlap</option>';
             html += '</select>';
 
             $('#step3_cont').html(html);
@@ -384,12 +384,12 @@
                 //console.log(text);
                 $('.ui.accordion').accordion('open', 3);
 
-                let tempWhere = text + "(traj,'Polygon([[0, 0], [1, 0], [1, 1], [0, 1], [0, 0]]')";
+                let tempWhere = text + "(itraj,ARRAY['POLYGON ((620 196, 631 208, 516 242, 507 229, 620 196))'])";
                 $('[name=queryWhere').val(tempWhere);
               },
             });
           };
-
+          
           step3_init();
 
           const step4_init = () => {
@@ -430,16 +430,20 @@
 
           function reset() {
 
-            // $('[name=selectParam]').dropdown("clear");
-            // $('[name=fromParam1]').dropdown("clear");
-            // $('[name=fromParam2]').dropdown("clear");
-            // $('[name=fromParam3]').dropdown("clear");
-            // $('[name=whereParam1]').dropdown("clear");
-            // $('[name=whereParam2]').val('');
+            $('[name=sel_model]').dropdown("clear");
+            $('[name=sel_func]').dropdown("clear");            
+            $('[name=sel_columns]').dropdown("clear");
 
-            // $("#cont1").hide();
-            // $("#cont2").hide();
-            // $("#cont3").hide();
+            $('.sel-Video').css('border', '1px solid #000'); 
+            $('.ui.accordion').accordion('open', 0);
+            
+            $('[name=queryColumns]').val('');
+            $('[name=queryFrom]').val('');
+            $('[name=queryWhere]').val('');
+
+            const resultCont = '<div style="width: 100%;text-align: center;font-size: 2em;line-height: 200px;">DeepVQL Query Result</div>';
+
+            $("#cont3").html(resultCont);
           }
 
           let intervalId;
