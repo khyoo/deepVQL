@@ -615,7 +615,7 @@
           }
 
           let intervalId;
-          let timesArray = new Array();
+          let timesArray;
 
           function execute() {  //console.log($('[name=queryColumns').val().split(','));
             $("#disableDiv").show();
@@ -624,6 +624,8 @@
 //console.log($('[name=queryWhere]').val());
             let queryFrom = $('[name=queryFrom]').val();
             let queryWhere = $('[name=queryWhere]').val();
+
+            timesArray = new Array();
 
             fetch('http://api.urbanai.net:8000/squery', {
               method: "POST",
