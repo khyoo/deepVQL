@@ -615,12 +615,13 @@
           }
 
           let intervalId;
+          let timesArray = new Array();
 
           function execute() {  //console.log($('[name=queryColumns').val().split(','));
             $("#disableDiv").show();
             $("#div_load_image").show();
-console.log($('[name=queryFrom]').val());
-console.log($('[name=queryWhere]').val());
+//console.log($('[name=queryFrom]').val());
+//console.log($('[name=queryWhere]').val());
             let queryFrom = $('[name=queryFrom]').val();
             let queryWhere = $('[name=queryWhere]').val();
 
@@ -641,12 +642,13 @@ console.log($('[name=queryWhere]').val());
                 intervalId = setInterval(() => executeAPI(data.task_id), 1000);
             });
 
+            
             function executeAPI(val) {
               fetch("http://api.urbanai.net:8000/search/"+val)
                 .then((response) => {
                   return response.json();
                 })
-                .then((data) => { console.log(data);
+                .then((data) => { console.log(data);                  
                   /* 데이터 처리 */
                   if (data.task_status === "SUCCESS") {
                     //setInterval 함수 종료
@@ -688,6 +690,9 @@ console.log($('[name=queryWhere]').val());
                       // html += ' <td>';
                       // html += i + 1;
                       // html += ' </td>';
+                      timesArray.push(result.timestamp_ms[i]);
+                      // console.log("timestamp");
+                      // console.log(result.timestamp_ms[i]);
                       if(queryColumns.includes("object_id")) {
                       html += ' <td>';
                       html += abbrText(JSON.stringify(result.object_id[i]));
@@ -742,15 +747,17 @@ console.log($('[name=queryWhere]').val());
                       html += ' </td>';
                       }
                       html += ' <td>';
-                      html += '  <button type="button" onClick="playbackClick()"><i class="play circle icon"></i></button>';
+                      html += '  <button type="button" onClick="playbackClick(' + i + ')"><i class="play circle icon"></i></button>';
                       html += ' </td>';
                       html += '</tr>';
                     }
                     $('#videoList tbody').html(html)
+                    // console.log(timesArray);
+                    
                   }
                 })
-                .catch((error) => console.error(error));
-            }
+                .catch((error) => console.error(error));                
+            }            
           }
 
           function detailClick(val, val2) { console.log(val2);
@@ -762,18 +769,20 @@ console.log($('[name=queryWhere]').val());
               .modal('show');
           }
 
-          function playbackClick() {
+          function playbackClick(idx) {            
+            let startTime = timesArray[idx][0]/1000;
+                    
             $(".v-cont").css("display", "flex");
-            $("#video_origin").attr("src", videoUrl);
-            
-            const videoConvertUrl = "http://info.rlog.kr:33002/convert/"+ videoName.split(".")[0] + "_" + modelName + ".mp4";console.log(videoConvertUrl);
+            $("#video_origin").attr("src", videoUrl+"#t="+startTime);
+                      
+            const videoConvertUrl = "http://info.rlog.kr:33002/convert/"+ videoName.split(".")[0] + "_" + modelName + ".mp4#t="+startTime;//console.log(videoConvertUrl);
             $("#video_ai").attr("src", videoConvertUrl);
             $("#modelSpan").text(modelName);
 
             $('.ui.modal.resultVideo')
               .modal({ blurring: true })
               .modal('show');
-          }
+          }          
 
           // 비디오 파일 업로드 이벤트
           $("#fileInput").on("change", function () {

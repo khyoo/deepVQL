@@ -2,53 +2,109 @@
 <div class="ui modal help">
     <div class="header">DeepVQL Help</div>
     <div class="scrolling content">
-      <p>
-        # object detection and tracking using maskrcnn_coco model<br />
-        <br />
-        SELECT id, count(class_name),<br />
-        FROM D_MPROCEES('file://dev/videos/test3.mp4', 'maskrcnn_coco' ) <br />
-        GROUPY BY class_name<br />
-        ORDER BY count(class_name)<br />
-        <br />
-        <br />
-        # spatial queries for moving objects <br />
-        <br />
-        SELECT id, class_id, d_class_name(class_id)<br />
-        FROM D_MPROCEES('file://dev/videos/test3.mp4') <br />
-        WHERE m_enter(traj,'Polygon([[0, 0], [1, 0], [1, 1], [0, 1], [0, 0]]') ;<br />
-        <br />
-        <br />          
-        # spatial queries for moving objects (pixel)<br />
-        <br />
-        SELECT id, class_id, d_class_name(class_id)<br />
-        FROM D_MPROCEES('file://dev/videos/test3.mp4') <br />
-        WHERE m_enter(itraj,'Polygon([[0, 0], [1, 0], [1, 1], [0, 1], [0, 0]]') ;<br />
-        <br />
-        <br />
-        # object detection and tracking only person and car<br />
-        <br />
-        SELECT * <br />
-        FROM d_mprocess('test.mp4',filter=>'(person|car)');<br />
-        <br />
-        <br />
-        # find person entered given coordinates polygon<br />
-        <br />
-        SELECT id<br />
-        FROM D_MPROCEES('file://dev/videos/test3.mp4', 'person|car') <br />
-        WHERE m_enter(traj,'Polygon([[0, 0], [1, 0], [1, 1], [0, 1], [0, 0]]' ) AND class_name = person;<br />
-        <br />
-        <br />
-        # find moving objects ordered crossed given area moving objects<br />
-        <br />
-        SELECT id<br />
-        FROM D_MPROCEES_ALL('file://dev/videos/test3.mp4') <br />
-        WHERE m_travel_cross(traj,ARRAY['Polygon([[0, 0], [1, 0], [1, 1], [0, 1], [0, 0]]', 'Polygon([[0, 0], [1, 0], [1, 1], [0, 1], [0, 0]]'] )<br />
-        (traj,'Polygon([[0, 0], [1, 0], [1, 1], [0, 1], [0, 0]]' );<br />
-        <br />
-        <br />
-        SELECT * <br />
-        FROM d_mprocess(video_path=>'/home/project/etri_videos/SC0004601_카메라(1번)_20200619_160000(대덕터널입구방면).mp4',<br />
-        start_time=>30,end_time=>50);<br />
-      </p>
+      <pre>
+        {
+          "WHERE": [{
+              "video_type": "traffic",
+              "method": [{
+                  "Travel": [{
+                      "sibuya_wkt": [{
+                              "tr": [
+                                  "POLYGON ((620 196, 631 208, 516 242, 507 229, 620 196))",
+                                  "POLYGON ((631 191, 641 188, 678 273, 667 275, 631 191))"
+                              ]
+                          },
+                          {
+                              "tb": [
+                                  "POLYGON ((473 256, 654 204, 667 214, 483 270, 473 256))",
+                                  "POLYGON ((513 363, 767 242, 782 249, 524 379, 513 363))"
+                              ]
+                          },
+                          {
+                              "bt": [
+                                  "POLYGON ((441 460, 647 350, 674 355, 431 491, 441 460))",
+                                  "POLYGON ((290 281, 472 236, 507 243, 269 310, 290 281))"
+                              ]
+                          },
+                          {
+                              "rl": [
+                                  "POLYGON ((751 235, 820 255, 833 245, 750 223, 751 235))",
+                                  "POLYGON ((433 295, 446 286, 607 464, 591 478, 433 295))"
+                              ]
+                          },
+                          {
+                              "lt": [
+                                  "POLYGON ((186 312, 203 304, 292 389, 272 398, 186 312))",
+                                  "POLYGON ((259 277, 450 231, 477 249, 231 302, 225 284, 259 277))"
+                              ]
+                          },
+                          {
+                              "lr": [
+                                  "POLYGON ((270 269, 289 261, 372 374, 363 384, 270 269))",
+                                  "POLYGON ((507 222, 526 215, 620 318, 605 335, 507 222))"
+                              ]
+                          },
+                          {
+                              "bl": [
+                                  "POLYGON ((591 333, 607 333, 607 541, 591 541, 591 333))",
+                                  "POLYGON ((353 324, 365 325, 364 541, 348 541, 353 324))"
+                              ]
+                          }
+                      ],
+                      "warsaw_wkt": [{
+                              "lb": [
+                                  "POLYGON ((566 355, 576 354, 622 541, 605 541, 566 355))",
+                                  "POLYGON ((896 478, 904 488, 720 539, 694 535, 896 478))"
+                              ]
+                          },
+                          {
+                              "lr": [
+                                  "POLYGON ((588 362, 605 360, 652 511, 637 513, 588 362))",
+                                  "POLYGON ((793 355, 818 349, 889 534, 866 539, 793 355))"
+                              ]
+                          },
+                          {
+                              "rb": [
+                                  "POLYGON ((606 245, 719 257, 731 270, 583 258, 606 245))",
+                                  "POLYGON ((738 422, 834 397, 859 421, 697 463, 685 434, 738 422))"
+                              ]
+                          },
+                          {
+                              "rl": [
+                                  "POLYGON ((576 190, 592 184, 685 262, 670 271, 576 190))",
+                                  "POLYGON ((512 198, 526 193, 588 287, 571 293, 512 198))"
+                              ]
+                          },
+                          {
+                              "tb": [
+                                  "POLYGON ((485 222, 615 210, 621 222, 489 237, 485 222))",
+                                  "POLYGON ((654 346, 718 337, 731 347, 592 365, 587 354, 654 346))"
+                              ]
+                          },
+                          {
+                              "tl": [
+                                  "POLYGON ((470 189, 580 198, 602 213, 445 203, 470 189))",
+                                  "POLYGON ((494 216, 506 210, 558 270, 549 281, 494 216))"
+                              ]
+                          },
+                          {
+                              "tr": [
+                                  "POLYGON ((534 212, 646 203, 663 217, 526 228, 534 212))",
+                                  "POLYGON ((694 340, 791 309, 809 314, 692 360, 694 340))"
+                              ]
+                          },
+                          {
+                              "rr": [
+                                  "POLYGON ((636 222, 732 274, 727 279, 631 225, 636 222))",
+                                  "POLYGON ((725 341, 812 285, 817 296, 736 351, 725 341))"
+                              ]
+                          }
+                      ]
+                  }],
+                  "Cross": []
+              }]
+          }]
+      }
+      </pre>
     </div>
   </div>
