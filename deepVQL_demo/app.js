@@ -23,7 +23,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 let corsOptions = {
-  origin: 'http://api.urbanai.net:8000',
+  origin: app.locals.urls.api_url,
   credentials: true, // 응답 헤더에 Access-Control-Allow-Credentials 추가
   optionsSuccessStatus: 200, // 응답 상태 200으로 설정
 }

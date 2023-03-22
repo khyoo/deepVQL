@@ -288,9 +288,9 @@
           let upload_url = "<%=urls.upload_url%>";
           let api_url = "<%=urls.api_url%>";
 
-          let videoName = ''; 
-          let videoUrl = '';         
+          let videoUUID = '';           
           let modelName = '';
+          let trackerName = '';
 
           var outerLayout, middleLayout1, middleLayout2;
 
@@ -345,8 +345,8 @@
           function selectVideo(val1, val2, idx) {
             console.log(val1); console.log(val2);
             // 선택 영상에 대한 URL
-            videoName = val1;
-            videoUrl = val2;
+            //videoName = val1;
+            //videoUrl = val2;
             
             $('.sel-Video').not(idx).css('border', '1px solid #000');
             $('.sel-Video').eq(idx).css('border', '4px solid #00A2FF');            
@@ -387,8 +387,8 @@
           function selectVideo2(val1, val2, idx) {
             console.log(val1); console.log(val2);
             // 선택 영상에 대한 URL
-            videoName = val1;
-            videoUrl = val2;
+            //videoName = val1;
+            //videoUrl = val2;
             
             $('.sel-Video2').not(idx).css('border', '1px solid #000');
             $('.sel-Video2').eq(idx).css('border', '4px solid #00A2FF');            
@@ -429,8 +429,8 @@
           function selectVideo3(val1, val2, idx) {
             console.log(val1); console.log(val2);
             // 선택 영상에 대한 URL
-            videoName = val1;
-            videoUrl = val2;
+            //videoName = val1;
+            //videoUrl = val2;
             
             $('.sel-Video3').not(idx).css('border', '1px solid #000');
             $('.sel-Video3').eq(idx).css('border', '4px solid #00A2FF');            
@@ -560,10 +560,10 @@
             $('[name=sel_tracker]').dropdown({
               onChange: function (value, text, $selectedItem) {
                 //console.log(text);
-                modelName = value;
+                trackerName = value;
                     
                 let tempModel = $('[name=queryFrom').val();                    
-                tempModel = tempModel.split(",")[0] + ", " + tempModel.split(",")[1] + ", '" + value + "')";
+                tempModel = tempModel.split(",")[0] + ", " + tempModel.split(",")[1].replace(")", "") + ", '" + value + "')";
                 $('[name=queryFrom').val(tempModel);
                 $('.ui.accordion.simple').accordion('open', 3);
               },
@@ -752,6 +752,13 @@
                       html += abbrText(JSON.stringify(result.class_name[i]));
                       html += ' </td>';
                       }
+                      if(queryColumns.includes("tracker_name")) {
+                      html += ' <td>';
+                      html += '  <a href="#" onClick="detailClick(' +JSON.stringify(result.tracker_name[i]).replaceAll("\"", "\'")+ ', \'tracker_name\');">';
+                      html += abbrText(JSON.stringify(result.tracker_name[i]));
+                      html += '  </a>';
+                      html += ' </td>';
+                      }
                       if(queryColumns.includes("type")) {
                       html += ' <td>';
                       html += abbrText(JSON.stringify(result.type[i]));
@@ -780,12 +787,16 @@
                       }
                       if(queryColumns.includes("video_id")) {
                       html += ' <td>';
+                      html += '  <a href="#" onClick="detailClick(' +JSON.stringify(result.video_id[i]).replaceAll("\"", "\'")+ ', \'video_id\');">';
                       html += abbrText(JSON.stringify(result.video_id[i]));
+                      html += '  </a>';
                       html += ' </td>';
                       }
                       if(queryColumns.includes("model_id")) {
                       html += ' <td>';
+                      html += '  <a href="#" onClick="detailClick(' +JSON.stringify(result.model_id[i]).replaceAll("\"", "\'")+ ', \'model_id\');">';
                       html += abbrText(JSON.stringify(result.model_id[i]));
+                      html += '  </a>';
                       html += ' </td>';
                       }
                       html += ' <td>';
@@ -795,7 +806,7 @@
                     }
                     $('#videoList tbody').html(html)
                     // console.log(timesArray);
-                    
+                    videoUUID = result.video_id[0];
                   }
                 })
                 .catch((error) => console.error(error));                
@@ -815,9 +826,9 @@
             let startTime = timesArray[idx][0]/1000;
                     
             $(".v-cont").css("display", "flex");
-            $("#video_origin").attr("src", videoUrl+"#t="+startTime);
+            $("#video_origin").attr("src", api_url + "/getvideo/"+ videoUUID + "#t="+startTime);
                       
-            const videoConvertUrl = upload_url + "/convert/"+ videoName.split(".")[0] + "_" + modelName + ".mp4#t="+startTime;//console.log(videoConvertUrl);
+            const videoConvertUrl = api_url + "/getvideo/"+ videoUUID + "_out_" + modelName + "_" + trackerName + "#t="+startTime;//console.log(videoConvertUrl);
             $("#video_ai").attr("src", videoConvertUrl);
             $("#modelSpan").text(modelName);
 
