@@ -284,9 +284,9 @@
     <% include ./resultVideo %>
     <% include ./dataDetail %>
       
-        <script type="text/javascript">
-          let upload_url = 'http://localhost:33002';
-          let api_url = 'http://localhost:8000';
+        <script type="text/javascript">          
+          let upload_url = "<%=urls.upload_url%>";
+          let api_url = "<%=urls.api_url%>";
 
           let videoName = ''; 
           let videoUrl = '';         

@@ -9,6 +9,9 @@ var indexRouter = require('./routes/indexRouter');
 
 var app = express();
 
+// 전역변수(urls) 선언
+app.locals.urls = require('./urls.json');
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
