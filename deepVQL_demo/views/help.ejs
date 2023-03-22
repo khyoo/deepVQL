@@ -1,48 +1,261 @@
 <!--Help Modal-->
 <div class="ui modal help">
     <div class="header">DeepVQL Help</div>
-    <div class="scrolling content">
-      <pre>
-        Spatial Query 
-
-        Q1. Find moving_objects crossing a specific Line.
-
-        SELECT *
-        FROM d_mprocess('id://{video_id}','{model_id}','{tracker_name}’) 
-        WHERE d_cross(itraj,'{CROSS WKT}’)
-
-        Q2. Find moving_objects traveling in a specific direction. 
-
-        SELECT *
-        FROM d_mprocess('id://{video_id}','{model_id}','{tracker_name}’)
-        WHERE d_travel(itraj,ARRAY['{travel WKT}’])
-
-        Q2-1 find moving_objects uturn in shibuya_7_8 
-        SELECT * 
-        FROM d_mprocess('id://shibuya_{7}_{8}','yolo_shibuya','{tracker_name}’)
-        WHERE d_travel(itraj,ARRAY['{uturn WKT}’])
-
-        Temporal Query
-
-        Q3. find moving_objects in traffic video period $t1 $t2 (base unit 1000ms)
-        SELECT *
-        FROM d_mprocess(‘{id://video_name}','{model_id}','{tracker_name}’) 
-        WHERE d_timeoverlap(timestamp_ms,$t1,$t2)
-
-        Spatio-Temporal Query
-
-        Q4. find moving_objects cross in traffic video period $t1 $t2 (base unit 1000ms)
-
-        SELECT *
-        FROM d_mprocess('id://{}_{}_{}','yolo_shibuya’)
-        WHERE d_cross(itraj,'{CROSS WKT}') AND d_timeoverlap(timestamp_ms,$t1,$t2)
-
-        Q5. find moving_objects travel video period $t1 $t2 (base unit 1000ms)
-
-        SELECT *
-        FROM d_mprocess('id://shibuya_{}_{}','yolo_shibuya’)
-        WHERE d_travel(itraj,ARRAY['{travel WKT}']) AND d_timeoverlap(timestamp_ms,$t1,$t2)
-
-      </pre>
+    <div class="ui top attached tabular menu">
+        <a class="active item" data-tab="firstHelp">Spatial Query</a>    
+        <a class="item" data-tab="secondHelp">WKT Sample</a>
     </div>
+    <div class="ui bottom attached active tab segment" data-tab="firstHelp">
+        <div class="scrolling content">
+            <pre>
+                Spatial Query 
+
+                Q1. Find moving_objects crossing a specific Line.
+
+                SELECT *
+                FROM d_mprocess('id://{video_id}','{model_id}','{tracker_name}’) 
+                WHERE d_cross(itraj,'{CROSS WKT}’)
+
+                Q2. Find moving_objects traveling in a specific direction. 
+
+                SELECT *
+                FROM d_mprocess('id://{video_id}','{model_id}','{tracker_name}’)
+                WHERE d_travel(itraj,ARRAY['{travel WKT}’])
+
+                Q2-1 find moving_objects uturn in shibuya_7_8 
+                SELECT * 
+                FROM d_mprocess('id://shibuya_{7}_{8}','yolo_shibuya','{tracker_name}’)
+                WHERE d_travel(itraj,ARRAY['{uturn WKT}’])
+
+                Temporal Query
+
+                Q3. find moving_objects in traffic video period $t1 $t2 (base unit 1000ms)
+                SELECT *
+                FROM d_mprocess(‘{id://video_name}','{model_id}','{tracker_name}’) 
+                WHERE d_timeoverlap(timestamp_ms,$t1,$t2)
+
+                Spatio-Temporal Query
+
+                Q4. find moving_objects cross in traffic video period $t1 $t2 (base unit 1000ms)
+
+                SELECT *
+                FROM d_mprocess('id://{}_{}_{}','yolo_shibuya’)
+                WHERE d_cross(itraj,'{CROSS WKT}') AND d_timeoverlap(timestamp_ms,$t1,$t2)
+
+                Q5. find moving_objects travel video period $t1 $t2 (base unit 1000ms)
+
+                SELECT *
+                FROM d_mprocess('id://shibuya_{}_{}','yolo_shibuya’)
+                WHERE d_travel(itraj,ARRAY['{travel WKT}']) AND d_timeoverlap(timestamp_ms,$t1,$t2)
+
+            </pre>
+        </div>
+    </div>
+    <div class="ui bottom attached tab segment" data-tab="secondHelp">
+        <div class="scrolling content">
+            <pre>
+                {
+                    "FROM": [{
+                            "video_id": "shibuya_6_7",
+                            "model_id": [
+                                "yolo_shibuya",
+                                "faster_coco",
+                                "mask_coco",
+                                "yolo_coco"
+                            ]
+                        },
+                        {
+                            "video_id": "shibuya_7_8",
+                            "model_id": [
+                                "yolo_shibuya",
+                                "faster_coco",
+                                "mask_coco",
+                                "yolo_coco"
+                            ]
+                        },
+                        {
+                            "video_id": "shibuya_8_9",
+                            "model_id": [
+                                "yolo_shibuya",
+                                "faster_coco",
+                                "mask_coco",
+                                "yolo_coco"
+                            ]
+                        },
+                        {
+                            "video_id": "warsaw_6_7",
+                            "model_id": [
+                                "yolo_warsaw",
+                                "mask_warsaw",
+                                "faster_coco",
+                                "mask_coco",
+                                "yolo_coco"
+                            ]
+                        },
+                        {
+                            "video_id": "warsaw_7_8",
+                            "model_id": [
+                                "yolo_warsaw",
+                                "mask_warsaw",
+                                "faster_coco",
+                                "mask_coco",
+                                "yolo_coco"
+                            ]
+                        },
+                        {
+                            "video_id": "warsaw_8_9",
+                            "model_id": [
+                                "yolo_warsaw",
+                                "mask_warsaw",
+                                "faster_coco",
+                                "mask_coco",
+                                "yolo_coco"
+                            ]
+                        }
+                    ],
+                    "WHERE": [{
+                        "video_type": "traffic",
+                        "method": [{
+                            "Travel": [{
+                                "warsaw_wkt": [{
+                                        "lb": [
+                                            "POLYGON ((566 355, 576 354, 622 541, 605 541, 566 355))",
+                                            "POLYGON ((896 478, 904 488, 720 539, 694 535, 896 478))"
+                                        ]
+                                    },
+                                    {
+                                        "lr": [
+                                            "POLYGON ((588 362, 605 360, 652 511, 637 513, 588 362))",
+                                            "POLYGON ((793 355, 818 349, 889 534, 866 539, 793 355))"
+                                        ]
+                                    },
+                                    {
+                                        "rb": [
+                                            "POLYGON ((606 245, 719 257, 731 270, 583 258, 606 245))",
+                                            "POLYGON ((738 422, 834 397, 859 421, 697 463, 685 434, 738 422))"
+                                        ]
+                                    },
+                                    {
+                                        "rl": [
+                                            "POLYGON ((576 190, 592 184, 685 262, 670 271, 576 190))",
+                                            "POLYGON ((512 198, 526 193, 588 287, 571 293, 512 198))"
+                                        ]
+                                    },
+                                    {
+                                        "tb": [
+                                            "POLYGON ((485 222, 615 210, 621 222, 489 237, 485 222))",
+                                            "POLYGON ((654 346, 718 337, 731 347, 592 365, 587 354, 654 346))"
+                                        ]
+                                    },
+                                    {
+                                        "tl": [
+                                            "POLYGON ((470 189, 580 198, 602 213, 445 203, 470 189))",
+                                            "POLYGON ((494 216, 506 210, 558 270, 549 281, 494 216))"
+                                        ]
+                                    },
+                                    {
+                                        "tr": [
+                                            "POLYGON ((534 212, 646 203, 663 217, 526 228, 534 212))",
+                                            "POLYGON ((694 340, 791 309, 809 314, 692 360, 694 340))"
+                                        ]
+                                    },
+                                    {
+                                        "rr": [
+                                            "POLYGON ((690 273, 694 270, 637 230, 634 233, 690 273))",
+                                            "POLYGON ((732 346, 799 315, 802 320, 737 350, 732 346))"
+                                        ]
+                                    }
+                                ],
+                                "sibuya_wkt": [{
+                                        "uturn": [
+                                            "POLYGON ((730 242, 816 271, 807 278, 715 247, 730 242))",
+                                            "POLYGON ((722 199, 752 206, 789 215, 761 221, 701 206, 694 204, 722 199))"
+                                        ]
+                                    },
+                                    {
+                                        "tr": [
+                                            "POLYGON ((620 196, 631 208, 516 242, 507 229, 620 196))",
+                                            "POLYGON ((631 191, 641 188, 678 273, 667 275, 631 191))"
+                                        ]
+                                    },
+                                    {
+                                        "tb": [
+                                            "POLYGON ((473 256, 654 204, 667 214, 483 270, 473 256))",
+                                            "POLYGON ((513 363, 767 242, 782 249, 524 379, 513 363))"
+                                        ]
+                                    },
+                                    {
+                                        "bt": [
+                                            "POLYGON ((441 460, 647 350, 674 355, 431 491, 441 460))",
+                                            "POLYGON ((290 281, 472 236, 507 243, 269 310, 290 281))"
+                                        ]
+                                    },
+                                    {
+                                        "rl": [
+                                            "POLYGON ((751 235, 820 255, 833 245, 750 223, 751 235))",
+                                            "POLYGON ((433 295, 446 286, 607 464, 591 478, 433 295))"
+                                        ]
+                                    },
+                                    {
+                                        "lt": [
+                                            "POLYGON ((186 312, 203 304, 292 389, 272 398, 186 312))",
+                                            "POLYGON ((259 277, 450 231, 477 249, 231 302, 225 284, 259 277))"
+                                        ]
+                                    },
+                                    {
+                                        "lr": [
+                                            "POLYGON ((270 269, 289 261, 372 374, 363 384, 270 269))",
+                                            "POLYGON ((507 222, 526 215, 620 318, 605 335, 507 222))"
+                                        ]
+                                    },
+                                    {
+                                        "bl": [
+                                            "POLYGON ((587 395, 603 393, 607 541, 591 541, 587 395))",
+                                            "POLYGON ((353 324, 365 325, 364 541, 348 541, 353 324))"
+                                        ]
+                                    }
+                                ]
+                            }],
+                            "Cross": [{
+                                "sibuya_wkt": [{
+                                        "line1": "LINESTRING (255 234, 546 193)"
+                                    },
+                                    {
+                                        "line2": "LINESTRING (191 306, 399 515)"
+                                    },
+                                    {
+                                        "line3": "LINESTRING (543 534, 837 348)"
+                                    },
+                                    {
+                                        "line4": "LINESTRING (638 211, 814 263)"
+                                    }
+                                ],
+                                "warsaw_wkt": [{
+                                        "line1": "LINESTRING (531 223, 629 216)"
+                                    },
+                                    {
+                                        "line2": "LINESTRING (649 368, 802 341)"
+                                    },
+                                    {
+                                        "line3": "LINESTRING (532 367, 568 493)"
+                                    },
+                                    {
+                                        "line4": "LINESTRING (509 225, 521 251)"
+                                    },
+                                    {
+                                        "line5": "LINESTRING (737 502, 925 461)"
+                                    },
+                                    {
+                                        "line6": "LINESTRING (646 218, 681 256)"
+                                    }
+                                ]
+                            }]
+                        }]
+                    }]
+                }
+    
+            </pre>
+        </div>
+    </div>
+
   </div>
