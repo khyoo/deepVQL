@@ -26,7 +26,9 @@
           <div id="cont0">
             <div class="ui top attached tabular menu">
               <a class="active item" data-tab="first">VQL Simple</a>
+              <!--
               <a class="item" data-tab="second">VQL Complex</a>
+              -->
             </div>
             <div class="ui bottom attached active tab segment" data-tab="first">
               <div class="ui styled accordion simple" style="width:100%;">
@@ -53,7 +55,7 @@
                 </div>
                 <div class="title">
                   <i class="dropdown icon"></i>
-                  Step 3. Select Function
+                  Step 3. Select Tracker
                 </div>
                 <div class="content">
                   <div class="transition hidden">
@@ -62,11 +64,20 @@
                 </div>
                 <div class="title">
                   <i class="dropdown icon"></i>
-                  Step 4. Select Columns
+                  Step 4. Select Function
                 </div>
                 <div class="content">
                   <div class="transition hidden">
-                    <div id="step4_cont">
+                    <div id="step4_cont"></div>
+                  </div>
+                </div>
+                <div class="title">
+                  <i class="dropdown icon"></i>
+                  Step 5. Select Columns
+                </div>
+                <div class="content">
+                  <div class="transition hidden">
+                    <div id="step5_cont">
 
                     </div>
                   </div>
@@ -273,8 +284,10 @@
     <% include ./resultVideo %>
     <% include ./dataDetail %>
       
-
         <script type="text/javascript">
+          let upload_url = 'http://localhost:33002';
+          let api_url = 'http://localhost:8000';
+
           let videoName = ''; 
           let videoUrl = '';         
           let modelName = '';
@@ -342,7 +355,7 @@
             let tempFrom = "D_MPROCESS('id://" + val1.split(".")[0] + "',)";
             $('[name=queryFrom').val(tempFrom);
 
-            fetch('http://api.urbanai.net:8000/sql_form')
+            fetch(api_url + '/sql_form')
               .then((response) => response.json())
               .then((data) => {
 
@@ -384,7 +397,7 @@
             let tempFrom = "D_MPROCESS('id://" + val1.split(".")[0] + "',)";
             $('[name=queryFrom').val(tempFrom);
 
-            fetch('http://api.urbanai.net:8000/sql_form')
+            fetch(api_url + '/sql_form')
               .then((response) => response.json())
               .then((data) => {
 
@@ -426,7 +439,7 @@
             let tempFrom = "D_MPROCESS('id://" + val1.split(".")[0] + "',)";
             $('[name=queryFrom').val(tempFrom);
 
-            fetch('http://api.urbanai.net:8000/sql_form')
+            fetch(api_url + '/sql_form')
               .then((response) => response.json())
               .then((data) => {
 
@@ -457,7 +470,7 @@
           }
 
           const step1_init = () => {
-            fetch('http://api.urbanai.net:8000/get_videos')
+            fetch(api_url + '/get_videos')
               .then((response) => response.json())
               .then((data) => {
                 //console.log(data.videos[0][0]);
@@ -474,21 +487,21 @@
 
                   thumbHtml += '<div class="column" style="text-align:center;">';
                   thumbHtml += '<button type="button" class="sel-Video" onClick="selectVideo(\'' + data.videos[0][0].video_name[i] + '\', \'' + data.videos[0][0].video_uri[i] + '\', ' + i + ')" >';
-                  thumbHtml += '<img src="http://api.urbanai.net:8000' + data.videos[0][0].thumbnail[i] + '" width="150px" height="150px" />';
+                  thumbHtml += '<img src="'+ api_url + data.videos[0][0].thumbnail[i] + '" width="150px" height="150px" />';
                   thumbHtml += '</button>';
                   thumbHtml += '<div>[' + data.videos[0][0].video_name[i] + ']</div>';
                   thumbHtml += '</div>';
 
                   thumbHtml2 += '<div class="column" style="text-align:center;">';
                   thumbHtml2 += '<button type="button" class="sel-Video2" onClick="selectVideo2(\'' + data.videos[0][0].video_name[i] + '\', \'' + data.videos[0][0].video_uri[i] + '\', ' + i + ')" >';
-                  thumbHtml2 += '<img src="http://api.urbanai.net:8000' + data.videos[0][0].thumbnail[i] + '" width="150px" height="150px" />';
+                  thumbHtml2 += '<img src="' + api_url + data.videos[0][0].thumbnail[i] + '" width="150px" height="150px" />';
                   thumbHtml2 += '</button>';
                   thumbHtml2 += '<div>[' + data.videos[0][0].video_name[i] + ']</div>';
                   thumbHtml2 += '</div>';
 
                   thumbHtml3 += '<div class="column" style="text-align:center;">';
                   thumbHtml3 += '<button type="button" class="sel-Video3" onClick="selectVideo3(\'' + data.videos[0][0].video_name[i] + '\', \'' + data.videos[0][0].video_uri[i] + '\', ' + i + ')" >';
-                  thumbHtml3 += '<img src="http://api.urbanai.net:8000' + data.videos[0][0].thumbnail[i] + '" width="150px" height="150px" />';
+                  thumbHtml3 += '<img src="' + api_url + data.videos[0][0].thumbnail[i] + '" width="150px" height="150px" />';
                   thumbHtml3 += '</button>';
                   thumbHtml3 += '<div>[' + data.videos[0][0].video_name[i] + ']</div>';
                   thumbHtml3 += '</div>';
@@ -505,7 +518,7 @@
           step1_init();
           
           const step2_init = () => {
-            fetch('http://api.urbanai.net:8000/models')
+            fetch(api_url + '/models')
               .then((response) => response.json())
               .then((data) => {
 
@@ -525,7 +538,7 @@
                     
                     let tempModel = $('[name=queryFrom').val();                    
                     tempModel = tempModel.split(",")[0] + ", '" + value + "')";
-                    $('[name=queryFrom').val(tempModel)
+                    $('[name=queryFrom').val(tempModel);
                     $('.ui.accordion.simple').accordion('open', 2);
                   },
                 });
@@ -533,23 +546,48 @@
           };
 
           step2_init();
-          
+
           const step3_init = () => {
-            let html = '<select name="sel_func" class="ui fluid dropdown">';
+            let html = '<select name="sel_tracker" class="ui fluid dropdown">';
             html += '<option value="">Select</option>';
-            html += '<option value="01">D_cross</option>';
-            html += '<option value="02">D_travel</option>';
-            html += '<option value="03">D_mwithin</option>';
-            html += '<option value="04">D_sameframewithin</option>';
-            html += '<option value="05">D_timeoverlap</option>';
+            html += '<option value="DEEPSORT">DEEPSORT</option>';
+            html += '<option value="BYTETRACKER">BYTETRACKER</option>';
+            html += '<option value="OCSORT">OCSORT</option>';
             html += '</select>';
 
             $('#step3_cont').html(html);
 
+            $('[name=sel_tracker]').dropdown({
+              onChange: function (value, text, $selectedItem) {
+                //console.log(text);
+                modelName = value;
+                    
+                let tempModel = $('[name=queryFrom').val();                    
+                tempModel = tempModel.split(",")[0] + ", " + tempModel.split(",")[1] + ", '" + value + "')";
+                $('[name=queryFrom').val(tempModel);
+                $('.ui.accordion.simple').accordion('open', 3);
+              },
+            });
+          };
+
+          step3_init();
+          
+          const step4_init = () => {
+            let html = '<select name="sel_func" class="ui fluid dropdown">';
+            html += '<option value="">Select</option>';
+            html += '<option value="01">D_cross</option>';
+            html += '<option value="02">D_travel</option>';
+            //html += '<option value="03">D_mwithin</option>';
+            //html += '<option value="04">D_sameframewithin</option>';
+            html += '<option value="05">D_timeoverlap</option>';
+            html += '</select>';
+
+            $('#step4_cont').html(html);
+
             $('[name=sel_func]').dropdown({
               onChange: function (value, text, $selectedItem) {
                 //console.log(text);
-                $('.ui.accordion.simple').accordion('open', 3);
+                $('.ui.accordion.simple').accordion('open', 4);
 
                 let tempWhere = text + "(itraj,ARRAY['POLYGON ((620 196, 631 208, 516 242, 507 229, 620 196))'])";
                 $('[name=queryWhere').val(tempWhere);
@@ -557,14 +595,15 @@
             });
           };
           
-          step3_init();
+          step4_init();
 
-          const step4_init = () => {
+          const step5_init = () => {
             let html = '<select name="sel_columns" multiple="" class="ui fluid dropdown">';
             html += '<option value="">Select</option>';
             html += '<option value="object_id">object_id</option>';
             html += '<option value="itraj">itraj</option>';
             html += '<option value="class_name">class_name</option>';
+            html += '<option value="tracker_name">tracker_name</option>';
             html += '<option value="type">type</option>';
             html += '<option value="bbox">bbox</option>';
             html += '<option value="frame_id">frame_id</option>';
@@ -573,7 +612,7 @@
             html += '<option value="model_id">model_id</option>';
             html += '</select>';
 
-            $('#step4_cont').html(html);
+            $('#step5_cont').html(html);
 
             $('[name=sel_columns]').dropdown({
               onChange: function (value, text, $selectedItem) {
@@ -583,7 +622,7 @@
             });
           };
 
-          step4_init();
+          step5_init();
 
           $('.ui.modal.help').modal({ blurring: true }).modal('attach events', '.test.button', 'show')
 
@@ -598,6 +637,7 @@
           function reset() {
 
             $('[name=sel_model]').dropdown("clear");
+            $('[name=sel_tracker]').dropdown("clear");            
             $('[name=sel_func]').dropdown("clear");            
             $('[name=sel_columns]').dropdown("clear");
 
@@ -627,7 +667,7 @@
 
             timesArray = new Array();
 
-            fetch('http://api.urbanai.net:8000/squery', {
+            fetch(api_url + '/squery', {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
@@ -646,7 +686,7 @@
 
             
             function executeAPI(val) {
-              fetch("http://api.urbanai.net:8000/search/"+val)
+              fetch(api_url + "/search/"+val)
                 .then((response) => {
                   return response.json();
                 })
@@ -777,7 +817,7 @@
             $(".v-cont").css("display", "flex");
             $("#video_origin").attr("src", videoUrl+"#t="+startTime);
                       
-            const videoConvertUrl = "http://info.rlog.kr:33002/convert/"+ videoName.split(".")[0] + "_" + modelName + ".mp4#t="+startTime;//console.log(videoConvertUrl);
+            const videoConvertUrl = upload_url + "/convert/"+ videoName.split(".")[0] + "_" + modelName + ".mp4#t="+startTime;//console.log(videoConvertUrl);
             $("#video_ai").attr("src", videoConvertUrl);
             $("#modelSpan").text(modelName);
 
@@ -813,7 +853,7 @@
               formData.append("file", $("#fileInput")[0].files[0]);
             }
 
-            fetch('http://info.rlog.kr:33002/single/upload', {
+            fetch(upload_url + '/single/upload', {
               method: 'POST',
               cache: 'no-cache',
               body: formData
@@ -824,7 +864,7 @@
                 $("#disableDiv").hide();
                 $("#div_load_image").hide();
 
-                fetch("http://api.urbanai.net:8000/insert_video", {
+                fetch(api_url + "/insert_video", {
                   method: "POST",
                   headers: {
                     "Content-Type": "application/json",
@@ -834,7 +874,7 @@
                     category: "traffic",
                     desc: "test",
                     video_name: $("#fileInput")[0].files[0].name,
-                    video_uri: "http://info.rlog.kr:33002/" + data.filename + "?raw=true"
+                    video_uri: upload_url + data.filename + "?raw=true"
                   }),
                 })
                   .then((response) => {
