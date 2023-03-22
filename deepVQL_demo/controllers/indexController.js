@@ -3,7 +3,7 @@ const fs = require('fs');
 
 module.exports = {
 	index: function (req, res, next) {
-		res.render('index', { title: 'DeepVQL Demo' });
+		res.redirect('/demo');
 	},
 	demo: function (req, res, next) {
 		res.render('demo', { title: 'DeepVQL Demo' });
