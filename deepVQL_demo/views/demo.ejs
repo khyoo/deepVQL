@@ -885,7 +885,7 @@
                     category: "traffic",
                     desc: "test",
                     video_name: $("#fileInput")[0].files[0].name,
-                    video_uri: upload_url + data.filename + "?raw=true"
+                    video_uri: upload_url + "/" + data.filename + "?raw=true"
                   }),
                 })
                   .then((response) => {
